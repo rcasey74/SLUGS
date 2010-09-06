@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.889"
+    ComputedModelVersion    "1.890"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Mon Sep 06 14:05:56 2010"
-  ModelVersionFormat	  "1.%<AutoIncrement:889>"
+  LastModifiedDate	  "Mon Sep 06 14:49:14 2010"
+  ModelVersionFormat	  "1.%<AutoIncrement:890>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -982,7 +982,7 @@ Model {
   System {
     Name		    "sensorMCUSlugsMKII"
     Location		    [2, 78, 1644, 960]
-    Open		    off
+    Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    212
     ScreenColor		    "white"
@@ -16117,7 +16117,7 @@ Model {
       System {
 	Name			"Select HIL or \nLive"
 	Location		[-1226, 378, -2, 1180]
-	Open			on
+	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"

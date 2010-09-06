@@ -1,5 +1,5 @@
-#ifndef _MAVLINKSLUGS_H_
-#define _MAVLINKSLUGS_H_
+#ifndef _MAVLINKCONTROLMCU_H_
+#define _MAVLINKCONTROLMCU_H_
 
 #ifdef __cplusplus
        extern "C"{
@@ -29,4 +29,4 @@
        }
 #endif
 
-#endif /* _MAVLINKSLUGS_H_ */
+#endif /* _MAVLINKCONTROLMCU_H_ */

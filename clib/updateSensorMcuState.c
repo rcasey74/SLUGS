@@ -27,11 +27,11 @@ THE SOFTWARE.
 #include "updateSensorMcuState.h"
 
 
-void updateRawADCData (short * adcData) {
-	rawControlData.baro.shData = adcData[0];
-	rawControlData.pito.shData = adcData[1];
-	rawControlData.powr.shData = adcData[2];
-	rawControlData.ther.shData = adcData[3];
+void updateRawADCData (int16_t* adcData) {
+	mlRawPressureData.press_abs = (int16_t)adcData[0];   // Baro
+	mlRawPressureData.press_diff1 = (int16_t)adcData[1]; // Pito
+	mlRawPressureData.press_diff2 = (int16_t)adcData[2]; // Power
+	mlRawPressureData.temperature = (int16_t)adcData[3]; // Temp
 }
 
 void updateAirData (float* airData) {

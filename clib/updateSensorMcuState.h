@@ -27,9 +27,7 @@ THE SOFTWARE.
 #define _UPDATESENSORMCUSTATE_H_
 
 #include "apDefinitions.h"
-#include "protDecoder.h"
-
-
+#include "mavlinkSensorMcu.h"
 
 
 void updateRawADCData (short * adcData);

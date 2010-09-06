@@ -1,4 +1,4 @@
-#include "mavlinkSlugs.h"
+#include "mavlinkControlMcu.h"
 
 void prepareTelemetryMavlink( unsigned char* dataOut){
  
