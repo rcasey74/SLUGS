@@ -22,7 +22,8 @@
 	extern mavlink_attitude_t mlAttitudeData;
   extern mavlink_local_position_t mlLocalPositionData;
 
-  void prepareTelemetryPixHawk (unsigned char* dataOut);     	
+  void prepareTelemetryMavlink (unsigned char* dataOut);
+  void protParseDecodeMavlink (unsigned char* fromGS);     	
        	
 #ifdef __cplusplus
        }

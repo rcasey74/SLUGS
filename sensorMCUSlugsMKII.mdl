@@ -1,12 +1,12 @@
 Model {
-  Name			  "sensorMCUSlugsMKII_ren"
+  Name			  "sensorMCUSlugsMKII"
   Version		  6.6
   MdlSubVersion		  0
   GraphicalInterface {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.887"
+    ComputedModelVersion    "1.889"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Aug 05 08:04:27 2009"
-  ModelVersionFormat	  "1.%<AutoIncrement:887>"
+  LastModifiedDate	  "Mon Sep 06 14:05:56 2010"
+  ModelVersionFormat	  "1.%<AutoIncrement:889>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -324,10 +324,11 @@ Model {
 	  ProcessScript		  "dspic_make_rtw_hook"
 	  ConfigAtBuild		  off
 	  CustomHeaderCode	  "#include \"apDefinitions.h\"\n"
+	  CustomInclude		  "..\\mavlink\\contrib\\slugs\\include\\"
 	  CustomSource		  "clib\\circBuffer.c\nclib\\sbrk.c\nclib\\gps"
-".c\nclib\\dataLogger.c\nclib\\interProcCommMaster.c\nclib\\conversions.c\ncli"
-"b\\apUtils.c\nclib\\protDecoder.c\nclib\\DEE.c\nclib\\DEES.s\nclib\\magneto.c"
-"\nclib\\adisCube.c"
+".c\nclib\\dataLogger.c\nclib\\updateSensorMcuState.c\nclib\\interProcCommMast"
+"er.c\nclib\\conversions.c\nclib\\apUtils.c\nclib\\protDecoder.c\nclib\\magnet"
+"o.c\nclib\\adisCube.c\nclib\\DEE.c\nclib\\DEES.s\nclib\\hil.c"
 	  IncludeHyperlinkInReport on
 	  LaunchReport		  on
 	  TargetLang		  "C"
@@ -979,9 +980,9 @@ Model {
     FontAngle		    "normal"
   }
   System {
-    Name		    "sensorMCUSlugsMKII_ren"
-    Location		    [6, 82, 1154, 654]
-    Open		    on
+    Name		    "sensorMCUSlugsMKII"
+    Location		    [2, 78, 1644, 960]
+    Open		    off
     ModelBrowserVisibility  off
     ModelBrowserWidth	    212
     ScreenColor		    "white"
@@ -1130,7 +1131,7 @@ Model {
 	      BlockType		      "S-Function"
 	      Name		      " SFunction "
 	      Tag		      "Stateflow S-Function sensorMCUSlugsMKII"
-"_ren 19"
+" 19"
 	      Ports		      [5, 2]
 	      Position		      [180, 100, 230, 220]
 	      FunctionName	      "sf_sfun"
@@ -2191,7 +2192,7 @@ Model {
 		    BlockType		    "S-Function"
 		    Name		    " SFunction "
 		    Tag			    "Stateflow S-Function sensorMCUSlu"
-"gsMKII_ren 7"
+"gsMKII 7"
 		    Ports		    [3, 2]
 		    Position		    [180, 100, 230, 180]
 		    FunctionName	    "sf_sfun"
@@ -3927,7 +3928,7 @@ Model {
 		  BlockType		  "S-Function"
 		  Name			  " SFunction "
 		  Tag			  "Stateflow S-Function sensorMCUSlugs"
-"MKII_ren 9"
+"MKII 9"
 		  Ports			  [1, 2]
 		  Position		  [180, 100, 230, 160]
 		  FunctionName		  "sf_sfun"
@@ -4218,7 +4219,7 @@ Model {
 		    BlockType		    "S-Function"
 		    Name		    " SFunction "
 		    Tag			    "Stateflow S-Function sensorMCUSlu"
-"gsMKII_ren 37"
+"gsMKII 37"
 		    Ports		    [1, 2]
 		    Position		    [180, 100, 230, 160]
 		    FunctionName	    "sf_sfun"
@@ -4398,7 +4399,7 @@ Model {
 		    BlockType		    "S-Function"
 		    Name		    " SFunction "
 		    Tag			    "Stateflow S-Function sensorMCUSlu"
-"gsMKII_ren 10"
+"gsMKII 10"
 		    Ports		    [2, 2]
 		    Position		    [180, 100, 230, 160]
 		    FunctionName	    "sf_sfun"
@@ -4779,7 +4780,7 @@ Model {
 		    BlockType		    "S-Function"
 		    Name		    " SFunction "
 		    Tag			    "Stateflow S-Function sensorMCUSlu"
-"gsMKII_ren 11"
+"gsMKII 11"
 		    Ports		    [1, 2]
 		    Position		    [180, 100, 230, 160]
 		    FunctionName	    "sf_sfun"
@@ -4959,7 +4960,7 @@ Model {
 		    BlockType		    "S-Function"
 		    Name		    " SFunction "
 		    Tag			    "Stateflow S-Function sensorMCUSlu"
-"gsMKII_ren 12"
+"gsMKII 12"
 		    Ports		    [2, 2]
 		    Position		    [180, 100, 230, 160]
 		    FunctionName	    "sf_sfun"
@@ -5455,7 +5456,7 @@ Model {
 		    BlockType		    "S-Function"
 		    Name		    " SFunction "
 		    Tag			    "Stateflow S-Function sensorMCUSlu"
-"gsMKII_ren 38"
+"gsMKII 38"
 		    Ports		    [1, 2]
 		    Position		    [180, 100, 230, 160]
 		    FunctionName	    "sf_sfun"
@@ -7437,7 +7438,7 @@ Model {
 		    BlockType		    "S-Function"
 		    Name		    " SFunction "
 		    Tag			    "Stateflow S-Function sensorMCUSlu"
-"gsMKII_ren 26"
+"gsMKII 26"
 		    Ports		    [9, 2]
 		    Position		    [180, 109, 230, 311]
 		    FunctionName	    "sf_sfun"
@@ -7912,7 +7913,7 @@ Model {
 		  BlockType		  "S-Function"
 		  Name			  " SFunction "
 		  Tag			  "Stateflow S-Function sensorMCUSlugs"
-"MKII_ren 13"
+"MKII 13"
 		  Ports			  [3, 2]
 		  Position		  [180, 100, 230, 220]
 		  FunctionName		  "sf_sfun"
@@ -8046,7 +8047,7 @@ Model {
 		  BlockType		  "S-Function"
 		  Name			  " SFunction "
 		  Tag			  "Stateflow S-Function sensorMCUSlugs"
-"MKII_ren 36"
+"MKII 36"
 		  Ports			  [3, 2]
 		  Position		  [180, 100, 230, 220]
 		  FunctionName		  "sf_sfun"
@@ -8170,7 +8171,7 @@ Model {
 		  BlockType		  "S-Function"
 		  Name			  " SFunction "
 		  Tag			  "Stateflow S-Function sensorMCUSlugs"
-"MKII_ren 16"
+"MKII 16"
 		  Ports			  [2, 2]
 		  Position		  [180, 100, 230, 180]
 		  FunctionName		  "sf_sfun"
@@ -8904,7 +8905,7 @@ Model {
 		  BlockType		  "S-Function"
 		  Name			  " SFunction "
 		  Tag			  "Stateflow S-Function sensorMCUSlugs"
-"MKII_ren 35"
+"MKII 35"
 		  Ports			  [3, 2]
 		  Position		  [180, 100, 230, 220]
 		  FunctionName		  "sf_sfun"
@@ -12626,7 +12627,7 @@ Model {
 		    BlockType		    "S-Function"
 		    Name		    " SFunction "
 		    Tag			    "Stateflow S-Function sensorMCUSlu"
-"gsMKII_ren 22"
+"gsMKII 22"
 		    Ports		    [3, 2]
 		    Position		    [180, 104, 230, 206]
 		    FunctionName	    "sf_sfun"
@@ -12838,7 +12839,7 @@ Model {
 		    BlockType		    "S-Function"
 		    Name		    " SFunction "
 		    Tag			    "Stateflow S-Function sensorMCUSlu"
-"gsMKII_ren 6"
+"gsMKII 6"
 		    Ports		    [3, 2]
 		    Position		    [180, 100, 230, 180]
 		    FunctionName	    "sf_sfun"
@@ -13431,7 +13432,7 @@ Model {
 		    BlockType		    "S-Function"
 		    Name		    " SFunction "
 		    Tag			    "Stateflow S-Function sensorMCUSlu"
-"gsMKII_ren 18"
+"gsMKII 18"
 		    Ports		    [3, 2]
 		    Position		    [180, 100, 230, 180]
 		    FunctionName	    "sf_sfun"
@@ -14798,7 +14799,7 @@ Model {
 		    BlockType		    "S-Function"
 		    Name		    " SFunction "
 		    Tag			    "Stateflow S-Function sensorMCUSlu"
-"gsMKII_ren 2"
+"gsMKII 2"
 		    Ports		    [2, 2]
 		    Position		    [180, 100, 230, 180]
 		    FunctionName	    "sf_sfun"
@@ -14917,7 +14918,7 @@ Model {
 		    BlockType		    "S-Function"
 		    Name		    " SFunction "
 		    Tag			    "Stateflow S-Function sensorMCUSlu"
-"gsMKII_ren 3"
+"gsMKII 3"
 		    Ports		    [2, 2]
 		    Position		    [180, 100, 230, 180]
 		    FunctionName	    "sf_sfun"
@@ -15117,7 +15118,7 @@ Model {
 		    BlockType		    "S-Function"
 		    Name		    " SFunction "
 		    Tag			    "Stateflow S-Function sensorMCUSlu"
-"gsMKII_ren 39"
+"gsMKII 39"
 		    Ports		    [3, 2]
 		    Position		    [180, 100, 230, 220]
 		    FunctionName	    "sf_sfun"
@@ -15250,7 +15251,7 @@ Model {
 		    BlockType		    "S-Function"
 		    Name		    " SFunction "
 		    Tag			    "Stateflow S-Function sensorMCUSlu"
-"gsMKII_ren 40"
+"gsMKII 40"
 		    Ports		    [3, 2]
 		    Position		    [180, 100, 230, 220]
 		    FunctionName	    "sf_sfun"
@@ -15383,7 +15384,7 @@ Model {
 		    BlockType		    "S-Function"
 		    Name		    " SFunction "
 		    Tag			    "Stateflow S-Function sensorMCUSlu"
-"gsMKII_ren 41"
+"gsMKII 41"
 		    Ports		    [3, 2]
 		    Position		    [180, 100, 230, 220]
 		    FunctionName	    "sf_sfun"
@@ -16116,7 +16117,7 @@ Model {
       System {
 	Name			"Select HIL or \nLive"
 	Location		[-1226, 378, -2, 1180]
-	Open			off
+	Open			on
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -16224,7 +16225,7 @@ Model {
 	}
 	Block {
 	  BlockType		  Reference
-	  Name			  "Get Euler\n[protDecoder.c]"
+	  Name			  "Get Euler\n[hil.c]"
 	  Tag			  "dsPIC_dsPIC_CFunctionCall"
 	  Ports			  [0, 1]
 	  Position		  [305, 221, 415, 249]
@@ -16257,7 +16258,7 @@ Model {
 	}
 	Block {
 	  BlockType		  Reference
-	  Name			  "Get PQR\n[protDecoder.c]"
+	  Name			  "Get PQR\n[hil.c]"
 	  Tag			  "dsPIC_dsPIC_CFunctionCall"
 	  Ports			  [0, 1]
 	  Position		  [300, 321, 410, 349]
@@ -16290,7 +16291,7 @@ Model {
 	}
 	Block {
 	  BlockType		  Reference
-	  Name			  "Get Time Stamp\n[protDecoder.c]"
+	  Name			  "Get Time Stamp\n[hil.c]"
 	  Tag			  "dsPIC_dsPIC_CFunctionCall"
 	  Ports			  [0, 1]
 	  Position		  [300, 511, 410, 539]
@@ -16323,7 +16324,7 @@ Model {
 	}
 	Block {
 	  BlockType		  Reference
-	  Name			  "Get Vned\n[protDecoder.c]"
+	  Name			  "Get Vned\n[hil.c]"
 	  Tag			  "dsPIC_dsPIC_CFunctionCall"
 	  Ports			  [0, 1]
 	  Position		  [305, 126, 415, 154]
@@ -16356,7 +16357,7 @@ Model {
 	}
 	Block {
 	  BlockType		  Reference
-	  Name			  "Get XYZ\n[protDecoder.c]"
+	  Name			  "Get XYZ\n[hil.c]"
 	  Tag			  "dsPIC_dsPIC_CFunctionCall"
 	  Ports			  [0, 1]
 	  Position		  [300, 426, 410, 454]
@@ -16615,7 +16616,7 @@ Model {
 	  DstPort		  1
 	}
 	Line {
-	  SrcBlock		  "Get Vned\n[protDecoder.c]"
+	  SrcBlock		  "Get Vned\n[hil.c]"
 	  SrcPort		  1
 	  DstBlock		  "Switch1"
 	  DstPort		  1
@@ -16627,7 +16628,7 @@ Model {
 	  DstPort		  3
 	}
 	Line {
-	  SrcBlock		  "Get Euler\n[protDecoder.c]"
+	  SrcBlock		  "Get Euler\n[hil.c]"
 	  SrcPort		  1
 	  DstBlock		  "Switch2"
 	  DstPort		  1
@@ -16645,7 +16646,7 @@ Model {
 	  DstPort		  1
 	}
 	Line {
-	  SrcBlock		  "Get PQR\n[protDecoder.c]"
+	  SrcBlock		  "Get PQR\n[hil.c]"
 	  SrcPort		  1
 	  DstBlock		  "Switch3"
 	  DstPort		  1
@@ -16663,7 +16664,7 @@ Model {
 	  DstPort		  1
 	}
 	Line {
-	  SrcBlock		  "Get XYZ\n[protDecoder.c]"
+	  SrcBlock		  "Get XYZ\n[hil.c]"
 	  SrcPort		  1
 	  DstBlock		  "Switch4"
 	  DstPort		  1
@@ -16687,7 +16688,7 @@ Model {
 	  DstPort		  3
 	}
 	Line {
-	  SrcBlock		  "Get Time Stamp\n[protDecoder.c]"
+	  SrcBlock		  "Get Time Stamp\n[hil.c]"
 	  SrcPort		  1
 	  Points		  [60, 0]
 	  DstBlock		  "Switch5"
@@ -16819,7 +16820,7 @@ Model {
 	    }
 	    Block {
 	      BlockType		      Reference
-	      Name		      "GetRawMsg\n[protDecoder.c]"
+	      Name		      "GetRawMsg\n[hil.c]"
 	      Tag		      "dsPIC_dsPIC_CFunctionCall"
 	      Ports		      [1, 1]
 	      Position		      [385, 120, 510, 160]
@@ -16889,7 +16890,7 @@ Model {
 	    }
 	    Block {
 	      BlockType		      Reference
-	      Name		      "Read Data from HIL3\n[dataLogger.c]"
+	      Name		      "Read Data from HIL3\n[hil.c]"
 	      Tag		      "dsPIC_dsPIC_CFunctionCall"
 	      Ports		      [0, 1]
 	      Position		      [35, 120, 160, 160]
@@ -16929,13 +16930,13 @@ Model {
 	      BusOutputAsStruct	      off
 	    }
 	    Line {
-	      SrcBlock		      "GetRawMsg\n[protDecoder.c]"
+	      SrcBlock		      "GetRawMsg\n[hil.c]"
 	      SrcPort		      1
 	      DstBlock		      "Raw Msg"
 	      DstPort		      1
 	    }
 	    Line {
-	      SrcBlock		      "Read Data from HIL3\n[dataLogger.c]"
+	      SrcBlock		      "Read Data from HIL3\n[hil.c]"
 	      SrcPort		      1
 	      DstBlock		      "Parser/Decoder\n[protDecoder.c]"
 	      DstPort		      1
@@ -16943,7 +16944,7 @@ Model {
 	    Line {
 	      SrcBlock		      "Parser/Decoder\n[protDecoder.c]"
 	      SrcPort		      1
-	      DstBlock		      "GetRawMsg\n[protDecoder.c]"
+	      DstBlock		      "GetRawMsg\n[hil.c]"
 	      DstPort		      1
 	    }
 	  }
@@ -17355,7 +17356,7 @@ Model {
 		    BlockType		    "S-Function"
 		    Name		    " SFunction "
 		    Tag			    "Stateflow S-Function sensorMCUSlu"
-"gsMKII_ren 43"
+"gsMKII 43"
 		    Ports		    [3, 2]
 		    Position		    [180, 100, 230, 180]
 		    FunctionName	    "sf_sfun"
@@ -17485,7 +17486,7 @@ Model {
 		    BlockType		    "S-Function"
 		    Name		    " SFunction "
 		    Tag			    "Stateflow S-Function sensorMCUSlu"
-"gsMKII_ren 44"
+"gsMKII 44"
 		    Ports		    [3, 2]
 		    Position		    [180, 100, 230, 180]
 		    FunctionName	    "sf_sfun"
@@ -17615,7 +17616,7 @@ Model {
 		    BlockType		    "S-Function"
 		    Name		    " SFunction "
 		    Tag			    "Stateflow S-Function sensorMCUSlu"
-"gsMKII_ren 45"
+"gsMKII 45"
 		    Ports		    [3, 2]
 		    Position		    [180, 100, 230, 180]
 		    FunctionName	    "sf_sfun"
@@ -17747,7 +17748,7 @@ Model {
 		    BlockType		    "S-Function"
 		    Name		    " SFunction "
 		    Tag			    "Stateflow S-Function sensorMCUSlu"
-"gsMKII_ren 46"
+"gsMKII 46"
 		    Ports		    [3, 2]
 		    Position		    [180, 100, 230, 220]
 		    FunctionName	    "sf_sfun"
@@ -18074,7 +18075,7 @@ Model {
 		    BlockType		    "S-Function"
 		    Name		    " SFunction "
 		    Tag			    "Stateflow S-Function sensorMCUSlu"
-"gsMKII_ren 47"
+"gsMKII 47"
 		    Ports		    [3, 2]
 		    Position		    [180, 100, 230, 180]
 		    FunctionName	    "sf_sfun"
@@ -18204,7 +18205,7 @@ Model {
 		    BlockType		    "S-Function"
 		    Name		    " SFunction "
 		    Tag			    "Stateflow S-Function sensorMCUSlu"
-"gsMKII_ren 48"
+"gsMKII 48"
 		    Ports		    [3, 2]
 		    Position		    [180, 100, 230, 180]
 		    FunctionName	    "sf_sfun"
@@ -18334,7 +18335,7 @@ Model {
 		    BlockType		    "S-Function"
 		    Name		    " SFunction "
 		    Tag			    "Stateflow S-Function sensorMCUSlu"
-"gsMKII_ren 49"
+"gsMKII 49"
 		    Ports		    [3, 2]
 		    Position		    [180, 100, 230, 180]
 		    FunctionName	    "sf_sfun"
@@ -18466,7 +18467,7 @@ Model {
 		    BlockType		    "S-Function"
 		    Name		    " SFunction "
 		    Tag			    "Stateflow S-Function sensorMCUSlu"
-"gsMKII_ren 50"
+"gsMKII 50"
 		    Ports		    [3, 2]
 		    Position		    [180, 100, 230, 220]
 		    FunctionName	    "sf_sfun"
@@ -19099,7 +19100,7 @@ Model {
 		    BlockType		    "S-Function"
 		    Name		    " SFunction "
 		    Tag			    "Stateflow S-Function sensorMCUSlu"
-"gsMKII_ren 51"
+"gsMKII 51"
 		    Ports		    [3, 2]
 		    Position		    [180, 100, 230, 180]
 		    FunctionName	    "sf_sfun"
@@ -20143,7 +20144,7 @@ Model {
 		    BlockType		    "S-Function"
 		    Name		    " SFunction "
 		    Tag			    "Stateflow S-Function sensorMCUSlu"
-"gsMKII_ren 52"
+"gsMKII 52"
 		    Ports		    [3, 2]
 		    Position		    [180, 100, 230, 180]
 		    FunctionName	    "sf_sfun"
@@ -20401,7 +20402,7 @@ Model {
 		    BlockType		    "S-Function"
 		    Name		    " SFunction "
 		    Tag			    "Stateflow S-Function sensorMCUSlu"
-"gsMKII_ren 53"
+"gsMKII 53"
 		    Ports		    [3, 2]
 		    Position		    [180, 100, 230, 220]
 		    FunctionName	    "sf_sfun"
@@ -20927,7 +20928,7 @@ Model {
 		    BlockType		    "S-Function"
 		    Name		    " SFunction "
 		    Tag			    "Stateflow S-Function sensorMCUSlu"
-"gsMKII_ren 27"
+"gsMKII 27"
 		    Ports		    [1, 2]
 		    Position		    [180, 100, 230, 160]
 		    FunctionName	    "sf_sfun"
@@ -21031,7 +21032,7 @@ Model {
 		    BlockType		    "S-Function"
 		    Name		    " SFunction "
 		    Tag			    "Stateflow S-Function sensorMCUSlu"
-"gsMKII_ren 28"
+"gsMKII 28"
 		    Ports		    [1, 2]
 		    Position		    [180, 100, 230, 160]
 		    FunctionName	    "sf_sfun"
@@ -21135,7 +21136,7 @@ Model {
 		    BlockType		    "S-Function"
 		    Name		    " SFunction "
 		    Tag			    "Stateflow S-Function sensorMCUSlu"
-"gsMKII_ren 31"
+"gsMKII 31"
 		    Ports		    [1, 2]
 		    Position		    [180, 100, 230, 160]
 		    FunctionName	    "sf_sfun"
@@ -21239,7 +21240,7 @@ Model {
 		    BlockType		    "S-Function"
 		    Name		    " SFunction "
 		    Tag			    "Stateflow S-Function sensorMCUSlu"
-"gsMKII_ren 32"
+"gsMKII 32"
 		    Ports		    [1, 2]
 		    Position		    [180, 100, 230, 160]
 		    FunctionName	    "sf_sfun"
@@ -21409,8 +21410,8 @@ Model {
 		}
 		Block {
 		  BlockType		  Reference
-		  Name			  "Update State AP ADC Data\n[dataLogg"
-"er.c]"
+		  Name			  "Update State AP ADC Data\n[updateSe"
+"nsorMcuState.c]"
 		  Tag			  "dsPIC_dsPIC_CFunctionCall"
 		  Ports			  [1]
 		  Position		  [550, 467, 690, 513]
@@ -21516,7 +21517,7 @@ Model {
 		    BlockType		    "S-Function"
 		    Name		    " SFunction "
 		    Tag			    "Stateflow S-Function sensorMCUSlu"
-"gsMKII_ren 21"
+"gsMKII 21"
 		    Ports		    [4, 2]
 		    Position		    [180, 100, 230, 220]
 		    FunctionName	    "sf_sfun"
@@ -21724,7 +21725,7 @@ Model {
 		    BlockType		    "S-Function"
 		    Name		    " SFunction "
 		    Tag			    "Stateflow S-Function sensorMCUSlu"
-"gsMKII_ren 20"
+"gsMKII 20"
 		    Ports		    [13, 2]
 		    Position		    [180, 120, 230, 440]
 		    FunctionName	    "sf_sfun"
@@ -21976,8 +21977,8 @@ Model {
 		Line {
 		  SrcBlock		  "myMux Fun"
 		  SrcPort		  1
-		  DstBlock		  "Update State AP ADC Data\n[dataLogg"
-"er.c]"
+		  DstBlock		  "Update State AP ADC Data\n[updateSe"
+"nsorMcuState.c]"
 		  DstPort		  1
 		}
 		Line {
@@ -22128,8 +22129,8 @@ Model {
 		}
 		Block {
 		  BlockType		  Reference
-		  Name			  "Update the Air\nCalibrated Data\n[d"
-"ataLogger.c]"
+		  Name			  "Update the Air\nCalibrated Data\n[u"
+"pdateSensorMcuState.c]"
 		  Tag			  "dsPIC_dsPIC_CFunctionCall"
 		  Ports			  [1]
 		  Position		  [185, 112, 325, 158]
@@ -22165,8 +22166,8 @@ Model {
 		Line {
 		  SrcBlock		  "AirData"
 		  SrcPort		  1
-		  DstBlock		  "Update the Air\nCalibrated Data\n[d"
-"ataLogger.c]"
+		  DstBlock		  "Update the Air\nCalibrated Data\n[u"
+"pdateSensorMcuState.c]"
 		  DstPort		  1
 		}
 	      }
@@ -22414,7 +22415,7 @@ Model {
 		    BlockType		    "S-Function"
 		    Name		    " SFunction "
 		    Tag			    "Stateflow S-Function sensorMCUSlu"
-"gsMKII_ren 24"
+"gsMKII 24"
 		    Ports		    [3, 2]
 		    Position		    [180, 100, 230, 180]
 		    FunctionName	    "sf_sfun"
@@ -22544,7 +22545,7 @@ Model {
 		    BlockType		    "S-Function"
 		    Name		    " SFunction "
 		    Tag			    "Stateflow S-Function sensorMCUSlu"
-"gsMKII_ren 33"
+"gsMKII 33"
 		    Ports		    [3, 2]
 		    Position		    [180, 100, 230, 180]
 		    FunctionName	    "sf_sfun"
@@ -22674,7 +22675,7 @@ Model {
 		    BlockType		    "S-Function"
 		    Name		    " SFunction "
 		    Tag			    "Stateflow S-Function sensorMCUSlu"
-"gsMKII_ren 34"
+"gsMKII 34"
 		    Ports		    [3, 2]
 		    Position		    [180, 100, 230, 180]
 		    FunctionName	    "sf_sfun"
@@ -22806,7 +22807,7 @@ Model {
 		    BlockType		    "S-Function"
 		    Name		    " SFunction "
 		    Tag			    "Stateflow S-Function sensorMCUSlu"
-"gsMKII_ren 42"
+"gsMKII 42"
 		    Ports		    [3, 2]
 		    Position		    [180, 100, 230, 220]
 		    FunctionName	    "sf_sfun"
@@ -23489,7 +23490,7 @@ Model {
 		    BlockType		    "S-Function"
 		    Name		    " SFunction "
 		    Tag			    "Stateflow S-Function sensorMCUSlu"
-"gsMKII_ren 54"
+"gsMKII 54"
 		    Ports		    [1, 2]
 		    Position		    [180, 100, 230, 160]
 		    FunctionName	    "sf_sfun"
@@ -24628,7 +24629,7 @@ Model {
 		    BlockType		    "S-Function"
 		    Name		    " SFunction "
 		    Tag			    "Stateflow S-Function sensorMCUSlu"
-"gsMKII_ren 55"
+"gsMKII 55"
 		    Ports		    [3, 2]
 		    Position		    [180, 100, 230, 180]
 		    FunctionName	    "sf_sfun"
@@ -26958,7 +26959,7 @@ Model {
 		    BlockType		    "S-Function"
 		    Name		    " SFunction "
 		    Tag			    "Stateflow S-Function sensorMCUSlu"
-"gsMKII_ren 56"
+"gsMKII 56"
 		    Ports		    [3, 2]
 		    Position		    [180, 100, 230, 180]
 		    FunctionName	    "sf_sfun"
@@ -27190,7 +27191,7 @@ Model {
 		    BlockType		    "S-Function"
 		    Name		    " SFunction "
 		    Tag			    "Stateflow S-Function sensorMCUSlu"
-"gsMKII_ren 57"
+"gsMKII 57"
 		    Ports		    [3, 2]
 		    Position		    [180, 100, 230, 180]
 		    FunctionName	    "sf_sfun"
@@ -27422,7 +27423,7 @@ Model {
 		    BlockType		    "S-Function"
 		    Name		    " SFunction "
 		    Tag			    "Stateflow S-Function sensorMCUSlu"
-"gsMKII_ren 58"
+"gsMKII 58"
 		    Ports		    [3, 2]
 		    Position		    [180, 100, 230, 180]
 		    FunctionName	    "sf_sfun"
@@ -27654,7 +27655,7 @@ Model {
 		    BlockType		    "S-Function"
 		    Name		    " SFunction "
 		    Tag			    "Stateflow S-Function sensorMCUSlu"
-"gsMKII_ren 59"
+"gsMKII 59"
 		    Ports		    [3, 2]
 		    Position		    [180, 100, 230, 180]
 		    FunctionName	    "sf_sfun"
@@ -28150,7 +28151,7 @@ Model {
 		    BlockType		    "S-Function"
 		    Name		    " SFunction "
 		    Tag			    "Stateflow S-Function sensorMCUSlu"
-"gsMKII_ren 60"
+"gsMKII 60"
 		    Ports		    [1, 2]
 		    Position		    [180, 100, 230, 160]
 		    FunctionName	    "sf_sfun"
@@ -28329,7 +28330,7 @@ Model {
 		    BlockType		    "S-Function"
 		    Name		    " SFunction "
 		    Tag			    "Stateflow S-Function sensorMCUSlu"
-"gsMKII_ren 61"
+"gsMKII 61"
 		    Ports		    [2, 2]
 		    Position		    [180, 100, 230, 160]
 		    FunctionName	    "sf_sfun"
@@ -28827,8 +28828,8 @@ Model {
 	    }
 	    Block {
 	      BlockType		      Reference
-	      Name		      "Update the Load and Power\nData\n[dataL"
-"ogger.c]"
+	      Name		      "Update the Load and Power\nData\n[updat"
+"eSensorMcuState.c]"
 	      Tag		      "dsPIC_dsPIC_CFunctionCall"
 	      Ports		      [2]
 	      Position		      [715, 558, 855, 607]
@@ -28927,7 +28928,7 @@ Model {
 		  BlockType		  "S-Function"
 		  Name			  " SFunction "
 		  Tag			  "Stateflow S-Function sensorMCUSlugs"
-"MKII_ren 1"
+"MKII 1"
 		  Ports			  [3, 2]
 		  Position		  [180, 100, 230, 220]
 		  FunctionName		  "sf_sfun"
@@ -29228,8 +29229,8 @@ Model {
 	    Line {
 	      SrcBlock		      "Compute CPU Load"
 	      SrcPort		      1
-	      DstBlock		      "Update the Load and Power\nData\n[dataL"
-"ogger.c]"
+	      DstBlock		      "Update the Load and Power\nData\n[updat"
+"eSensorMcuState.c]"
 	      DstPort		      1
 	    }
 	    Line {
@@ -29237,8 +29238,8 @@ Model {
 "ation and Calibration1"
 	      SrcPort		      6
 	      Points		      [75, 0; 0, 115]
-	      DstBlock		      "Update the Load and Power\nData\n[dataL"
-"ogger.c]"
+	      DstBlock		      "Update the Load and Power\nData\n[updat"
+"eSensorMcuState.c]"
 	      DstPort		      2
 	    }
 	    Line {
@@ -29757,7 +29758,8 @@ Model {
 	}
 	Block {
 	  BlockType		  Reference
-	  Name			  "Update Accels and Mags\n[dataLogger.c]"
+	  Name			  "Update Accels and Mags\n[updateSensorMcuSta"
+"te.c]"
 	  Tag			  "dsPIC_dsPIC_CFunctionCall"
 	  Ports			  [2, 1]
 	  Position		  [150, 519, 290, 566]
@@ -29791,7 +29793,7 @@ Model {
 	}
 	Block {
 	  BlockType		  Reference
-	  Name			  "Update Biases\n[dataLogger.c]"
+	  Name			  "Update Biases\n[updateSensorMcuState.c]"
 	  Tag			  "dsPIC_dsPIC_CFunctionCall"
 	  Ports			  [2, 1]
 	  Position		  [425, 134, 565, 181]
@@ -29824,7 +29826,8 @@ Model {
 	}
 	Block {
 	  BlockType		  Reference
-	  Name			  "Update Diagnostic Float\n[dataLogger.c]"
+	  Name			  "Update Diagnostic Float\n[updateSensorMcuSt"
+"ate.c]"
 	  Tag			  "dsPIC_dsPIC_CFunctionCall"
 	  Ports			  [2, 1]
 	  Position		  [155, 239, 295, 286]
@@ -29859,7 +29862,8 @@ Model {
 	}
 	Block {
 	  BlockType		  Reference
-	  Name			  "Update Diagnostic Short\n[dataLogger.c]"
+	  Name			  "Update Diagnostic Short\n[updateSensorMcuSt"
+"ate.c]"
 	  Tag			  "dsPIC_dsPIC_CFunctionCall"
 	  Ports			  [2, 1]
 	  Position		  [155, 144, 295, 191]
@@ -29894,7 +29898,8 @@ Model {
 	}
 	Block {
 	  BlockType		  Reference
-	  Name			  "Update Euler and PQR\n[dataLogger.c]"
+	  Name			  "Update Euler and PQR\n[updateSensorMcuState"
+".c]"
 	  Tag			  "dsPIC_dsPIC_CFunctionCall"
 	  Ports			  [1, 1]
 	  Position		  [145, 712, 285, 758]
@@ -29927,7 +29932,8 @@ Model {
 	}
 	Block {
 	  BlockType		  Reference
-	  Name			  "Update Pilot Console\n[dataLogger.c]"
+	  Name			  "Update Pilot Console\n[updateSensorMcuState"
+".c]"
 	  Tag			  "dsPIC_dsPIC_CFunctionCall"
 	  Ports			  [2, 1]
 	  Position		  [155, 329, 295, 376]
@@ -29962,7 +29968,8 @@ Model {
 	}
 	Block {
 	  BlockType		  Reference
-	  Name			  "Update XYZ and Vned\n[dataLogger.c]"
+	  Name			  "Update XYZ and Vned\n[updateSensorMcuState."
+"c]"
 	  Tag			  "dsPIC_dsPIC_CFunctionCall"
 	  Ports			  [2, 1]
 	  Position		  [150, 429, 290, 476]
@@ -29995,7 +30002,8 @@ Model {
 	}
 	Block {
 	  BlockType		  Reference
-	  Name			  "Update the Time Stamp\n[dataLogger.c]"
+	  Name			  "Update the Time Stamp\n[updateSensorMcuStat"
+"e.c]"
 	  Tag			  "dsPIC_dsPIC_CFunctionCall"
 	  Ports			  [2, 1]
 	  Position		  [150, 619, 290, 666]
@@ -30043,105 +30051,125 @@ Model {
 	Line {
 	  SrcBlock		  "Attitude"
 	  SrcPort		  1
-	  DstBlock		  "Update Euler and PQR\n[dataLogger.c]"
+	  DstBlock		  "Update Euler and PQR\n[updateSensorMcuState"
+".c]"
 	  DstPort		  1
 	}
 	Line {
-	  SrcBlock		  "Update Euler and PQR\n[dataLogger.c]"
+	  SrcBlock		  "Update Euler and PQR\n[updateSensorMcuState"
+".c]"
 	  SrcPort		  1
 	  Points		  [25, 0; 0, -35; -180, 0]
-	  DstBlock		  "Update the Time Stamp\n[dataLogger.c]"
+	  DstBlock		  "Update the Time Stamp\n[updateSensorMcuStat"
+"e.c]"
 	  DstPort		  2
 	}
 	Line {
 	  SrcBlock		  "TimeSt"
 	  SrcPort		  1
-	  DstBlock		  "Update the Time Stamp\n[dataLogger.c]"
+	  DstBlock		  "Update the Time Stamp\n[updateSensorMcuStat"
+"e.c]"
 	  DstPort		  1
 	}
 	Line {
 	  SrcBlock		  "Position"
 	  SrcPort		  1
-	  DstBlock		  "Update XYZ and Vned\n[dataLogger.c]"
+	  DstBlock		  "Update XYZ and Vned\n[updateSensorMcuState."
+"c]"
 	  DstPort		  1
 	}
 	Line {
-	  SrcBlock		  "Update XYZ and Vned\n[dataLogger.c]"
+	  SrcBlock		  "Update XYZ and Vned\n[updateSensorMcuState."
+"c]"
 	  SrcPort		  1
 	  Points		  [20, 0; 0, -40; -175, 0]
-	  DstBlock		  "Update Pilot Console\n[dataLogger.c]"
+	  DstBlock		  "Update Pilot Console\n[updateSensorMcuState"
+".c]"
 	  DstPort		  2
 	}
 	Line {
 	  SrcBlock		  "Pilot\nConsole"
 	  SrcPort		  1
-	  DstBlock		  "Update Pilot Console\n[dataLogger.c]"
+	  DstBlock		  "Update Pilot Console\n[updateSensorMcuState"
+".c]"
 	  DstPort		  1
 	}
 	Line {
 	  SrcBlock		  "DiagnosticFl"
 	  SrcPort		  1
-	  DstBlock		  "Update Diagnostic Float\n[dataLogger.c]"
+	  DstBlock		  "Update Diagnostic Float\n[updateSensorMcuSt"
+"ate.c]"
 	  DstPort		  1
 	}
 	Line {
-	  SrcBlock		  "Update Pilot Console\n[dataLogger.c]"
+	  SrcBlock		  "Update Pilot Console\n[updateSensorMcuState"
+".c]"
 	  SrcPort		  1
 	  Points		  [20, 0; 0, -40; -180, 0]
-	  DstBlock		  "Update Diagnostic Float\n[dataLogger.c]"
+	  DstBlock		  "Update Diagnostic Float\n[updateSensorMcuSt"
+"ate.c]"
 	  DstPort		  2
 	}
 	Line {
-	  SrcBlock		  "Update Diagnostic Float\n[dataLogger.c]"
+	  SrcBlock		  "Update Diagnostic Float\n[updateSensorMcuSt"
+"ate.c]"
 	  SrcPort		  1
 	  Points		  [20, 0; 0, -40; -180, 0]
-	  DstBlock		  "Update Diagnostic Short\n[dataLogger.c]"
+	  DstBlock		  "Update Diagnostic Short\n[updateSensorMcuSt"
+"ate.c]"
 	  DstPort		  2
 	}
 	Line {
 	  SrcBlock		  "DiagnosticSh"
 	  SrcPort		  1
-	  DstBlock		  "Update Diagnostic Short\n[dataLogger.c]"
+	  DstBlock		  "Update Diagnostic Short\n[updateSensorMcuSt"
+"ate.c]"
 	  DstPort		  1
 	}
 	Line {
-	  SrcBlock		  "Update Biases\n[dataLogger.c]"
+	  SrcBlock		  "Update Biases\n[updateSensorMcuState.c]"
 	  SrcPort		  1
 	  DstBlock		  "Send Debug \nData to Serial Port\nand Prepa"
 "re for\nSPI\n[dataLogger.c]"
 	  DstPort		  2
 	}
 	Line {
-	  SrcBlock		  "Update Diagnostic Short\n[dataLogger.c]"
+	  SrcBlock		  "Update Diagnostic Short\n[updateSensorMcuSt"
+"ate.c]"
 	  SrcPort		  1
-	  DstBlock		  "Update Biases\n[dataLogger.c]"
+	  DstBlock		  "Update Biases\n[updateSensorMcuState.c]"
 	  DstPort		  2
 	}
 	Line {
 	  SrcBlock		  "Bias"
 	  SrcPort		  1
 	  Points		  [20, 0; 0, 30]
-	  DstBlock		  "Update Biases\n[dataLogger.c]"
+	  DstBlock		  "Update Biases\n[updateSensorMcuState.c]"
 	  DstPort		  1
 	}
 	Line {
-	  SrcBlock		  "Update the Time Stamp\n[dataLogger.c]"
+	  SrcBlock		  "Update the Time Stamp\n[updateSensorMcuStat"
+"e.c]"
 	  SrcPort		  1
 	  Points		  [0, -40; -160, 0]
-	  DstBlock		  "Update Accels and Mags\n[dataLogger.c]"
+	  DstBlock		  "Update Accels and Mags\n[updateSensorMcuSta"
+"te.c]"
 	  DstPort		  2
 	}
 	Line {
-	  SrcBlock		  "Update Accels and Mags\n[dataLogger.c]"
+	  SrcBlock		  "Update Accels and Mags\n[updateSensorMcuSta"
+"te.c]"
 	  SrcPort		  1
 	  Points		  [0, -35; -160, 0]
-	  DstBlock		  "Update XYZ and Vned\n[dataLogger.c]"
+	  DstBlock		  "Update XYZ and Vned\n[updateSensorMcuState."
+"c]"
 	  DstPort		  2
 	}
 	Line {
 	  SrcBlock		  "SensorData"
 	  SrcPort		  1
-	  DstBlock		  "Update Accels and Mags\n[dataLogger.c]"
+	  DstBlock		  "Update Accels and Mags\n[updateSensorMcuSta"
+"te.c]"
 	  DstPort		  1
 	}
       }
@@ -30203,8 +30231,7 @@ Model {
 	Block {
 	  BlockType		  "S-Function"
 	  Name			  " SFunction "
-	  Tag			  "Stateflow S-Function sensorMCUSlugsMKII_ren"
-" 8"
+	  Tag			  "Stateflow S-Function sensorMCUSlugsMKII 8"
 	  Ports			  [2, 2]
 	  Position		  [180, 100, 230, 220]
 	  FunctionName		  "sf_sfun"
@@ -30322,8 +30349,7 @@ Model {
 	Block {
 	  BlockType		  "S-Function"
 	  Name			  " SFunction "
-	  Tag			  "Stateflow S-Function sensorMCUSlugsMKII_ren"
-" 15"
+	  Tag			  "Stateflow S-Function sensorMCUSlugsMKII 15"
 	  Ports			  [2, 2]
 	  Position		  [180, 100, 230, 220]
 	  FunctionName		  "sf_sfun"
@@ -30441,8 +30467,7 @@ Model {
 	Block {
 	  BlockType		  "S-Function"
 	  Name			  " SFunction "
-	  Tag			  "Stateflow S-Function sensorMCUSlugsMKII_ren"
-" 5"
+	  Tag			  "Stateflow S-Function sensorMCUSlugsMKII 5"
 	  Ports			  [2, 2]
 	  Position		  [180, 100, 230, 220]
 	  FunctionName		  "sf_sfun"
@@ -30560,8 +30585,7 @@ Model {
 	Block {
 	  BlockType		  "S-Function"
 	  Name			  " SFunction "
-	  Tag			  "Stateflow S-Function sensorMCUSlugsMKII_ren"
-" 4"
+	  Tag			  "Stateflow S-Function sensorMCUSlugsMKII 4"
 	  Ports			  [2, 2]
 	  Position		  [180, 100, 230, 220]
 	  FunctionName		  "sf_sfun"
@@ -30904,7 +30928,7 @@ Stateflow {
 
 	machine {
 		id                   		1
-		name                 		"sensorMCUSlugsMKII_ren"
+		name                 		"sensorMCUSlugsMKII"
 		created              		"31-Aug-2008 19:55:28"
 		isLibrary            		0
 		firstTarget          		488

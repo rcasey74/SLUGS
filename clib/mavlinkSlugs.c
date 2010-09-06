@@ -1,6 +1,6 @@
 #include "mavlinkSlugs.h"
 
-void prepareTelemetryPixHawk( unsigned char* dataOut){
+void prepareTelemetryMavlink( unsigned char* dataOut){
  
 	// Generic message container used to pack the messages
 	mavlink_message_t msg;
@@ -208,4 +208,25 @@ void prepareTelemetryPixHawk( unsigned char* dataOut){
 	// configured for 10 Hz in non vital messages
 	sampleTelemetry = (sampleTelemetry >= 10)? 1: sampleTelemetry + 1;
 
+}
+
+void protParseDecodeMavlink (unsigned char* fromGs){
+	
+	uint8_t i;
+	mavlink_message_t msg;
+	mavlink_status_t status;
+	
+	for(i = 1; i < fromGs[0]; i++ ){
+		// Try to get a new message
+		if(mavlink_parse_char(MAVLINK_COMM_0, fromGs[i], &msg, &status)) {
+		
+			// Handle message
+			switch(msg.msgid){
+			
+				case MAVLINK_MSG_ID_SET_MODE:
+			
+				break;
+			}	// case	
+		} // if
+	}// for  
 }

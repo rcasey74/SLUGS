@@ -175,12 +175,12 @@ void updateStates(unsigned char * completeSentence){
 			// Mavlink
 			// =======
 			
-			mlRawImuData.xacc = rawControlData.gyroX.shData;
-			mlRawImuData.yacc = rawControlData.gyroY.shData;
-			mlRawImuData.zacc = rawControlData.gyroZ.shData;
-			mlRawImuData.xgyro = rawControlData.accelX.shData;
-			mlRawImuData.ygyro = rawControlData.accelY.shData;
-			mlRawImuData.zgyro = rawControlData.accelZ.shData;
+			mlRawImuData.xgyro = rawControlData.gyroX.shData;
+			mlRawImuData.ygyro = rawControlData.gyroY.shData;
+			mlRawImuData.zgyro = rawControlData.gyroZ.shData;
+			mlRawImuData.xacc = rawControlData.accelX.shData;
+			mlRawImuData.yacc = rawControlData.accelY.shData;
+			mlRawImuData.zacc = rawControlData.accelZ.shData;
 			mlRawImuData.xmag = rawControlData.magX.shData;
 			mlRawImuData.ymag = rawControlData.magY.shData;
 			mlRawImuData.zmag = rawControlData.magZ.shData;

@@ -101,13 +101,7 @@ void protParserInit (void);
      void protParserInit (void);
 #endif
 
-void hil_getRawRead (short * rawData);
-void hil_getGPSRead (unsigned char * gpsMsg);
-void hil_getVned (float* vned);
-void hil_getXYZ (float* xyz);
-void hil_getEuler (float* euler);
-void hil_getRates (float* pqr);
-unsigned short hil_getTs (void);
+
 
 #ifdef __cplusplus
        }
