@@ -28,80 +28,87 @@ THE SOFTWARE.
 
 
 void updateRawADCData (int16_t* adcData) {
-	mlRawPressureData.press_abs = (int16_t)adcData[0];   // Baro
+	mlRawPressureData.press_abs 	= (int16_t)adcData[0];   // Baro
 	mlRawPressureData.press_diff1 = (int16_t)adcData[1]; // Pito
 	mlRawPressureData.press_diff2 = (int16_t)adcData[2]; // Power
 	mlRawPressureData.temperature = (int16_t)adcData[3]; // Temp
 }
 
 void updateAirData (float* airData) {
-	dynTempControlData.dynamic.flData 	= airData[0];
-	dynTempControlData.stat.flData 		= airData[1];
-	dynTempControlData.temp.shData 		= (short) airData[2];
+	mlAirData.dynamicPressure = airData[0];							//dynamic
+	mlAirData.staticPressure 	= airData[1];							//static
+	mlAirData.temperature 		= (uint16_t) airData[2];	// temp
 }
 
-void updateLoadData (unsigned char load, unsigned short mvPower) {
-	statusControlData.load = load;
-	statusControlData.bVolt.usData = mvPower;
+void updateLoadData (uint8_t load, uint16_t mvPower) {
+	mlCpuLoadData.sensLoad 	= load;
+	mlCpuLoadData.batVolt 	= mvPower;
 }
 
 void updateAttitude (float * attitudeData) {
-	attitudeControlData.roll.flData 	= attitudeData[0];
-	attitudeControlData.pitch.flData 	= attitudeData[1];
-	attitudeControlData.yaw.flData 		= attitudeData[2];
-	attitudeControlData.p.flData 		= attitudeData[3];
-	attitudeControlData.q.flData 		= attitudeData[4];
-	attitudeControlData.r.flData 		= attitudeData[5];
+	
+	mlAttitudeData.roll 			= attitudeData[0];
+	mlAttitudeData.pitch 			= attitudeData[1];
+	mlAttitudeData.yaw 				= attitudeData[2];
+	mlAttitudeData.rollspeed 	= attitudeData[3];
+	mlAttitudeData.pitchspeed = attitudeData[4];
+	mlAttitudeData.yawspeed 	= attitudeData[5];
+	
 }
 
-void updateTimeStamp (unsigned short timeSt) {
-	attitudeControlData.timeStamp.usData = timeSt;
+void updateTimeStamp (uint32_t timeSt) {
+	mlSystemTime.time_usec = (uint64_t)timeSt;
 }
 
 void updatePosition (float * posData) {
-	xyzControlData.Xcoord.flData		= posData[0];
-	xyzControlData.Ycoord.flData		= posData[1];
-	xyzControlData.Zcoord.flData		= posData[2];
-	xyzControlData.VX.flData			= posData[3];
-	xyzControlData.VY.flData			= posData[4];
-	xyzControlData.VZ.flData			= posData[5];
+	
+	mlLocalPositionData.x		= posData[0];
+	mlLocalPositionData.y		= posData[1];
+	mlLocalPositionData.z		= posData[2];
+	mlLocalPositionData.vx	= posData[3];
+	mlLocalPositionData.vy	= posData[4];
+	mlLocalPositionData.vz	= posData[5];			
 }
 
-void updatePilotConsole (unsigned short * pilData) {
-	pilControlData.dt.usData			= pilData[0];
-	pilControlData.dla.usData			= pilData[1];
-	pilControlData.dra.usData			= pilData[2];
-	pilControlData.dr.usData			= pilData[3];
-	pilControlData.de.usData			= pilData[4];
+void updatePilotConsole (uint16_t * pilData) {
+	mlPilotConsoleData.dt  	= pilData[0];
+	mlPilotConsoleData.dla	= pilData[1];
+	mlPilotConsoleData.dra	= pilData[2];
+	mlPilotConsoleData.dr		= pilData[3];
+	mlPilotConsoleData.de		= pilData[4];
+
 }
 
 void updateDiagnosticFl (float* diagFl) {
-	diagControlData.fl1.flData =	diagFl[0];
-	diagControlData.fl2.flData =	diagFl[1];
-	diagControlData.fl3.flData =	diagFl[2];
+	mlDiagnosticData.diagFl1 =	diagFl[0];
+	mlDiagnosticData.diagFl2 =	diagFl[1];
+	mlDiagnosticData.diagFl3 =	diagFl[2];
 }
 
-void updateDiagnosticSh (short* diagSh) {
-	diagControlData.sh1.shData =	diagSh[0];
-	diagControlData.sh2.shData =	diagSh[1];
-	diagControlData.sh3.shData =	diagSh[2];
+void updateDiagnosticSh (int16_t* diagSh) {
+	mlDiagnosticData.diagSh1 =	diagSh[0];
+	mlDiagnosticData.diagSh2 =	diagSh[1];
+	mlDiagnosticData.diagSh3 =	diagSh[2];
 }
 
 void updateBias (float * biasData) {
-	biasControlData.gxb.flData		= biasData[0];
-	biasControlData.gyb.flData		= biasData[1];
-	biasControlData.gzb.flData		= biasData[2];
-	biasControlData.axb.flData		= biasData[3];
-	biasControlData.ayb.flData		= biasData[4];
-	biasControlData.azb.flData		= biasData[5];
+	mlSensorBiasData.axBias = biasData[0];
+	mlSensorBiasData.ayBias = biasData[1];
+	mlSensorBiasData.azBias = biasData[2];
+	mlSensorBiasData.gxBias = biasData[3];
+	mlSensorBiasData.gyBias = biasData[4];
+	mlSensorBiasData.gzBias = biasData[5];		
 }
 
 void updateSensorData (float* sens){
-	senControlData.Ax.flData			= sens[0];
-	senControlData.Ay.flData			= sens[1];
-	senControlData.Az.flData			= sens[2];
-	senControlData.Mx.flData			= sens[3];
-	senControlData.My.flData			= sens[4];
-	senControlData.Mz.flData			= sens[5];
+	mlFilteredData.aX = sens[0];
+	mlFilteredData.aY = sens[1];
+	mlFilteredData.aZ = sens[2];
+	mlFilteredData.mX = sens[3];
+	mlFilteredData.mY = sens[4];
+	mlFilteredData.mZ = sens[5];
+	mlFilteredData.gX = 0;
+	mlFilteredData.gY = 0;
+	mlFilteredData.gZ = 0;
 }
 

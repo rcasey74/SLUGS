@@ -34,13 +34,12 @@ THE SOFTWARE.
 #include "circBuffer.h"
 #include <p33fxxxx.h>
 #include <spi.h>
-// #include "gpsSplit.h"
-// #include "bufferedUART.h" //
 #include "gps.h"
-#include "dataLogger.h"
-#include "protDecoder.h"   
+#include "ipcScheduler.h"
+//#include "protDecoder.h"   
 #include "magneto.h"
 #include "adisCube.h"
+#include "mavlinkSensorMcu.h"
 
 void spiMasterInit (void);
 void spiSend (unsigned char * data2Send);

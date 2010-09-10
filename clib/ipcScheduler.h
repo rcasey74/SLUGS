@@ -1,5 +1,5 @@
 // ==============================================================
-// dataLogger.c
+// ipcScheduler.h
 // This is code implements a fully DMA driven UART writer to
 // be used in the UCSC Autopilot project. It makes use of the 
 // circular buffer data structure circBuffer.c. It has been 
@@ -14,24 +14,23 @@
 // First Revision: Aug 26 2008 @ 21:15
 // =========================================================
 
-#ifndef _DATALOGGER_H_
-#define _DATALOGGER_H_
+#ifndef _IPCSCHEDULER_H_
+#define _IPCSCHEDULER_H_
 
 #include "mavlink.h"
 #include "apDefinitions.h"
 #include "circBuffer.h"
 #include "apUtils.h"
-#include "protDecoder.h"
+#include "mavlinkSensorMcu.h"
 #include <string.h>
 #include <p33fxxxx.h>
 #include <uart.h>
 
  
-void assembleMsg (unsigned char* rawData , unsigned char size, unsigned char type, unsigned char* protMsg );
 void copyBufferToDMA (unsigned char size);
-void logData (unsigned char hilOn, unsigned char* data4SPI);
-void loggerInit (void);
+void scheduleData (unsigned char hilOn, unsigned char* data4SPI);
+void schedulerInit (void);
+void send2DebugPort (unsigned char* protData, unsigned char hilOn);
 
-
-#endif /* _DATALOGGER_H_ */
+#endif /* _IPCSCHEDULER_H_ */
 

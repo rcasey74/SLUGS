@@ -187,6 +187,8 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 		
 	} // Case
 	
+	memset(&msg,0,sizeof(mavlink_message_t));
+	
 	mavlink_msg_attitude_pack( SLUGS_SYSTEMID, 
 														 SLUGS_COMPID, 
 														 &msg, 

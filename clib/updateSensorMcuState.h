@@ -30,15 +30,15 @@ THE SOFTWARE.
 #include "mavlinkSensorMcu.h"
 
 
-void updateRawADCData (short * adcData);
+void updateRawADCData (int16_t * adcData);
 void updateAirData (float* airData);
-void updateLoadData (unsigned char load, unsigned short mvPower);
+void updateLoadData (uint8_t load, uint16_t mvPower);
 void updateAttitude (float * attitudeData);
 void updatePosition (float * posData);
-void updateTimeStamp (unsigned short timeSt);
-void updatePilotConsole (unsigned short * pilData);
+void updateTimeStamp (uint32_t timeSt);
+void updatePilotConsole (uint16_t* pilData);
 void updateDiagnosticFl (float* diagFl);
-void updateDiagnosticSh (short* diagSh);
+void updateDiagnosticSh (int16_t* diagSh);
 void updateBias (float * biasData); 
 void updateSensorData (float* sens);
 

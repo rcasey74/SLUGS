@@ -91,12 +91,13 @@ void spiSend(unsigned char * data2Send){
 void sensorMCUInit(void){
 	gpsInit();
 	uartInit();
-	loggerInit();
+	schedulerInit();
 	spiMasterInit();
-	protParserInit();
+	//protParserInit();
 	#ifndef NO_MAGNETO
 		magnetoInit();
 	#endif
 	cubeInit();
-	aknControlData.sensorReboot =1;
+	mavlinkInit();
+	mlBoot.version = 1;
 }
