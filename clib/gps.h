@@ -32,34 +32,22 @@ THE SOFTWARE.
 #endif
        	
 #include "circBuffer.h"
-#include "apDefinitions.h"
-#ifdef __IN_DSPIC__
-	#include <p33fxxxx.h>
-	#include <uart.h>
-	#include "protDecoder.h"
-	#include "apUtils.h"
-#endif
+#include "mavlinkSensorMcu.h"
+
+#include <p33fxxxx.h>
+#include <uart.h>
+
 #include <stdlib.h>
 #include <string.h>
 
 
-#if DEBUG
-	#include <stdio.h>
-#endif
-
 #define TOKEN_SIZE	15
-
-#ifdef __IN_DSPIC__       	
-	void uartInit (void);
-	void gpsSentenceConfig (void);
-	void gpsFreqConfig (void);
-#else
-	extern tGpsData gpsControlData;
-	extern CBRef uartBuffer;
-#endif
+      	
+void uartInit (void);
+void gpsSentenceConfig (void);
+void gpsFreqConfig (void);
 
 unsigned char hex2char (unsigned char halfhex);
-// void gpsRead (unsigned char* gpsChunk);
 void gpsInit (void);
 unsigned char gpsSeparate (unsigned char* outStream);
 void gpsParse (void);
@@ -68,6 +56,8 @@ float degMinToDeg (unsigned char degrees, float minutes);
 char gpSmbl (char symbl);
 void parseRMC (unsigned char* stream);
 void parseGGA (unsigned char* stream);
+unsigned char getChecksum (unsigned char* sentence, unsigned char size);
+
 
 #ifdef __cplusplus
        }

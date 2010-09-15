@@ -17,6 +17,7 @@
 	extern mavlink_filtered_data_t mlFilteredData;
 	extern mavlink_boot_t mlBoot;
   extern mavlink_system_time_t mlSystemTime;
+  extern mavlink_gps_date_time_t mlGpsDateTime;
   
   void mavlinkInit (void);
 

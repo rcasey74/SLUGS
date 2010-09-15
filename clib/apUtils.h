@@ -72,7 +72,6 @@ void decodeCmdsSentence (unsigned char id,unsigned char* data);
 
 #endif 
 
-unsigned char getChecksum(unsigned char* sentence, unsigned char size);
 
 // Trig and Math Functions
 float myAtan2 (float num, float denom);
@@ -87,9 +86,9 @@ float myTan (float x);
 float myAcos (float x);
 float myExp (float x);
 
-#ifndef _IN_PC_
+// Debug utilities
 void printToUart2 (const char *fmt, ...);
-#endif
+
 
 #ifdef __cplusplus
       }

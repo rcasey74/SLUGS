@@ -30,9 +30,10 @@ THE SOFTWARE.
 #endif
 #include <p33fxxxx.h>
 #include <spi.h>
+    	
 #include "apDefinitions.h"
-#include "protDecoder.h"
-#include "magneto.h"
+#include "apUtils.h"
+#include "mavlinkSensorMcu.h"
 
 #define selectCube()		LATGbits.LATG9 = 0
 #define deselectCube()		LATGbits.LATG9 = 1
@@ -47,9 +48,6 @@ THE SOFTWARE.
 #define BITEXTEND_14	(unsigned short)0xC000
 #define BITEXTEND_12	(unsigned short)0xF000
 
-
-// #define convert14BitToShort(x) (x & BITTEST_14)? (x | BITEXTEND_14) : (x & BITMASK_14)
-// #define convert12BitToShort(x) (x & BITTEST_12)? (x | BITEXTEND_12) : (x & BITMASK_12)
 
 // Max readings is MAX_CUBE_READ + 1
 #define MAX_CUBE_READ		3
@@ -188,13 +186,23 @@ bits [6:7] of Address must be [1 0] since this will be a write
 #define W_ZACC_OFFSET_LO	(unsigned short)0xA407
 #define W_ZACC_OFFSET_HI	(unsigned short)0xA500
 
+
+typedef struct tCubeBuffer {
+  int16_t  ax[4];
+  int16_t  ay[4];
+  int16_t  az[4];
+  int16_t  gx[4];
+  int16_t  gy[4];
+  int16_t  gz[4];
+  uint8_t sampleCount;
+}tCubeBuffer;
+
+
 unsigned short write2Cube (unsigned short data2Send);
 void getCubeData (short * cubeData);
-void updateCubeData(void);
-short averageData(tShortToChar * theData, unsigned char count);
+void updateCubeData (void);
+int16_t averageData (int16_t* theData, uint8_t count);
 
-// void startCubeRead (void);
-// void initDevBoard (void);
 short convert12BitToShort (short wordData);
 short convert14BitToShort (short wordData);
 	

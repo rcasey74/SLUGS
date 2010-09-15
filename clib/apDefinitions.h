@@ -487,15 +487,7 @@ typedef struct tAPStatusData{
 	unsigned char	drf_pass;
 }tAPStatusData;
 
-typedef struct tCubeBuffer {
-  tShortToChar  ax[4];
-  tShortToChar  ay[4];
-  tShortToChar  az[4];
-  tShortToChar  gx[4];
-  tShortToChar  gy[4];
-  tShortToChar  gz[4];
-  unsigned char sampleCount;
-}tCubeBuffer;
+
 
 typedef struct tNavData {
 	tFloatToChar	uMeasured;

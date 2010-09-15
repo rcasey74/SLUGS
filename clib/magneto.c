@@ -85,15 +85,10 @@ void magDebugUartConfig(void){
 }
 
 void magnetoInit (void){
-	//magDebugUartConfig();
-	//printToUart2("Starting %s\n\r","sequence");
-	
-	
+
 	// Configure the I2C bus
 	I2C1CONbits.A10M = 0;		// 7 bit address
 	I2C1BRG =	363;			// I2CBRG = 363. 100Khz for a 40 Mhz clock
-	
-	
 	
 	// Configure the Interrupts
 	IFS1bits.MI2C1IF = 0;		// Clear the master interrupt
@@ -109,9 +104,7 @@ void magnetoInit (void){
 	i2c1State = CONFIG_IDLE;
 	// Select the register to configure
 	reg2Config = REGISTER_A;
-	
-	//printToUart2("Starting %s\n\r","I2C");
-	
+		
 	// Wait 5 mS
 	dummyDelay();
 	
@@ -123,11 +116,8 @@ void magnetoInit (void){
 	// this signal that the whole config went trhough
 	while(i2c1State != CONFIG_IDLE){
 		printToUart2("Out of Int: %d\n\r",i2c1State);
-		//byteRead++;
 	}
 	
-	//printToUart2("Changed To %s\n\r","50 HZ");
-
 	// Wait 5 mS
 	dummyDelay();
 	
@@ -149,8 +139,6 @@ void magnetoInit (void){
 	// Wait 5 mS
 	dummyDelay();
 	
-	
-	
 	// Change the mode to continous
 	// ============================
 	// Change the register to config
@@ -161,11 +149,8 @@ void magnetoInit (void){
 	// this signal that the whole config went trhough
 	while(i2c1State != READ_IDLE){
 		printToUart2("Out of 3rd I: %d\n\r",i2c1State);
-		//byteRead++;
 	}
 	
-	//printToUart2("Changed To %s\n\r","Contrinous");
-
 	// Wait 5 mS
 	dummyDelay();
 	
@@ -184,33 +169,31 @@ void startMagRead (void) {
 	
 }
 
-void readMag (unsigned char idx, short val){
-	static tShortToChar magReading[3];
+void readMag (uint8_t idx, int16_t val){
+	static int16_t magReading[3];
 	
-	magReading[idx].shData	= val;
-	//printToUart2("%u.-\t %d\n\r", idx, val);
+	magReading[idx]	= val;
 	
 	if (idx == 2){
-		rawControlData.magX.shData = magReading[0].shData;
-		rawControlData.magY.shData = magReading[1].shData;
-		rawControlData.magZ.shData = magReading[2].shData;
-		
-		//printToUart2("%d\t %d\t %d\n\r",magReading[0].shData, magReading[1].shData,magReading[2].shData);
+		mlRawImuData.xmag = magReading[0];
+		mlRawImuData.ymag = magReading[1];
+		mlRawImuData.zmag = magReading[2];
 	}
 }
 
-void getMag (short * magVals){
-	static unsigned char readMagVar = 1;
+void getMag (int16_t* magVals){
+	static uint8_t readMagVar = 1;
 	
-	magVals[0] =  rawControlData.magX.shData;
-	magVals[1] =  rawControlData.magY.shData;
-	magVals[2] =  rawControlData.magZ.shData;
-	// printToUart2("%u\t %u\t %u\n\r",magVals[0], magVals[1],magVals[2]);
+	magVals[0] =  mlRawImuData.xmag;
+	magVals[1] =  mlRawImuData.ymag;
+	magVals[2] =  mlRawImuData.zmag;
 	
 	// After reporting the data start the reading for the next cycle
 	// called every other time since the mags refresh @ 50 Hz
 	#ifndef NO_MAGNETO
-		if (readMagVar) {startMagRead();}
+		if (readMagVar) {
+			startMagRead();
+		}
 	#endif
 	// flip the read flag
 	readMagVar = (readMagVar == 1)? 0: 1;

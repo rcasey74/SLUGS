@@ -173,15 +173,10 @@ void __attribute__((__interrupt__, no_auto_psv)) _U1RXInterrupt(void){
 }
 
 void gpsInit(void){	
-	#ifdef __IN_DSPIC__
 		// initialize the circular buffer
 		uartBuffer = (struct CircBuffer* )&com1Buffer;
 		newCircBuffer(uartBuffer);
 		uartInit();
-	#else
-		uartBuffer =  newCircBuffer(BSIZE);
-		memset(&gpsControlData, 0, sizeof(tGpsData));
-	#endif
 }
 
 // this function converts one hex ascii character to decimal
@@ -216,16 +211,11 @@ unsigned char gpsSeparate( unsigned char* outStream)
 	unsigned char chksumHeader = 0;
 	unsigned char tmpIndex = 0;
 	unsigned char tmpLen = getLength(uartBuffer);
-	#ifndef __IN_DSPIC__
-	printf("%d\r\n", tmpLen);
-	#endif
+
 	// If the previous message was complete, then
 	// go over the buffer and advance until you find a dollar sign
 	if (previousComplete){
 		while (tmpLen>0 && peak(uartBuffer)!= DOLLAR){
-			#ifndef __IN_DSPIC__
-			printf("%c\r\n", peak(uartBuffer));
-			#endif
 			readFront(uartBuffer);
 			tmpLen--;
 		}
@@ -233,17 +223,11 @@ unsigned char gpsSeparate( unsigned char* outStream)
 	
 	// read until you find a CR or run out of bytes to read
 	while (tmpLen>0 && peak(uartBuffer)!= CR){
-		#ifndef __IN_DSPIC__
-		printf("%c\r\n", peak(uartBuffer));
-		#endif
 		outBuf[indexLast] = readFront(uartBuffer);
 		indexLast++;
 		tmpLen--;
 	}
 
-	#ifndef __IN_DSPIC__
-	printf("%s\r\n", outBuf);
-	#endif
 	// if we found a carriage return, then the message is complete
 	if (peak(uartBuffer)== CR){
 		// validate the checksum
@@ -251,14 +235,9 @@ unsigned char gpsSeparate( unsigned char* outStream)
 		chsmStr_1 = hex2char(outBuf[indexLast - 1]);
 		// convert the hex checksum to decimal
 		tmpChksum = (unsigned char)(chsmStr_0 * 16 + chsmStr_1);
-		#ifndef __IN_DSPIC__
-		printf("%d\r\n", tmpChksum);
-		#endif
+
 		// verify the validity
 		isValid = (tmpChksum == getChecksum(outBuf,indexLast));		
-		#ifndef __IN_DSPIC__
-		printf("%d\t%d\r\n", isValid, previousComplete);
-		#endif
 
 		// turn on the flag of complete stream
 		previousComplete = 1;
@@ -324,10 +303,8 @@ void gpsParse(void){
 					parseGGA(inStream);
 				break;
 			}
-		}else{
-			// turn the flag off of new data
-			gpsControlData.newValue = 0;
 		}
+		
 		memset(inStream,0,MSIZE);
 	}
 	
@@ -335,11 +312,11 @@ void gpsParse(void){
 
 void getGpsMainData (float* data){
 	gpsParse();
-	data[0] = gpsControlData.lat.flData;
-	data[1] = gpsControlData.lon.flData;
-	data[2] = gpsControlData.height.flData;
-	data[3] = (float)gpsControlData.cog.usData;
-	data[4] = (float)gpsControlData.sog.usData/100.0;
+	data[0] = mlGpsData.lat;
+	data[1] = mlGpsData.lon;
+	data[2] = mlGpsData.alt;
+	data[3] = mlGpsData.hdg;
+	data[4] = mlGpsData.v;
 }
 
 
@@ -350,7 +327,7 @@ char gpSmbl(char symbl)
 		case 'E': return 1; /*East*/
 		case 'S': return -1;/*South*/
 		case 'W': return -1;/*West*/
-		case 'A': return 1; /*Valid or Autonomous*/
+		case 'A': return 3; /*Valid or Autonomous*/
 		case 'D': return 1; /*Differential*/
 		case 'V': return 0; /*Non-Valid*/
 		case 'M': return 100; /*Meters*/
@@ -409,17 +386,17 @@ void parseRMC(unsigned char* stream){
 	myTokenizer(NULL, ',', token);
 	if (strlen(token)>5){
 		tmp[0] = token[0]; tmp[1] = token[1];
-		gpsControlData.hour = (unsigned char) atoi(tmp);
+		mlGpsDateTime.hour = (unsigned char) atoi(tmp);
 		tmp[0] = token[2]; tmp[1] = token[3];
-		gpsControlData.min = (unsigned char) atoi(tmp);
+		mlGpsDateTime.min = (unsigned char) atoi(tmp);
 		tmp[0] = token[4]; tmp[1] = token[5];
-		gpsControlData.sec = (unsigned char) atoi(tmp);		
+		mlGpsDateTime.sec = (unsigned char) atoi(tmp);		
 	}
 	
 	// 2.- Status of position Fix
 	myTokenizer(NULL, ',', token);
 	if (strlen(token)== 1){
-		gpsControlData.fix = gpSmbl((char)token[0]);
+		mlGpsData.fix_type = gpSmbl((char)token[0]);
 	}
 	
 	// 3.- Latitude
@@ -433,13 +410,13 @@ void parseRMC(unsigned char* stream){
 		// make the degrees zero for minutes conversion
 		token[0]='0'; token[1]='0';
 		// get the float
-		gpsControlData.lat.flData =  degMinToDeg(chTmp,atof(token));
+		mlGpsData.lat =  degMinToDeg(chTmp,atof(token));
 		
 		// 4.- Latitude Sector
 		myTokenizer(NULL, ',', token);
 		if (strlen(token)==1){
 			// set the sign of the float value
-			gpsControlData.lat.flData *= gpSmbl((char)token[0]);
+			mlGpsData.lat *= gpSmbl((char)token[0]);
 		}
 	}
 	
@@ -454,28 +431,28 @@ void parseRMC(unsigned char* stream){
 		// make the degrees zero for minutes conversion
 		token[0]='0'; token[1]='0'; token [2] = '0';
 		// get the float
-		gpsControlData.lon.flData =  degMinToDeg(chTmp,atof(token));
+		mlGpsData.lon =  degMinToDeg(chTmp,atof(token));
 		
 		// 6.- Longitude Sector
 		myTokenizer(NULL, ',', token);
 		if (strlen(token)==1){
 			// set the sign of the float value
-			gpsControlData.lon.flData *= gpSmbl((char)token[0]);
+			mlGpsData.lon *= gpSmbl((char)token[0]);
 		}
 	}
 	
-	// 7.- SOG in knots but gets stored in cm/s CAUTION
+	// 7.- SOG in knots but gets stored in m/s CAUTION
 	// xx.xx
 	myTokenizer(NULL, ',', token);	
 	if (strlen(token)>0){
-		gpsControlData.sog.usData = (unsigned short) (atof(token)*KTS2MPS*100.0);	
+		mlGpsData.v = (unsigned short) (atof(token)*KTS2MPS);	
 	}
 	
 	// 8.- COG in degrees
 	// xxx.xxx
 	myTokenizer(NULL, ',', token);	
 	if (strlen(token)>0){
-		gpsControlData.cog.usData = (unsigned short) atof(token);	
+		mlGpsData.hdg = (unsigned short) atof(token);	
 	}
 	
 	// 9.- UTC Date
@@ -484,17 +461,14 @@ void parseRMC(unsigned char* stream){
 	if (strlen(token)>5){
 		// get day
 		tmp[0]= token[0]; tmp[1]=token[1];
-		gpsControlData.day = (unsigned char) atoi(tmp);	
+		mlGpsDateTime.day = (unsigned char) atoi(tmp);	
 		// get month
 		tmp[0]= token[2]; tmp[1]=token[3];
-		gpsControlData.month = (unsigned char) atoi(tmp);	
+		mlGpsDateTime.month = (unsigned char) atoi(tmp);	
 		// get year
 		tmp[0]= token[4]; tmp[1]=token[5];
-		gpsControlData.year = (unsigned char) atoi(tmp);	
+		mlGpsDateTime.year = (unsigned char) atoi(tmp);	
 	}
-	
-	// turn the flag on of new data
-	gpsControlData.newValue = 1;
 }
 
 void parseGGA(unsigned char* stream){
@@ -510,11 +484,11 @@ void parseGGA(unsigned char* stream){
 	myTokenizer(NULL, ',', token);
 	if (strlen(token)>5){
 		tmp[0] = token[0]; tmp[1] = token[1];
-		gpsControlData.hour = (unsigned char) atoi(tmp);
+		mlGpsDateTime.hour = (unsigned char) atoi(tmp);
 		tmp[0] = token[2]; tmp[1] = token[3];
-		gpsControlData.min = (unsigned char) atoi(tmp);
+		mlGpsDateTime.min = (unsigned char) atoi(tmp);
 		tmp[0] = token[4]; tmp[1] = token[5];
-		gpsControlData.sec = (unsigned char) atoi(tmp);		
+		mlGpsDateTime.sec = (unsigned char) atoi(tmp);		
 	}	
 	// 2.- Latitude
 	// ddmm.mmmmmm
@@ -527,12 +501,12 @@ void parseGGA(unsigned char* stream){
 		// make the degrees zero for minutes conversion
 		token[0]='0'; token[1]='0';
 		// get the float
-		gpsControlData.lat.flData =  degMinToDeg(chTmp,atof(token));		
+		mlGpsData.lat =  degMinToDeg(chTmp,atof(token));		
 		// 3.- Latitude Sector
 		myTokenizer(NULL, ',', token);
 		if (strlen(token)==1){
 			// set the sign of the float value
-			gpsControlData.lat.flData *= gpSmbl((char)token[0]);
+			mlGpsData.lat *= gpSmbl((char)token[0]);
 		}
 	}
 	
@@ -547,28 +521,28 @@ void parseGGA(unsigned char* stream){
 		// make the degrees zero for minutes conversion
 		token[0]='0'; token[1]='0'; token [2] = '0';
 		// get the float
-		gpsControlData.lon.flData =  degMinToDeg(chTmp,atof(token));
+		mlGpsData.lon =  degMinToDeg(chTmp,atof(token));
 		
 		// 5.- Longitude Sector
 		myTokenizer(NULL, ',', token);
 		
 		if (strlen(token)>0){
 			// set the sign of the float value
-			gpsControlData.lon.flData *= gpSmbl((char)token[0]);
+			mlGpsData.lon *= gpSmbl((char)token[0]);
 		}
 	}
 	
 	// 6.- Quality Indicator
 	myTokenizer(NULL, ',', token);
 	if (strlen(token)== 1){
-		gpsControlData.fix = (char)atoi(token);
+		mlGpsData.fix_type = (char)atoi(token);
 	}
 
 	// 7.- Sats used in solution
 	// xx
 	myTokenizer(NULL, ',', token);	
 	if (strlen(token)>0){
-		gpsControlData.sats = (unsigned char) atoi(token);	
+		mlGpsDateTime.visSat = (unsigned char) atoi(token);	
 	}
 	
 	// 8.- HDOP given from 0 to 99.99 but stored from 0 - 990 
@@ -576,16 +550,52 @@ void parseGGA(unsigned char* stream){
 	// xx.xx
 	myTokenizer(NULL, ',', token);	
 	if (strlen(token)>0){
-		gpsControlData.hdop.usData = (unsigned short) (atof(token)*10.0);	
+		mlGpsData.eph = (unsigned short) (atof(token));	
 	}
 	
 	// 9.- Altitude above mean sea level given in meters
 	// xxx.xxx
 	myTokenizer(NULL, ',', token);	
 	if (strlen(token)>0){
-		gpsControlData.height.flData =  atof(token);	
+		mlGpsData.alt =  atof(token);	
 	}
 	
-	// turn the flag on of new data
-	gpsControlData.newValue = 1;
+}
+
+// GPS checksum code based on 
+// http://www.codeproject.com/KB/mobile/WritingGPSApplications2.aspx
+// original code in C# written by Jon Person, author of "GPS.NET" (www.gpsdotnet.com)
+unsigned char getChecksum(unsigned char* sentence, unsigned char size){
+
+    // Loop through all chars to get a checksum
+    unsigned char checkSum = 0;
+	unsigned char i;
+	for (i = 0; i< size; i++)
+    {
+      if (sentence[i] == DOLLAR)
+      {
+        // Ignore the dollar sign
+      }
+      else if (sentence[i] == STAR)
+      {
+        // Stop processing before the asterisk
+        break;
+      }
+      else
+      {
+        // Is this the first value for the checksum?
+        if (i == 0)
+        {
+          // Yes. Set the checksum to the value
+          checkSum = sentence[i];
+        }
+        else
+        {
+          // No. XOR the checksum with this character's value
+	       checkSum ^= sentence[i];
+        }
+      }
+    }
+    // Return the checksum 
+    return checkSum;
 }

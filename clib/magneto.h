@@ -31,11 +31,11 @@ THE SOFTWARE.
 
 #include <p33fxxxx.h>
 #include <i2c.h>
-#include "apDefinitions.h"
-#include "protDecoder.h"
-#include "apUtils.h"
 #include <uart.h>
 
+#include "apDefinitions.h"
+#include "apUtils.h"
+#include "mavlinkSensorMcu.h"
 
 // Magnetomertometer Data
 #define MAG_READ		0x3D
@@ -76,6 +76,7 @@ void i2c1Start (void);
 void i2c1Stop (void);
 void i2c1Write (unsigned char byte2write);
 void dummyDelay (void);
+void getMag (int16_t* magVals);
 
 #ifdef __cplusplus
        }

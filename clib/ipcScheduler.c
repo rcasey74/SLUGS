@@ -160,7 +160,17 @@ void scheduleData (unsigned char hilOn, unsigned char* dataOut){
 	memset(&msg,0,sizeof(mavlink_message_t));
 		
 	switch (samplePeriod){
-		case 1: //GPS
+		case 1: //GPS 
+			mavlink_msg_heartbeat_pack(SLUGS_SYSTEMID, 
+																 SLUGS_COMPID, 
+																 &msg, 
+																 MAV_FIXED_WING, 
+																 MAV_AUTOPILOT_SLUGS);
+			// Copy the message to the send buffer
+			bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);
+			
+			memset(&msg,0,sizeof(mavlink_message_t));
+			
 			// Pack the GPS message
 			mavlink_msg_gps_raw_pack(SLUGS_SYSTEMID, 
 																 SLUGS_COMPID, 
@@ -178,6 +188,7 @@ void scheduleData (unsigned char hilOn, unsigned char* dataOut){
 			bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg); 
 
 		break;
+		
 		case 2: // LOAD 
 			mavlink_msg_cpu_load_pack( SLUGS_SYSTEMID, 
 																 SLUGS_COMPID, 
@@ -342,7 +353,7 @@ void scheduleData (unsigned char hilOn, unsigned char* dataOut){
 		
 	// increment/overflow the samplePeriod counter
 	// configured for 10 Hz in non vital messages
-	samplePeriod = (samplePeriod >= 8)? 1: samplePeriod + 1;
+	samplePeriod = (samplePeriod >= 10)? 1: samplePeriod + 1;
 	
 	// Send the data via the debug serial port
 	send2DebugPort(dataOut, hilOn);
@@ -413,9 +424,6 @@ void __attribute__ ((interrupt, no_auto_psv)) _U2ErrInterrupt(void)
 	IFS4bits.U2EIF = 0; // Clear the UART2 Error Interrupt Flag
 }
 
-// =====================================
-//         Sensor MCU Support Functions
-// =====================================
 
 
 

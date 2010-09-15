@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.895"
+    ComputedModelVersion    "1.897"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Fri Sep 10 10:46:07 2010"
-  ModelVersionFormat	  "1.%<AutoIncrement:895>"
+  LastModifiedDate	  "Tue Sep 14 21:59:06 2010"
+  ModelVersionFormat	  "1.%<AutoIncrement:897>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -328,7 +328,7 @@ Model {
 	  CustomSource		  "clib\\circBuffer.c\nclib\\sbrk.c\nclib\\gps"
 ".c\nclib\\ipcScheduler.c\nclib\\updateSensorMcuState.c\nclib\\interProcCommMa"
 "ster.c\nclib\\conversions.c\nclib\\apUtils.c\nclib\\magneto.c\nclib\\adisCube"
-".c\nclib\\DEE.c\nclib\\DEES.s\nclib\\mavlinkSensorMcu.c"
+".c\nclib\\mavlinkSensorMcu.c"
 	  IncludeHyperlinkInReport on
 	  LaunchReport		  on
 	  TargetLang		  "C"
@@ -981,8 +981,8 @@ Model {
   }
   System {
     Name		    "sensorMCUSlugsMKII"
-    Location		    [2, 78, 1644, 960]
-    Open		    on
+    Location		    [186, 211, 1332, 806]
+    Open		    off
     ModelBrowserVisibility  off
     ModelBrowserWidth	    212
     ScreenColor		    "white"
@@ -20500,7 +20500,7 @@ Model {
 	      System {
 		Name			"If no HIL then\nRead all the\nSensors"
 		Location		[125, 88, 1155, 935]
-		Open			off
+		Open			on
 		ModelBrowserVisibility	off
 		ModelBrowserWidth	200
 		ScreenColor		"white"
