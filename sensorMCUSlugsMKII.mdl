@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.897"
+    ComputedModelVersion    "1.898"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Tue Sep 14 21:59:06 2010"
-  ModelVersionFormat	  "1.%<AutoIncrement:897>"
+  LastModifiedDate	  "Fri Sep 17 09:13:21 2010"
+  ModelVersionFormat	  "1.%<AutoIncrement:898>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -981,7 +981,7 @@ Model {
   }
   System {
     Name		    "sensorMCUSlugsMKII"
-    Location		    [186, 211, 1332, 806]
+    Location		    [58, 97, 1204, 692]
     Open		    off
     ModelBrowserVisibility  off
     ModelBrowserWidth	    212
@@ -20500,7 +20500,7 @@ Model {
 	      System {
 		Name			"If no HIL then\nRead all the\nSensors"
 		Location		[125, 88, 1155, 935]
-		Open			on
+		Open			off
 		ModelBrowserVisibility	off
 		ModelBrowserWidth	200
 		ScreenColor		"white"
@@ -29206,7 +29206,7 @@ Model {
       System {
 	Name			"To Control \nMCU"
 	Location		[402, 180, 1127, 845]
-	Open			off
+	Open			on
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	212
 	ScreenColor		"white"
@@ -29268,7 +29268,7 @@ Model {
 	Block {
 	  BlockType		  Inport
 	  Name			  "HIL ON?"
-	  Position		  [615, 133, 645, 147]
+	  Position		  [535, 48, 565, 62]
 	  BackgroundColor	  "darkGreen"
 	  Port			  "7"
 	  IconDisplay		  "Port number"
@@ -29288,6 +29288,13 @@ Model {
 	  BackgroundColor	  "darkGreen"
 	  Port			  "9"
 	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Constant"
+	  Position		  [615, 100, 645, 130]
+	  Value			  "0"
+	  OutDataTypeMode	  "uint8"
 	}
 	Block {
 	  BlockType		  SubSystem
@@ -29488,7 +29495,7 @@ Model {
 	Block {
 	  BlockType		  Reference
 	  Name			  "Send Debug \nData to Serial Port\nand Prepa"
-"re for\nSPI\n[dataLogger.c]"
+"re for\nSPI\n[IPCScheduler.c]"
 	  Tag			  "dsPIC_dsPIC_CFunctionCall"
 	  Ports			  [2, 1]
 	  Position		  [715, 132, 820, 168]
@@ -29520,6 +29527,11 @@ Model {
 "* y1);"
 	  FctCall		  "scheduleData(%u1, *%y1);"
 	  OrderingInOutPopup	  "Input"
+	}
+	Block {
+	  BlockType		  Terminator
+	  Name			  "Terminator"
+	  Position		  [625, 50, 645, 70]
 	}
 	Block {
 	  BlockType		  Reference
@@ -29801,16 +29813,9 @@ Model {
 	}
 	Line {
 	  SrcBlock		  "Send Debug \nData to Serial Port\nand Prepa"
-"re for\nSPI\n[dataLogger.c]"
+"re for\nSPI\n[IPCScheduler.c]"
 	  SrcPort		  1
 	  DstBlock		  "IPC Data"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "HIL ON?"
-	  SrcPort		  1
-	  DstBlock		  "Send Debug \nData to Serial Port\nand Prepa"
-"re for\nSPI\n[dataLogger.c]"
 	  DstPort		  1
 	}
 	Line {
@@ -29895,7 +29900,7 @@ Model {
 	  SrcBlock		  "Update Biases\n[updateSensorMcuState.c]"
 	  SrcPort		  1
 	  DstBlock		  "Send Debug \nData to Serial Port\nand Prepa"
-"re for\nSPI\n[dataLogger.c]"
+"re for\nSPI\n[IPCScheduler.c]"
 	  DstPort		  2
 	}
 	Line {
@@ -29935,6 +29940,21 @@ Model {
 	  SrcPort		  1
 	  DstBlock		  "Update Accels and Mags\n[updateSensorMcuSta"
 "te.c]"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "HIL ON?"
+	  SrcPort		  1
+	  Points		  [20, 0; 0, 5]
+	  DstBlock		  "Terminator"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Constant"
+	  SrcPort		  1
+	  Points		  [25, 0; 0, 25]
+	  DstBlock		  "Send Debug \nData to Serial Port\nand Prepa"
+"re for\nSPI\n[IPCScheduler.c]"
 	  DstPort		  1
 	}
       }

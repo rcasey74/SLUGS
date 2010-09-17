@@ -334,17 +334,20 @@ void scheduleData (unsigned char hilOn, unsigned char* dataOut){
 	
 	memset(&msg,0,sizeof(mavlink_message_t));
 
-	// XYZ data. Gets included every sample time
-	mavlink_msg_local_position_pack(SLUGS_SYSTEMID, 
-														 			SLUGS_COMPID, 
-														 			&msg,
-														 			0,
-														 			mlLocalPositionData.x, 
-														 			mlLocalPositionData.y, 
-														 			mlLocalPositionData.z, 
-														 			mlLocalPositionData.vx, 
-														 			mlLocalPositionData.vy, 
-														 			mlLocalPositionData.vz); 
+	// Sensor Raw data. Gets included every sample time
+	mavlink_msg_raw_imu_pack(SLUGS_SYSTEMID, 
+													 SLUGS_COMPID, 
+													 &msg,
+													 0,
+													 mlRawImuData.xacc, 
+													 mlRawImuData.yacc, 
+													 mlRawImuData.zacc, 
+													 mlRawImuData.xgyro, 
+													 mlRawImuData.ygyro, 
+													 mlRawImuData.zgyro, 
+													 mlRawImuData.xmag, 
+													 mlRawImuData.ymag, 
+													 mlRawImuData.zmag); 
 
 	bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);
 
