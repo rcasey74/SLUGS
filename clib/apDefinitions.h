@@ -69,17 +69,11 @@ and data types.
 #define MSIZE			150
 #define CSIZE			26 //[newBytes payload remaingBytes]  (comms buffer out of readGPS)
 
-// Data Logger Values
-// ================
-#define LOGSEND					8
-#define MAXSEND					109
-#define MAXLOGSEND				56
+// DMA Maximum Char Snding
+// =======================
+#define MAXSEND					107
 
-#ifdef __cplusplus
-       #define MAXLOGLEN		500
-#else
-       #define MAXLOGLEN		99
-#endif
+
 
 // Define log raw data at 100 hz. Comment out to have
 // XYZ data come at 100 Hz instead. COMMENT not Change to 0 (using #ifdef)
@@ -214,8 +208,10 @@ and data types.
 
 // PID EEPROM Error Messages
 #define PIDEEP_WRITE_FAIL	11
+#define PIDEEP_MEMORY_OK  0
 #define PIDEEP_PAGE_EXP		12
 #define PIDEEP_MEMORY_CORR	13
+
 
 // WP EEPROM Error Messages
 #define WPSEEP_WRITE_FAIL	21

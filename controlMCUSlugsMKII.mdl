@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.719"
+    ComputedModelVersion    "1.722"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Thu Jul 08 15:06:06 2010"
-  ModelVersionFormat	  "1.%<AutoIncrement:719>"
+  LastModifiedDate	  "Wed Sep 29 15:20:18 2010"
+  ModelVersionFormat	  "1.%<AutoIncrement:722>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -327,7 +327,8 @@ Model {
 	  CustomInclude		  "..\\mavlink\\contrib\\slugs\\include\\"
 	  CustomSource		  "clib\\circBuffer.c\nclib\\sbrk.c\nclib\\int"
 "erProcCommSlave.c\nclib\\protDecoder.c\nclib\\groundStationDriver.c\nclib\\ap"
-"Utils.c\nclib\\DEE.c\nclib\\DEES.s\nclib\\navSupport.c\nclib\\mavlinkSlugs.c"
+"Utils.c\nclib\\DEE.c\nclib\\DEES.s\nclib\\navSupport.c\nclib\\mavlinkControlM"
+"cu.c"
 	  IncludeHyperlinkInReport on
 	  LaunchReport		  on
 	  TargetLang		  "C"
@@ -578,7 +579,7 @@ Model {
 	PropName		"Components"
       }
       Name		      "Configuration"
-      CurrentDlgPage	      "Real-Time Workshop/DsPIC options"
+      CurrentDlgPage	      "Real-Time Workshop/Custom Code"
     }
     PropName		    "ConfigurationSets"
   }
@@ -978,7 +979,7 @@ Model {
   }
   System {
     Name		    "controlMCUSlugsMKII"
-    Location		    [-1356, 144, 269, 1096]
+    Location		    [-1438, 78, -19, 880]
     Open		    off
     ModelBrowserVisibility  off
     ModelBrowserWidth	    188
@@ -1200,7 +1201,7 @@ Model {
 	}
 	Block {
 	  BlockType		  Reference
-	  Name			  "Data from GS\n[groundStationDriver.c]"
+	  Name			  "Data from GS\n[mavlinkCommsControlMcu.c]"
 	  Tag			  "dsPIC_dsPIC_CFunctionCall"
 	  Ports			  [0, 1]
 	  Position		  [30, 177, 135, 213]
@@ -1211,7 +1212,7 @@ Model {
 	    FctCall		    "gsRead(*%y1);"
 	    fctName		    "gsRead"
 	    INPUT_SIZE		    "1"
-	    OUTPUT_SIZE		    "103"
+	    OUTPUT_SIZE		    "109"
 	    NBR_INPUT		    "0"
 	    NBR_OUTPUT		    "1"
 	  }
@@ -1222,7 +1223,7 @@ Model {
 	  INPUT1		  "--"
 	  INPUT2		  "--"
 	  INPUT3		  "--"
-	  OUTPUT_SIZE		  "103"
+	  OUTPUT_SIZE		  "109"
 	  OUTPUT1		  "uint8"
 	  SampleTime		  ".01"
 	  InputType		  "[ ]"
@@ -1244,7 +1245,7 @@ Model {
 	    FctCall		    "readIpc(*%y1);"
 	    fctName		    "readIpc"
 	    INPUT_SIZE		    "1"
-	    OUTPUT_SIZE		    "104"
+	    OUTPUT_SIZE		    "109"
 	    NBR_INPUT		    "0"
 	    NBR_OUTPUT		    "1"
 	  }
@@ -1255,7 +1256,7 @@ Model {
 	  INPUT1		  "--"
 	  INPUT2		  "--"
 	  INPUT3		  "--"
-	  OUTPUT_SIZE		  "104"
+	  OUTPUT_SIZE		  "109"
 	  OUTPUT1		  "uint8"
 	  SampleTime		  ".01"
 	  InputType		  "[ ]"
@@ -1297,7 +1298,7 @@ Model {
 	  DstPort		  1
 	}
 	Line {
-	  SrcBlock		  "Data from GS\n[groundStationDriver.c]"
+	  SrcBlock		  "Data from GS\n[mavlinkCommsControlMcu.c]"
 	  SrcPort		  1
 	  DstBlock		  "GS"
 	  DstPort		  1
@@ -1641,7 +1642,7 @@ Model {
     }
     Block {
       BlockType		      Reference
-      Name		      "Initialize the MCU\n[groundStationDriver.c]"
+      Name		      "Initialize the MCU\n[interProcCommSlave.c]"
       Tag		      "dsPIC_dsPIC_CFunctionCall"
       Ports		      []
       Position		      [485, 22, 590, 58]
@@ -30224,7 +30225,7 @@ Model {
       System {
 	Name			"PID Gains"
 	Location		[196, 652, 461, 922]
-	Open			off
+	Open			on
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -33012,7 +33013,8 @@ Model {
 	    }
 	    Block {
 	      BlockType		      Reference
-	      Name		      "Update PWM \nCommands1"
+	      Name		      "Update PWM \nCommands1\n[updateControlM"
+"cu.c]"
 	      Tag		      "dsPIC_dsPIC_CFunctionCall"
 	      Ports		      [2]
 	      Position		      [310, 112, 415, 148]
@@ -33047,7 +33049,8 @@ Model {
 	    }
 	    Block {
 	      BlockType		      Reference
-	      Name		      "Update PWM \nCommands2"
+	      Name		      "Update PWM \nCommands2\n[updateControlM"
+"cu.c]"
 	      Tag		      "dsPIC_dsPIC_CFunctionCall"
 	      Ports		      [2]
 	      Position		      [285, 277, 390, 313]
@@ -33082,7 +33085,8 @@ Model {
 	    }
 	    Block {
 	      BlockType		      Reference
-	      Name		      "Update PWM \nCommands3"
+	      Name		      "Update PWM \nCommands3\n[updateControlM"
+"cu.c]"
 	      Tag		      "dsPIC_dsPIC_CFunctionCall"
 	      Ports		      [2]
 	      Position		      [280, 447, 385, 483]
@@ -33117,7 +33121,8 @@ Model {
 	    }
 	    Block {
 	      BlockType		      Reference
-	      Name		      "Update PWM \nCommands4"
+	      Name		      "Update PWM \nCommands4\n[updateControlM"
+"cu.c]"
 	      Tag		      "dsPIC_dsPIC_CFunctionCall"
 	      Ports		      [2]
 	      Position		      [285, 537, 390, 573]
@@ -33181,7 +33186,8 @@ Model {
 	      SrcBlock		      "Data Type Conversion3"
 	      SrcPort		      1
 	      Points		      [65, 0; 0, 45]
-	      DstBlock		      "Update PWM \nCommands2"
+	      DstBlock		      "Update PWM \nCommands2\n[updateControlM"
+"cu.c]"
 	      DstPort		      1
 	    }
 	    Line {
@@ -33194,21 +33200,24 @@ Model {
 	      SrcBlock		      "dlf"
 	      SrcPort		      1
 	      Points		      [15, 0; 0, -5]
-	      DstBlock		      "Update PWM \nCommands2"
+	      DstBlock		      "Update PWM \nCommands2\n[updateControlM"
+"cu.c]"
 	      DstPort		      2
 	    }
 	    Line {
 	      SrcBlock		      "Data Type Conversion1"
 	      SrcPort		      1
 	      Points		      [125, 0]
-	      DstBlock		      "Update PWM \nCommands3"
+	      DstBlock		      "Update PWM \nCommands3\n[updateControlM"
+"cu.c]"
 	      DstPort		      1
 	    }
 	    Line {
 	      SrcBlock		      "Data Type Conversion4"
 	      SrcPort		      1
 	      Points		      [65, 0; 0, 45]
-	      DstBlock		      "Update PWM \nCommands4"
+	      DstBlock		      "Update PWM \nCommands4\n[updateControlM"
+"cu.c]"
 	      DstPort		      1
 	    }
 	    Line {
@@ -33227,28 +33236,32 @@ Model {
 	      SrcBlock		      "dre1"
 	      SrcPort		      1
 	      Points		      [10, 0]
-	      DstBlock		      "Update PWM \nCommands3"
+	      DstBlock		      "Update PWM \nCommands3\n[updateControlM"
+"cu.c]"
 	      DstPort		      2
 	    }
 	    Line {
 	      SrcBlock		      "dlf1"
 	      SrcPort		      1
 	      Points		      [-15, 0; 0, -65]
-	      DstBlock		      "Update PWM \nCommands4"
+	      DstBlock		      "Update PWM \nCommands4\n[updateControlM"
+"cu.c]"
 	      DstPort		      2
 	    }
 	    Line {
 	      SrcBlock		      "Data Type Conversion2"
 	      SrcPort		      1
 	      Points		      [95, 0]
-	      DstBlock		      "Update PWM \nCommands1"
+	      DstBlock		      "Update PWM \nCommands1\n[updateControlM"
+"cu.c]"
 	      DstPort		      1
 	    }
 	    Line {
 	      SrcBlock		      "dre"
 	      SrcPort		      1
 	      Points		      [5, 0; 0, -15]
-	      DstBlock		      "Update PWM \nCommands1"
+	      DstBlock		      "Update PWM \nCommands1\n[updateControlM"
+"cu.c]"
 	      DstPort		      2
 	    }
 	    Line {
@@ -33606,27 +33619,27 @@ Model {
 	}
 	Block {
 	  BlockType		  Reference
-	  Name			  "GS Messages \nParser/Decoder\n[groundStatio"
-"nDriver.c]"
+	  Name			  "GS Messages \nParser/Decoder\n[mavlinkComms"
+"ControlMcu.c]"
 	  Tag			  "dsPIC_dsPIC_CFunctionCall"
 	  Ports			  [2, 1]
 	  Position		  [335, 142, 440, 178]
 	  BackgroundColor	  "orange"
 	  List {
 	    ListType		    RTWdata
-	    FctDeclaration	    "extern void protParseDecodeGS(uint8_T* u1"
+	    FctDeclaration	    "extern void protDecodeMavlink(uint8_T* u1"
 ");"
-	    FctCall		    "protParseDecodeGS(*%u1);"
-	    fctName		    "protParseDecodeGS"
-	    INPUT_SIZE		    "103"
+	    FctCall		    "protDecodeMavlink(*%u1);"
+	    fctName		    "protDecodeMavlink"
+	    INPUT_SIZE		    "109"
 	    OUTPUT_SIZE		    "1"
 	    NBR_INPUT		    "1"
 	    NBR_OUTPUT		    "0"
 	  }
 	  SourceBlock		  "dsPICdrivers/OTHERS/C Function Call"
 	  SourceType		  "C Function Call"
-	  fctName		  "'protParseDecodeGS'"
-	  INPUT_SIZE		  "103"
+	  fctName		  "'protDecodeMavlink'"
+	  INPUT_SIZE		  "109"
 	  INPUT1		  "uint8"
 	  INPUT2		  "--"
 	  INPUT3		  "--"
@@ -33635,31 +33648,32 @@ Model {
 	  SampleTime		  "-1"
 	  InputType		  "[ 2 ]"
 	  OutputType		  "[ ]"
-	  FctDeclaration	  "extern void protParseDecodeGS(uint8_T* u1);"
-	  FctCall		  "protParseDecodeGS(*%u1);"
+	  FctDeclaration	  "extern void protDecodeMavlink(uint8_T* u1);"
+	  FctCall		  "protDecodeMavlink(*%u1);"
 	  OrderingInOutPopup	  "Input & Output"
 	}
 	Block {
 	  BlockType		  Reference
-	  Name			  "Parser/Decoder\n[protDecoder.c]"
+	  Name			  "Parser/Decoder\n[mavlinkCommsControlMcu.c]"
 	  Tag			  "dsPIC_dsPIC_CFunctionCall"
 	  Ports			  [1, 1]
 	  Position		  [330, 232, 435, 268]
 	  BackgroundColor	  "orange"
 	  List {
 	    ListType		    RTWdata
-	    FctDeclaration	    "extern void protParseDecode(uint8_T* u1);"
-	    FctCall		    "protParseDecode(*%u1);"
-	    fctName		    "protParseDecode"
-	    INPUT_SIZE		    "104"
+	    FctDeclaration	    "extern void protDecodeMavlink(uint8_T* u1"
+");"
+	    FctCall		    "protDecodeMavlink(*%u1);"
+	    fctName		    "protDecodeMavlink"
+	    INPUT_SIZE		    "109"
 	    OUTPUT_SIZE		    "1"
 	    NBR_INPUT		    "1"
 	    NBR_OUTPUT		    "0"
 	  }
 	  SourceBlock		  "dsPICdrivers/OTHERS/C Function Call"
 	  SourceType		  "C Function Call"
-	  fctName		  "'protParseDecode'"
-	  INPUT_SIZE		  "104"
+	  fctName		  "'protDecodeMavlink'"
+	  INPUT_SIZE		  "109"
 	  INPUT1		  "uint8"
 	  INPUT2		  "--"
 	  INPUT3		  "--"
@@ -33668,14 +33682,14 @@ Model {
 	  SampleTime		  "-1"
 	  InputType		  "[ 2 ]"
 	  OutputType		  "[ ]"
-	  FctDeclaration	  "extern void protParseDecode(uint8_T* u1);"
-	  FctCall		  "protParseDecode(*%u1);"
+	  FctDeclaration	  "extern void protDecodeMavlink(uint8_T* u1);"
+	  FctCall		  "protDecodeMavlink(*%u1);"
 	  OrderingInOutPopup	  "Output"
 	}
 	Block {
 	  BlockType		  Reference
-	  Name			  "update Load of \nControl MCU\n[groundStatio"
-"nDriver.c]"
+	  Name			  "update Load of \nControl MCU\n[updateContro"
+"lMcu.c]"
 	  Tag			  "dsPIC_dsPIC_CFunctionCall"
 	  Ports			  [2, 1]
 	  Position		  [330, 52, 435, 88]
@@ -33717,43 +33731,43 @@ Model {
 	Line {
 	  SrcBlock		  "IPC"
 	  SrcPort		  1
-	  DstBlock		  "Parser/Decoder\n[protDecoder.c]"
+	  DstBlock		  "Parser/Decoder\n[mavlinkCommsControlMcu.c]"
 	  DstPort		  1
 	}
 	Line {
 	  SrcBlock		  "GS"
 	  SrcPort		  1
-	  DstBlock		  "GS Messages \nParser/Decoder\n[groundStatio"
-"nDriver.c]"
+	  DstBlock		  "GS Messages \nParser/Decoder\n[mavlinkComms"
+"ControlMcu.c]"
 	  DstPort		  1
 	}
 	Line {
 	  SrcBlock		  "Load"
 	  SrcPort		  1
-	  DstBlock		  "update Load of \nControl MCU\n[groundStatio"
-"nDriver.c]"
+	  DstBlock		  "update Load of \nControl MCU\n[updateContro"
+"lMcu.c]"
 	  DstPort		  1
 	}
 	Line {
-	  SrcBlock		  "Parser/Decoder\n[protDecoder.c]"
+	  SrcBlock		  "Parser/Decoder\n[mavlinkCommsControlMcu.c]"
 	  SrcPort		  1
 	  Points		  [0, -30; -120, 0]
-	  DstBlock		  "GS Messages \nParser/Decoder\n[groundStatio"
-"nDriver.c]"
+	  DstBlock		  "GS Messages \nParser/Decoder\n[mavlinkComms"
+"ControlMcu.c]"
 	  DstPort		  2
 	}
 	Line {
-	  SrcBlock		  "GS Messages \nParser/Decoder\n[groundStatio"
-"nDriver.c]"
+	  SrcBlock		  "GS Messages \nParser/Decoder\n[mavlinkComms"
+"ControlMcu.c]"
 	  SrcPort		  1
 	  Points		  [0, -25; -130, 0]
-	  DstBlock		  "update Load of \nControl MCU\n[groundStatio"
-"nDriver.c]"
+	  DstBlock		  "update Load of \nControl MCU\n[updateContro"
+"lMcu.c]"
 	  DstPort		  2
 	}
 	Line {
-	  SrcBlock		  "update Load of \nControl MCU\n[groundStatio"
-"nDriver.c]"
+	  SrcBlock		  "update Load of \nControl MCU\n[updateContro"
+"lMcu.c]"
 	  SrcPort		  1
 	  DstBlock		  "$"
 	  DstPort		  1
@@ -33772,8 +33786,8 @@ Model {
       MaskHideContents	      off
       System {
 	Name			"Update PWM Commands\nand Send Telemetry"
-	Location		[19, 90, 1185, 1008]
-	Open			on
+	Location		[19, 90, 1185, 797]
+	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -33828,8 +33842,8 @@ Model {
 	}
 	Block {
 	  BlockType		  Reference
-	  Name			  "Create Telemetry \nSentence\n[mavlinkSlugsr"
-".c]"
+	  Name			  "Create Telemetry \nSentence\n[mavlinkCommsC"
+"ontrolMcu.c]"
 	  Tag			  "dsPIC_dsPIC_CFunctionCall"
 	  Ports			  [1, 1]
 	  Position		  [935, 67, 1065, 103]
@@ -36760,7 +36774,7 @@ Model {
 	}
 	Block {
 	  BlockType		  Reference
-	  Name			  "Update PQR\n[groundStationDriver.c] "
+	  Name			  "Update PQR\nupdateControlMcu.c] "
 	  Tag			  "dsPIC_dsPIC_CFunctionCall"
 	  Ports			  [2, 1]
 	  Position		  [800, 52, 905, 88]
@@ -36793,8 +36807,7 @@ Model {
 	}
 	Block {
 	  BlockType		  Reference
-	  Name			  "Update PWM \nCommands\n[groundStationDriver"
-".c]"
+	  Name			  "Update PWM \nCommands\n[updateControlMcu.c]"
 	  Tag			  "dsPIC_dsPIC_CFunctionCall"
 	  Ports			  [1, 1]
 	  Position		  [525, 67, 630, 103]
@@ -36827,8 +36840,8 @@ Model {
 	}
 	Block {
 	  BlockType		  Reference
-	  Name			  "Update the Euler Angles\n[groundStationDriv"
-"er.c] "
+	  Name			  "Update the Euler Angles\n[updateControlMcu."
+"c] "
 	  Tag			  "dsPIC_dsPIC_CFunctionCall"
 	  Ports			  [2, 1]
 	  Position		  [665, 52, 770, 88]
@@ -37020,8 +37033,8 @@ Model {
 	  }
 	}
 	Line {
-	  SrcBlock		  "Create Telemetry \nSentence\n[mavlinkSlugsr"
-".c]"
+	  SrcBlock		  "Create Telemetry \nSentence\n[mavlinkCommsC"
+"ontrolMcu.c]"
 	  SrcPort		  1
 	  DstBlock		  "Send Data to Radio\nModem\n[groundStationDr"
 "iver.c]"
@@ -37106,8 +37119,7 @@ Model {
 	Line {
 	  SrcBlock		  "myMux Fun1"
 	  SrcPort		  1
-	  DstBlock		  "Update PWM \nCommands\n[groundStationDriver"
-".c]"
+	  DstBlock		  "Update PWM \nCommands\n[updateControlMcu.c]"
 	  DstPort		  1
 	}
 	Line {
@@ -37128,40 +37140,39 @@ Model {
 	  SrcBlock		  "Euler_rot"
 	  SrcPort		  1
 	  Points		  [-80, 0; 0, 30]
-	  DstBlock		  "Update the Euler Angles\n[groundStationDriv"
-"er.c] "
+	  DstBlock		  "Update the Euler Angles\n[updateControlMcu."
+"c] "
 	  DstPort		  1
 	}
 	Line {
 	  SrcBlock		  "PQR_rot"
 	  SrcPort		  1
 	  Points		  [-45, 0]
-	  DstBlock		  "Update PQR\n[groundStationDriver.c] "
+	  DstBlock		  "Update PQR\nupdateControlMcu.c] "
 	  DstPort		  1
 	}
 	Line {
-	  SrcBlock		  "Update PWM \nCommands\n[groundStationDriver"
-".c]"
+	  SrcBlock		  "Update PWM \nCommands\n[updateControlMcu.c]"
 	  SrcPort		  1
 	  Points		  [5, 0; 0, -5]
-	  DstBlock		  "Update the Euler Angles\n[groundStationDriv"
-"er.c] "
+	  DstBlock		  "Update the Euler Angles\n[updateControlMcu."
+"c] "
 	  DstPort		  2
 	}
 	Line {
-	  SrcBlock		  "Update the Euler Angles\n[groundStationDriv"
-"er.c] "
+	  SrcBlock		  "Update the Euler Angles\n[updateControlMcu."
+"c] "
 	  SrcPort		  1
 	  Points		  [5, 0; 0, 10]
-	  DstBlock		  "Update PQR\n[groundStationDriver.c] "
+	  DstBlock		  "Update PQR\nupdateControlMcu.c] "
 	  DstPort		  2
 	}
 	Line {
-	  SrcBlock		  "Update PQR\n[groundStationDriver.c] "
+	  SrcBlock		  "Update PQR\nupdateControlMcu.c] "
 	  SrcPort		  1
 	  Points		  [5, 0; 0, 15]
-	  DstBlock		  "Create Telemetry \nSentence\n[mavlinkSlugsr"
-".c]"
+	  DstBlock		  "Create Telemetry \nSentence\n[mavlinkCommsC"
+"ontrolMcu.c]"
 	  DstPort		  1
 	}
       }
@@ -45990,7 +46001,7 @@ Stateflow {
 						"\t\n"
 						"oldValues(1) = latest;\n"
 						"history(1) = latest;"
-			editorLayout             		"100 M4x1[146 214 671 364]"
+			editorLayout             		"100 M4x1[146 214 1654 1058]"
 			treatIntsAsFixpt         		0
 		}
 	}

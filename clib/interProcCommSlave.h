@@ -28,17 +28,21 @@ THE SOFTWARE.
 
 #include "apDefinitions.h"
 #include "circBuffer.h"
+#include "mavlinkControlMcu.h"
+#include "groundstationDriver.h"
+#include "apUtils.h"
+
 #include <p33fxxxx.h>
 #include <spi.h>
+
 #include <stdlib.h>
 #include <stdarg.h>
-#include "protDecoder.h"
-#include "apUtils.h"
+
 
 
 void spiSlaveInit (void);
-void printToUart2 (const char *fmt, ...);
 void readIpc (unsigned char* bufferedData);
 
+void controlMCUInit (void);
 
 #endif /* _INTERPROCCOMMSLAVE_ */

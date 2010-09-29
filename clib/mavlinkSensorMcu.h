@@ -1,6 +1,10 @@
 #ifndef _MAVLINKSENSORMCU_H_
 #define _MAVLINKSENSORMCU_H_
 
+#ifdef __cplusplus
+       extern "C"{
+#endif
+       	
 #include "mavlink.h"
 
   extern mavlink_gps_raw_t	mlGpsData;
@@ -21,4 +25,8 @@
   
   void mavlinkInit (void);
 
+#ifdef __cplusplus
+       }
+#endif
+       
 #endif /* _MAVLINKSENSORMCU_H_ */

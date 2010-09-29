@@ -124,7 +124,7 @@ extern int  WritePMLow(int, int);
 extern int  WritePMLowB(int, int);
 
 void            UnlockWrite         (void);
-int		        GetPageStatus       (unsigned char page, unsigned volatile char field);
+int		          GetPageStatus       (unsigned char page, unsigned volatile char field);
 void            ErasePage           (unsigned char page);
 char            IncEWCount          (unsigned char *index);
 unsigned int    GetNextAvailCount   (void);

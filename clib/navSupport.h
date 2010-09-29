@@ -31,7 +31,7 @@ THE SOFTWARE.
 #endif
        	
 #include "apDefinitions.h"
-#include "protDecoder.h"
+#include "mavlinkControlMcu.h"
        	       	
 void getMidLevelCommands (float* commands);
 unsigned char isApManual (void);

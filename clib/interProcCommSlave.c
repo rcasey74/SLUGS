@@ -40,29 +40,46 @@ THE SOFTWARE.
 // =========================================================
 #include "interProcCommSlave.h"
 
-//Structure arrays for incomming data
-//struct tGpsData gpsDataBuffer [3];
-//struct tRawData rawDataBuffer [3];
-//unsigned char currentBuffer = 0, lastBuffer =2;
-
 // Global Circular buffer
 struct CircBuffer spiBuffer;
 CBRef protBuffer;
 
 
-void spiSlaveInit(void){
-	// Initialize the circular buffer
-	protBuffer = &spiBuffer;
-	newCircBuffer (protBuffer);
+void controlMCUInit(void){
+	unsigned char eepInitMsg = 0;
 	
-	// Configure the Analog pins B2, and SPI pins as digital.
+	// Initialize the SPI Port for IPC
+	spiSlaveInit();
+	
+	// initialize the Protocol Parser and Decoder
+	mavlinkInit();
+	
+	// Initialize the UART2 port for Telemetry
+	uart2Init();
+	
+	// Initialize EEPROM emulator and Load Data from EEPROM if the initialization worked
+	if (EEPInit() == PIDEEP_MEMORY_OK){
+	   loadEEPData();
+	}
+	
+	// Turn the reboot flag on
+	mlBoot.version = 2;			
+}
+
+
+void spiSlaveInit(void){
+	  // Initialize the circular buffer
+	  protBuffer = &spiBuffer;
+	  newCircBuffer (protBuffer);
+	
+	  // Configure the Analog pins B2, and SPI pins as digital.
     // This  is done as work-around for a bug in the
     // dspic blockset version 0.98d
     AD1PCFGLbits.PCFG2 	= 1;
-	AD2PCFGLbits.PCFG2 	= 1;
-	TRISFbits.TRISF7 	= 1;	
-	TRISFbits.TRISF8 	= 0;
-	TRISBbits.TRISB2 	= 1;
+	  AD2PCFGLbits.PCFG2 	= 1;
+	  TRISFbits.TRISF7 	= 1;	
+	  TRISFbits.TRISF8 	= 0;
+	  TRISBbits.TRISB2 	= 1;
 	
 	
     // SPI1CON1 Register Settings
@@ -92,7 +109,7 @@ void spiSlaveInit(void){
     // clear the error flag
     IFS0bits.SPI1EIF	= 0;
     // clear the overflow flag
-	SPI1STATbits.SPIROV = 0;
+	  SPI1STATbits.SPIROV = 0;
     
     // Enable the interrupts
     IPC2bits.SPI1IP 	= 6;
@@ -110,21 +127,13 @@ void readIpc (unsigned char* bufferedData){
 	
 	
 	unsigned int i=0;
-	unsigned int availBytes = 0, sendMore = 0;
-	unsigned char failureTrue = 0;
-	
-	//static unsigned long long timeStamp = 0;
+	//unsigned int availBytes = 0, sendMore = 0;
+	//unsigned char failureTrue = 0;
 	
 	
 	// Set the output size accordingly
-	bufferedData[0] = (tmpLen > MAXLOGLEN)? MAXLOGLEN: tmpLen;
+	bufferedData[0] = (tmpLen > MAXSEND)? MAXSEND: tmpLen;
 	
-	// TODO: Remove debugging info from readIPC
-	//if ((timeStamp % 1000)== 0){
-	//	printToUart2("T: %6.0f\n\r\0",(float) timeStamp*0.01);
-	//}
-	//timeStamp++;
-		
 	// write the data 
 	for(i = 1; i <= bufferedData[0]; i += 1 )
 	{
@@ -132,6 +141,12 @@ void readIpc (unsigned char* bufferedData){
 	}
 	
 	
+	// Put the Comm Port Number in the last Element of the array
+	// 0 Means SPI
+	bufferedData[MAXSEND+1] = 0;
+	
+	// Debug data for overflow diagnostics
+	#if 0  
 	if (getOverflow(protBuffer)>0){
 		// disable the SPI module
 		SPI1STATbits.SPIEN  = 0;    
@@ -143,10 +158,10 @@ void readIpc (unsigned char* bufferedData){
     	printToUart2("\n=== %s =====\n\r\n\r\n\r", "BEGIN DUMP ");
     	//printToUart2("Ts: %f\n\r\0",(float) timeStamp*0.01);
     	printToUart2("Ovrflw: %d\n\r", getOverflow(protBuffer));
- 		printToUart2("Head: %d\n\r", readHead(protBuffer));
-		printToUart2("Tail: %d\n\r", readTail(protBuffer));
-		printToUart2("Len: %d\n\r", getLength(protBuffer));
-		printToUart2("Siz: %d\n\r", protBuffer->size);
+ 			printToUart2("Head: %d\n\r", readHead(protBuffer));
+			printToUart2("Tail: %d\n\r", readTail(protBuffer));
+			printToUart2("Len: %d\n\r", getLength(protBuffer));
+			printToUart2("Siz: %d\n\r", protBuffer->size);
    	
     	
     	for(i = 0; i <BSIZE; i ++ )
@@ -157,7 +172,7 @@ void readIpc (unsigned char* bufferedData){
     	printToUart2("\n=== %s =====\n\r\n\r\n\r", "END ");
     	
     	// Empty the buffer
-		makeEmpty(protBuffer);
+			makeEmpty(protBuffer);
 
 
     	// Enable the interrupts
@@ -168,7 +183,7 @@ void readIpc (unsigned char* bufferedData){
 		SPI1STATbits.SPIEN  = 1;    
 
 	}
-		
+	#endif
 }
 
 // Interrupt service routine for SPI1 Slave 

@@ -26,23 +26,23 @@ THE SOFTWARE.
 #include "navSupport.h"
 
 void getMidLevelCommands(float* commands) {
-	commands[0] = comControlData.airspeedCommand.flData;
-	commands[1] = comControlData.hCommand.flData;
-	commands[2] = comControlData.rCommand.flData;
+	commands[0] = mlMidLevelCommands.uCommand;
+	commands[1] = mlMidLevelCommands.hCommand;
+	commands[2] = mlMidLevelCommands.rCommand;
 }
 
 unsigned char isApManual (void) {
-	return apsControlData.controlType == CTRL_TYPE_MANUAL;
+	return mlApMode.mode == MAV_MODE_MANUAL;
 }
 
 void getPidIdx(unsigned char idx, float* PID){
-	PID[0] = pidControlData.P[idx].flData;
-	PID[1] = pidControlData.I[idx].flData;
-	PID[2] = pidControlData.D[idx].flData; 
+	PID[0] = mlPidValues.P[idx];
+	PID[1] = mlPidValues.I[idx];
+	PID[2] = mlPidValues.D[idx]; 
 }
 
 float getDynamic (void) {
-	return dynTempControlData.dynamic.flData;
+	return mlAirData.dynamicPressure;
 } 
 
 void getAttitude ( float* attitude){	
@@ -131,9 +131,10 @@ unsigned char getPassValues (unsigned char * pasVals){
 }
 
 void setCurrentCommands (float airSpeed){
-	comControlData.hCommand.flData = xyzControlData.Zcoord.flData;
-	comControlData.airspeedCommand.flData = airSpeed; 
-	comControlData.rCommand.flData = 0.0;
+	mlMidLevelCommands.uCommand = airspeed;
+	mlMidLevelCommands.hCommand = mlLocalPositionData.z;
+	mlMidLevelCommands.rCommand = 0.0;
+	
 }
 
 

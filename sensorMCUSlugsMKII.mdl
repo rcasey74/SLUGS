@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.898"
+    ComputedModelVersion    "1.900"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Fri Sep 17 09:13:21 2010"
-  ModelVersionFormat	  "1.%<AutoIncrement:898>"
+  LastModifiedDate	  "Fri Sep 17 10:59:46 2010"
+  ModelVersionFormat	  "1.%<AutoIncrement:900>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -982,7 +982,7 @@ Model {
   System {
     Name		    "sensorMCUSlugsMKII"
     Location		    [58, 97, 1204, 692]
-    Open		    off
+    Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    212
     ScreenColor		    "white"
@@ -29206,7 +29206,7 @@ Model {
       System {
 	Name			"To Control \nMCU"
 	Location		[402, 180, 1127, 845]
-	Open			on
+	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	212
 	ScreenColor		"white"
@@ -29268,7 +29268,7 @@ Model {
 	Block {
 	  BlockType		  Inport
 	  Name			  "HIL ON?"
-	  Position		  [535, 48, 565, 62]
+	  Position		  [615, 108, 645, 122]
 	  BackgroundColor	  "darkGreen"
 	  Port			  "7"
 	  IconDisplay		  "Port number"
@@ -29288,13 +29288,6 @@ Model {
 	  BackgroundColor	  "darkGreen"
 	  Port			  "9"
 	  IconDisplay		  "Port number"
-	}
-	Block {
-	  BlockType		  Constant
-	  Name			  "Constant"
-	  Position		  [615, 100, 645, 130]
-	  Value			  "0"
-	  OutDataTypeMode	  "uint8"
 	}
 	Block {
 	  BlockType		  SubSystem
@@ -29527,11 +29520,6 @@ Model {
 "* y1);"
 	  FctCall		  "scheduleData(%u1, *%y1);"
 	  OrderingInOutPopup	  "Input"
-	}
-	Block {
-	  BlockType		  Terminator
-	  Name			  "Terminator"
-	  Position		  [625, 50, 645, 70]
 	}
 	Block {
 	  BlockType		  Reference
@@ -29944,13 +29932,6 @@ Model {
 	}
 	Line {
 	  SrcBlock		  "HIL ON?"
-	  SrcPort		  1
-	  Points		  [20, 0; 0, 5]
-	  DstBlock		  "Terminator"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Constant"
 	  SrcPort		  1
 	  Points		  [25, 0; 0, 25]
 	  DstBlock		  "Send Debug \nData to Serial Port\nand Prepa"

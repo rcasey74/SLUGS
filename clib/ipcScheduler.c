@@ -77,7 +77,7 @@ void schedulerInit (void){
 
 	// DMA0CNT Register
 	// ==============
-	DMA0CNT = LOGSEND-1;
+	DMA0CNT = MAXSEND-1;
 
 	// DMA0STA Register
 	// ================
@@ -160,7 +160,7 @@ void scheduleData (unsigned char hilOn, unsigned char* dataOut){
 	memset(&msg,0,sizeof(mavlink_message_t));
 		
 	switch (samplePeriod){
-		case 1: //GPS 
+		case 1: //GPS and Heartbeat
 			mavlink_msg_heartbeat_pack(SLUGS_SYSTEMID, 
 																 SLUGS_COMPID, 
 																 &msg, 
@@ -231,10 +231,12 @@ void scheduleData (unsigned char hilOn, unsigned char* dataOut){
 			// it there has been a reboot
 			if(mlBoot.version == 1){
 			 // Copy the message to the send buffer
+			// indicating there has been a reboot
 			 mavlink_msg_boot_pack(SLUGS_SYSTEMID, 
 														 SLUGS_COMPID, 
 														 &msg, 
-														 1);
+														 mlBoot.version);
+			 // Reset the reboot flag since the reboot message has been sent
 			 mlBoot.version=0;
 		  } else {
 				// Copy the message to the send buffer
