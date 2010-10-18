@@ -42,10 +42,11 @@
 	extern mavlink_pid_t							mlSinglePid; 					// 	^^	^^
 	extern mavlink_waypoint_values_t	mlWpValues;						// 	..	**	defined in mavlinkControlMcu.h
 	extern mavlink_waypoint_t					mlSingleWp;						// 	^^	^^
-	extern mavlink_slugs_navigation_t	mlNavigation; 				// 	--  		
+	extern mavlink_slugs_navigation_t	mlNavigation; 				// 	--  ==		
 	extern mavlink_data_log_t					mlDataLog; 						// 	--	==
 	extern mavlink_ctrl_srfc_pt_t			mlPassthrough; 				// 	..	**
-	extern mavlink_acktion_ack_t			mlActionAck; 					// 	-- 
+	extern mavlink_attitude_t 				mlAttitudeRotated;		// 	--	==
+	extern mavlink_action_ack_t				mlActionAck; 					// 	-- 	==
 	extern mavlink_pending_requests_t mlPending; 						//	--	**
 	extern mavlink_ping_t							mlPing; 							// 	..	**
 	extern mavlink_slugs_action_t			mlAction; 						// 	..	**

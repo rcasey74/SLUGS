@@ -27,6 +27,7 @@ mavlink_slugs_navigation_t	mlNavigation;
 mavlink_data_log_t					mlDataLog;
 mavlink_ctrl_srfc_pt_t			mlPassthrough
 mavlink_attitude_t 					mlAttitudeRotated;
+mavlink_action_ack_t				mlActionAck;	
 mavlink_pending_requests_t  mlPending;
 mavlink_ping_t							mlPing;
 mavlink_slugs_action_t			mlAction;
@@ -62,12 +63,13 @@ void mavlinkInit (void){
 	memset(&mlDataLog ,0, sizeof(mavlink_data_log_t));	
 	memset(&mlPassthrough ,0, sizeof(mavlink_ctrl_srfc_pt_t));	
 	memset(&mlAttitudeRotated ,0, sizeof(mavlink_attitude_t));	
+	memset(&mlActionAck,0, sizeof(mavlink_action_ack_t));	
 	memset(&mlPending ,0, sizeof(mavlink_pending_requests_t));	
 	memset(&mlPing ,0, sizeof(mavlink_ping_t));	
 	memset(&mlAction ,0, sizeof(mavlink_slugs_action_t));	
 	
 	
 	mlPending.requestCount = 0;
-
+	mlActionAck.action = SLUGS_ACTION_NONE;
 }
 
