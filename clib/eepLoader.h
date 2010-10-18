@@ -23,8 +23,8 @@ THE SOFTWARE.
 
 */
 
-#ifndef _GROUNDSTATIONDRIVER_H_
-#define _GROUNDSTATIONDRIVER_H_
+#ifndef _EEPLOADER_H_
+#define _EEPLOADER_H_
 
 #ifdef __cplusplus
        extern "C"{
@@ -49,4 +49,4 @@ void loadEEPData (void);
 #endif
 
 
-#endif /* _GROUNDSTATIONDRIVER_H_ */
+#endif /* _EEPLOADER_H_ */

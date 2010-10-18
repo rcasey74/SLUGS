@@ -48,86 +48,74 @@ float getDynamic (void) {
 void getAttitude ( float* attitude){	
 		
 	// Return the values to the control algorithm
-	attitude[0] = attitudeControlData.roll.flData;
-	attitude[1] = attitudeControlData.pitch.flData;
-	attitude[2] = attitudeControlData.yaw.flData;
-	attitude[3] = attitudeControlData.p.flData;
-	attitude[4] = attitudeControlData.q.flData;
-	attitude[5] = attitudeControlData.r.flData;	
+	attitude[0] = mlAttitudeData.roll;
+	attitude[1] = mlAttitudeData.pitch;
+	attitude[2] = mlAttitudeData.yaw;
+	attitude[3] = mlAttitudeData.rollspeed;
+	attitude[4] = mlAttitudeData.pitchspeed;
+	attitude[5] = mlAttitudeData.yawspeed;	
 	
 }
 
 void getXYZ (float* xyz) {
-	xyz[0] =  xyzControlData.Xcoord.flData;
-	xyz[1] =  xyzControlData.Ycoord.flData;
-	xyz[2] =  xyzControlData.Zcoord.flData;
+	xyz[0] =  mlLocalPositionData.x;
+	xyz[1] =  mlLocalPositionData.y;
+	xyz[2] =  mlLocalPositionData.z;
 }
 
 void getVned (float* xyz) {
-	xyz[0] =  xyzControlData.VX.flData;
-	xyz[1] =  xyzControlData.VY.flData;
-	xyz[2] =  xyzControlData.VZ.flData;
+	xyz[0] =  mlLocalPositionData.vx;
+	xyz[1] =  mlLocalPositionData.vy;
+	xyz[2] =  mlLocalPositionData.vz;
 }
-unsigned char getMaxWp (void){
-	return wpsControlData.wpCount;
+uint8_t getMaxWp (void){
+	return mlWpValues.wpCount;
 }
 
 unsigned char isWpFly (void){
-	return apsControlData.controlType == CTRL_TYPE_AP_WP; 
+	return mlApMode.mode == MAV_MODE_AUTO;
 }
 
 void setDiagnosticFloat(float * flValues){
-	diagControlData.fl1.flData = flValues[0];
-	diagControlData.fl2.flData = flValues[1];
-	diagControlData.fl3.flData = flValues[2];	
+	mlDiagnosticData.diagFl1 = flValues[0];
+	mlDiagnosticData.diagFl2 = flValues[1];
+	mlDiagnosticData.diagFl3 = flValues[2];	
 }
 
-void setDiagnosticShort(short* shValues){
-	diagControlData.sh1.shData = shValues[0];
-	diagControlData.sh2.shData = shValues[1];
-	diagControlData.sh3.shData = shValues[2];	
+void setDiagnosticShort(int16_t* shValues){
+	mlDiagnosticData.diagSh1 = shValues[0];
+	mlDiagnosticData.diagSh2 = shValues[1];
+	mlDiagnosticData.diagSh3 = shValues[2];	
 }
 
 void getWP (unsigned char idx, float* WPpos){
-	WPpos[0] = wpsControlData.lat[idx-1].flData;
-	WPpos[1] = wpsControlData.lon[idx-1].flData;
-	WPpos[2] = wpsControlData.hei[idx-1].flData;
-}
-
-void setDiagnosticAb(float * flValues){
-	biasControlData.axb.flData = flValues[0];
-	biasControlData.ayb.flData = flValues[1];
-	biasControlData.azb.flData = flValues[2];	
-}
-
-void setDiagnosticGb(float * flValues){
-	biasControlData.gxb.flData = flValues[0];
-	biasControlData.gyb.flData = flValues[1];
-	biasControlData.gzb.flData = flValues[2];	
+	WPpos[0] = mlWpValues.lat[idx-1];
+	WPpos[1] = mlWpValues.lon[idx-1];
+	WPpos[2] = mlWpValues.alt[idx-1];
 }
 
 
 void setLogFloat1(float * flValues){
-	logControlData.fl1.flData = flValues[0];
-	logControlData.fl2.flData = flValues[1];
-	logControlData.fl3.flData = flValues[2];	
+	mlDataLog.fl_1 = flValues[0];
+	mlDataLog.fl_2 = flValues[1];
+	mlDataLog.fl_3 = flValues[2];	
 }
 
 void setLogFloat2(float * flValues){
-	logControlData.fl4.flData = flValues[0];
-	logControlData.fl5.flData = flValues[1];
-	logControlData.fl6.flData = flValues[2];	
+	mlDataLog.fl_4 = flValues[0];
+	mlDataLog.fl_5 = flValues[1];
+	mlDataLog.fl_6 = flValues[2];	
 }
 
 unsigned char getApControlType (void) {
-	return apsControlData.controlType;
+	return mlApMode.mode;
 }
 
-unsigned char getPassValues (unsigned char * pasVals){
-	pasVals[0] = apsControlData.dt_pass;
-	pasVals[1] = apsControlData.dla_pass;
-	pasVals[2] = apsControlData.dr_pass;
-	pasVals[3] = apsControlData.dle_pass;
+unsigned char getPassValues (uint8_t* pasVals){
+	pasVals[0] = (uint8_t)(mlPassthrough.bitfieldPt & 128);
+	pasVals[1] = (uint8_t)(mlPassthrough.bitfieldPt & 64);
+	pasVals[2] = (uint8_t)(mlPassthrough.bitfieldPt & 16);
+	pasVals[3] = (uint8_t)(mlPassthrough.bitfieldPt & 8);	
 }
 
 void setCurrentCommands (float airSpeed){
@@ -139,33 +127,33 @@ void setCurrentCommands (float airSpeed){
 
 
 void setNavLong (float* values) {
-	navControlData.uMeasured.flData = values[0];
-	navControlData.thetaCommanded.flData = values[1];
+	mlNavigation.u_m 		 = values[0];
+	mlNavigation.theta_c = values[1];
 }
 
 void setNavLat (float* values) {
-	navControlData.psiDotCommanded.flData = values[0];
-	navControlData.phiCommanded.flData = values[1];
-	navControlData.rHighPass.flData = values[2];
+	mlNavigation.psiDot_c = values[0];
+	mlNavigation.phi_c    = values[1];
+	mlNavigation.ay_body  = values[2];
 }
 
 void setNavNav (float* values) {
-	navControlData.totRun.flData = values[0];
-	navControlData.distance2Go.flData = values[1];
-	navControlData.fromWp = (unsigned char) values[2];
-	navControlData.toWp = (unsigned char) values[3];
+	mlNavigation.totalDist = values[0];
+	mlNavigation.dist2Go   = values[1];
+	mlNavigation.fromWP 	 = (uint8_t) values[2];
+	mlNavigation.toWP 		 = (uint8_t) values[3];
 }
 
 void getAccels (float * accels){
-	accels[0] = senControlData.Ax.flData;
-	accels[1] = senControlData.Ay.flData;
-	accels[2] = senControlData.Az.flData;
+	accels[0] = mlFilteredData.aX;
+	accels[1] = mlFulteredData.aY;
+	accels[2] = mlFulteredData.aZ;
 }
 
 void getAccBias (float * bias){
-	bias[0] = biasControlData.axb.flData;
-	bias[1] = biasControlData.ayb.flData;
-	bias[2] = biasControlData.azb.flData;
+	bias[0] = mlSensorBiasData.axBias;
+	bias[1] = mlSensorBiasData.ayBias;
+	bias[2] = mlSensorBiasData.azBias;
 }
 
 // void bufferICValues(unsigned short latest, unsigned short* history){

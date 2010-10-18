@@ -14,12 +14,22 @@ mavlink_filtered_data_t 		mlFilteredData;
 mavlink_boot_t 							mlBoot;
 mavlink_system_time_t 			mlSystemTime;
 mavlink_gps_date_time_t 		mlGpsDateTime;
-mavlink_heartbeat_t 				mlHeartbeat;
 
+mavlink_heartbeat_t 				mlHeartbeat;
 mavlink_mid_lvl_cmds_t 			mlMidLevelCommands;
 mavlink_set_mode_t 					mlApMode;
 mavlink_pwm_commands_t			mlPwmCommands;
-mavlink_pid_values_t				mlPidValues;
+mavlink_pid_values_t				mlPidValues;		//defined in mavlinkControlMcu.h
+mavlink_set_pid_t						mlSinglePid;
+mavlink_waypoint_values_t		mlWpValues;			//defined in mavlinkControlMcu.h
+mavlink_waypoint_t					mlSingleWp;
+mavlink_slugs_navigation_t	mlNavigation;		
+mavlink_data_log_t					mlDataLog;
+mavlink_ctrl_srfc_pt_t			mlPassthrough
+mavlink_attitude_t 					mlAttitudeRotated;
+mavlink_pending_requests_t  mlPending;
+mavlink_ping_t							mlPing;
+mavlink_slugs_action_t			mlAction;
 
 
 void mavlinkInit (void){
@@ -45,5 +55,19 @@ void mavlinkInit (void){
 	memset(&mlApMode ,0, sizeof(mavlink_set_mode_t));	
 	memset(&mlPwmCommands ,0, sizeof(mavlink_pwm_commands_t));	
 	memset(&mlPidValues ,0, sizeof(mavlink_pid_values_t));	
+	memset(&mlSinglePid ,0, sizeof(mavlink_pid_t));	
+	memset(&mlWpValues ,0, sizeof(mavlink_waypoint_values_t));	
+	memset(&mlSingleWp ,0, sizeof(mavlink_waypoint_t));	
+	memset(&mlNavigation ,0, sizeof(mavlink_slugs_navigation_t));	
+	memset(&mlDataLog ,0, sizeof(mavlink_data_log_t));	
+	memset(&mlPassthrough ,0, sizeof(mavlink_ctrl_srfc_pt_t));	
+	memset(&mlAttitudeRotated ,0, sizeof(mavlink_attitude_t));	
+	memset(&mlPending ,0, sizeof(mavlink_pending_requests_t));	
+	memset(&mlPing ,0, sizeof(mavlink_ping_t));	
+	memset(&mlAction ,0, sizeof(mavlink_slugs_action_t));	
+	
+	
+	mlPending.requestCount = 0;
+
 }
 

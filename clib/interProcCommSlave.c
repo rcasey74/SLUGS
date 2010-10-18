@@ -58,7 +58,7 @@ void controlMCUInit(void){
 	uart2Init();
 	
 	// Initialize EEPROM emulator and Load Data from EEPROM if the initialization worked
-	if (EEPInit() == PIDEEP_MEMORY_OK){
+	if (EEPInit() == EEP_MEMORY_OK){
 	   loadEEPData();
 	}
 	

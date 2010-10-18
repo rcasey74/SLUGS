@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.722"
+    ComputedModelVersion    "1.724"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Sep 29 15:20:18 2010"
-  ModelVersionFormat	  "1.%<AutoIncrement:722>"
+  LastModifiedDate	  "Tue Oct 05 15:17:26 2010"
+  ModelVersionFormat	  "1.%<AutoIncrement:724>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -326,9 +326,9 @@ Model {
 	  CustomHeaderCode	  "\n"
 	  CustomInclude		  "..\\mavlink\\contrib\\slugs\\include\\"
 	  CustomSource		  "clib\\circBuffer.c\nclib\\sbrk.c\nclib\\int"
-"erProcCommSlave.c\nclib\\protDecoder.c\nclib\\groundStationDriver.c\nclib\\ap"
-"Utils.c\nclib\\DEE.c\nclib\\DEES.s\nclib\\navSupport.c\nclib\\mavlinkControlM"
-"cu.c"
+"erProcCommSlave.c\nclib\\eepLoader.c\nclib\\apUtils.c\nclib\\DEE.c\nclib\\DEE"
+"S.s\nclib\\navSupport.c\nclib\\mavlinkControlMcu.c\nclib\\updateControlMcuSta"
+"te.c"
 	  IncludeHyperlinkInReport on
 	  LaunchReport		  on
 	  TargetLang		  "C"
@@ -979,7 +979,7 @@ Model {
   }
   System {
     Name		    "controlMCUSlugsMKII"
-    Location		    [-1438, 78, -19, 880]
+    Location		    [6, 83, 1381, 605]
     Open		    off
     ModelBrowserVisibility  off
     ModelBrowserWidth	    188
@@ -30225,7 +30225,7 @@ Model {
       System {
 	Name			"PID Gains"
 	Location		[196, 652, 461, 922]
-	Open			on
+	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -33786,8 +33786,8 @@ Model {
       MaskHideContents	      off
       System {
 	Name			"Update PWM Commands\nand Send Telemetry"
-	Location		[19, 90, 1185, 797]
-	Open			off
+	Location		[18, 82, 1285, 635]
+	Open			on
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -36740,8 +36740,8 @@ Model {
 	}
 	Block {
 	  BlockType		  Reference
-	  Name			  "Send Data to Radio\nModem\n[groundStationDr"
-"iver.c]"
+	  Name			  "Send Data to Radio\nModem\n[mavlinkCommsCon"
+"trolMcu.c]"
 	  Tag			  "dsPIC_dsPIC_CFunctionCall"
 	  Ports			  [1]
 	  Position		  [1115, 67, 1220, 103]
@@ -37036,8 +37036,8 @@ Model {
 	  SrcBlock		  "Create Telemetry \nSentence\n[mavlinkCommsC"
 "ontrolMcu.c]"
 	  SrcPort		  1
-	  DstBlock		  "Send Data to Radio\nModem\n[groundStationDr"
-"iver.c]"
+	  DstBlock		  "Send Data to Radio\nModem\n[mavlinkCommsCon"
+"trolMcu.c]"
 	  DstPort		  1
 	}
 	Line {

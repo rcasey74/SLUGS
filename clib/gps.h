@@ -42,6 +42,16 @@ THE SOFTWARE.
 
 
 #define TOKEN_SIZE	15
+
+// GPS Checksum Messages
+// =====================
+#define GGACS			86
+#define RMCCS			75
+
+// GPS Circular Buffers
+// ====================
+#define MSIZE			150
+
       	
 void uartInit (void);
 void gpsSentenceConfig (void);

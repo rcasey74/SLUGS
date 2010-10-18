@@ -93,7 +93,6 @@ void sensorMCUInit(void){
 	uartInit();
 	schedulerInit();
 	spiMasterInit();
-	//protParserInit();
 	#ifndef NO_MAGNETO
 		magnetoInit();
 	#endif

@@ -128,37 +128,70 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 	// message's turn is to be sent
 	static uint8_t sampleTelemetry = 1;
 	
+	// Low frequency reporting flags (used inside particular cases)
+	static uint8_t sampleBiases = 1;
+	
 	// Contains the total bytes to send via the serial port
 	uint8_t bytes2Send = 0;
 	
 	memset(&msg,0,sizeof(mavlink_message_t));
 	
 	switch (sampleTelemetry){
-		case 1: // GPS and Heartbeat
-			// Pack the Heartbeat message
-			mavlink_msg_heartbeat_pack(SLUGS_SYSTEMID, 
-																 SLUGS_COMPID, 
-																 &msg, 
-																 MAV_FIXED_WING, 
-																 MAV_AUTOPILOT_SLUGS);
-			// Copy the message to the send buffer
-			bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);
-			
-			memset(&msg,0,sizeof(mavlink_message_t));
-			
+		case 1: // GPS or WPS/PID pending requests
+			if ((mlPending.pid > 0) || (mlPending.wp > 0){
+				if (mlPending.pid>0){
+					// send PID
+					mavlink_msg_pid_pack(SLUGS_SYSTEMID, 
+															 SLUGS_COMPID,
+															 &msg,
+															 GS_SYSTEMID,
+															 GS_COMPID,
+															 mlPending.pidIdx, 
+															 mlPidValues.P[mlPending.pidIdx], 
+															 mlPidValues.I[mlPending.pidIdx],
+															 mlPidValues.D[mlPending.pidIdx]);
+					
+					mlPending.pid = 0;
+					mlPending.pidIdx = 0;
+					
+				} else {
+					// Send WP
+					mavlink_msg_waypoint_pack(SLUGS_SYSTEMID, 
+																		SLUGS_COMPID,
+															 			&msg,
+															 			GS_SYSTEMID,
+															 			GS_COMPID,
+															 			mlPending.wpsIdx, 
+															 			mlWpValues.type[mlPending.wpsIdx], 
+															 			(float)mlWpValues.orbit[mlPending.wpsIdx],
+																		0,// always clockwise
+																		0.0,// Not used
+																		0.0,// Not used
+																		0,// Nor used
+																		mlWpValues.lon[mlPending.wpsIdx],
+																		mlWpValues.lat[mlPending.wpsIdx],
+																		mlWpValues.alt[mlPending.wpsIdx],
+																		0.0, //not used
+																		1); // always autocontinue
+					
+					mlPending.wp = 0;
+					mlPending.wpsIdx = 0;
+				}
+			} else {
 			// Pack the GPS message
-			mavlink_msg_gps_raw_pack(SLUGS_SYSTEMID, 
-																 SLUGS_COMPID, 
-																 &msg, 
-																 attitudeRotatedControlData.timeStamp.usData, 
-																 mlGpsData.fix_type, 
-																 mlGpsData.lat, 
-																 mlGpsData.lon, 
-																 mlGpsData.alt, 
-																 mlGpsData.eph, 
-																 0.0, 
-																 mlGpsData.v, 
-																 mlGpsData.hdg);															 
+				mavlink_msg_gps_raw_pack(SLUGS_SYSTEMID, 
+																	SLUGS_COMPID, 
+																	&msg, 
+																	attitudeRotatedControlData.timeStamp.usData, 
+																	mlGpsData.fix_type, 
+																	mlGpsData.lat, 
+																	mlGpsData.lon, 
+																	mlGpsData.alt, 
+																	mlGpsData.eph, 
+																	0.0, 
+																	mlGpsData.v, 
+																	mlGpsData.hdg);
+			} 
 			// Copy the message to the send buffer
 			bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);
 		break;
@@ -194,7 +227,18 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 
 		break;
 		
-		case 3: // XYZ
+		case 3: // XYZ and Heartbeat
+			// Pack the Heartbeat message
+			mavlink_msg_heartbeat_pack(SLUGS_SYSTEMID, 
+																 SLUGS_COMPID, 
+																 &msg, 
+																 MAV_FIXED_WING, 
+																 MAV_AUTOPILOT_SLUGS);
+			// Copy the message to the send buffer
+			bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);
+			
+			memset(&msg,0,sizeof(mavlink_message_t));
+			
 			mavlink_msg_local_position_pack( SLUGS_SYSTEMID, 
 																 			 SLUGS_COMPID, 
 																 			 &msg, 
@@ -234,11 +278,28 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 																 			mlPilotConsoleData.de);
 			// Copy the message to the send buffer
 			bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);
+			
+			if (mlPending.pt == 1){
+				// clear the message
+				memset(&msg,0,sizeof(mavlink_message_t));
+			
+				mavlink_msg_ctrl_srfc_pt_pack( SLUGS_SYSTEMID, 
+																 			SLUGS_COMPID, 
+																 			&msg, 
+																 			GS_SYSTEMID, 
+																 			mlPassthrough.bitfieldPt);
+				// Copy the message to the send buffer
+				bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);
+			
+				// Clear the flag
+				mlPending.pt = 0;
+			}
 				
 		break;
 		
-		case 5: // Biases
-			mavlink_msg_sensor_bias_pack( SLUGS_SYSTEMID, 
+		case 5: // Biases or Data Log depending on timing and midLvlCmds if requested
+			if (sampleBiases == 1){
+				mavlink_msg_sensor_bias_pack( SLUGS_SYSTEMID, 
 																 		SLUGS_COMPID, 
 																 		&msg, 
 																 		mlSensorBiasData.target, 
@@ -247,13 +308,47 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 																 		mlSensorBiasData.azBias, 
 																 		mlSensorBiasData.gxBias, 
 																 		mlSensorBiasData.gyBias, 
-																 		mlSensorBiasData.gzBias);
+																 		mlSensorBiasData.gzBias);			
+			} else {
+				mavlink_msg_data_log_pack( SLUGS_SYSTEMID, 
+																 	 SLUGS_COMPID, 
+																 	 &msg, 
+																 	 mlDataLog.fl1, 
+																 	 mlDataLog.fl2, 
+																 	 mlDataLog.fl3, 
+																 	 mlDataLog.fl4, 
+																 	 mlDataLog.fl5, 
+																 	 mlDataLog.fl6);
+			}
+			
 			// Copy the message to the send buffer
 			bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);
+
+			sampleBiases++;
+			sampleBiases = (sampleBiases>10)? 1 : sampleBiases + 1;
 			
+			// if there is a pending request for the Mid Level Commands
+			if (mlPending.midLvlCmds == 1){
+				// clear the msg
+				memset(&msg,0,sizeof(mavlink_message_t));
+				
+				mavlink_msg_mid_lvl_cmds_pack( SLUGS_SYSTEMID, 
+																   		 SLUGS_COMPID, 
+																   		 &msg, 
+																   		 GS_SYSTEMID,
+															 				 mlMidLevelCommands.hCommand,  
+															 				 mlMidLevelCommands.uCommand,  
+															 				 mlMidLevelCommands.rCommand);  
+				
+				// Copy the message to the send buffer
+				bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);
+				
+				// clear the flag
+				mlPending.midLvlCmds = 0;
+			}
 		break;
 		
-		case 6: // Diagnostic
+		case 6: // Diagnostic and Raw Pressure
 			mavlink_msg_diagnostic_pack( SLUGS_SYSTEMID, 
 																   SLUGS_COMPID, 
 																   &msg, 
@@ -266,7 +361,18 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 																   mlDiagnosticData.diagSh3);
 			// Copy the message to the send buffer
 			bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);
-						
+			
+			memset(&msg,0,sizeof(mavlink_message_t));
+
+			mavlink_msg_raw_pressure_pack( SLUGS_SYSTEMID, 
+																		 SLUGS_COMPID, 
+																		 &msg, 
+																		 mlRawPressureData.usec,  
+																		 mlRawPressureData.press_abs,  
+																		 mlRawPressureData.press_diff1,  
+																		 mlRawPressureData.press_diff2);
+			// Copy the message to the send buffer
+			bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);	
 		break;
 		
 		case 7: // Raw Sensor Data
@@ -285,24 +391,41 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 																mlRawImuData.zmag);
 			// Copy the message to the send buffer
 			bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);
-			
-			memset(&msg,0,sizeof(mavlink_message_t));
-
-			mavlink_msg_raw_pressure_pack( SLUGS_SYSTEMID, 
-																		 SLUGS_COMPID, 
-																		 &msg, 
-																		 mlRawPressureData.usec,  
-																		 mlRawPressureData.press_abs,  
-																		 mlRawPressureData.press_diff1,  
-																		 mlRawPressureData.press_diff2);
-			// Copy the message to the send buffer
-			bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);
-		
 		break;
 		
+		case 8: // Aknowledge, GPS Date time || Mid Lvl Commands Report, Ping Request
+		break;
 		
-	} // Case
+		case 9: // Navigation
+		break;
+		
+		case 10: // Filtered Data
+		break;
+		
+	} // Switch
 	
+	memset(&msg,0,sizeof(mavlink_message_t));
+	
+	// if the boot message is set then transmit it urgently
+	if (mlBoot.version != 0){
+		mavlink_boot_pack( SLUGS_SYSTEMID, 
+											 SLUGS_COMPID, 
+											 &msg, 
+											 mlBoot.version);
+											 
+		// reset the boot message
+		mlBoot.version = 0;	
+	} else {  // transmit the system time
+		mavlink_system_time_pack( SLUGS_SYSTEMID, 
+														SLUGS_COMPID, 
+														&msg, 
+														mlSystemTime.time_usec);													
+	}
+	
+	
+	// Copy the message to the send buffer	
+	bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg)
+
 	memset(&msg,0,sizeof(mavlink_message_t));
 	
 	mavlink_msg_attitude_pack( SLUGS_SYSTEMID, 
@@ -330,10 +453,12 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 
 void protDecodeMavlink (uint8_t* fromSource){
 	
-	uint8_t i;
+	uint8_t i, index, writeSuccess, commChannel = fromSource[MAXSEND+1];
+	uint16_t indexOffset;
 	uint32_t temp;
-	uint8_t commChannel = fromSource[];
 	
+	tFloatToChar tempFloat;
+
 	static int16_t packet_drops = 0;
 	mavlink_message_t msg;
 	mavlink_status_t status;
@@ -345,59 +470,225 @@ void protDecodeMavlink (uint8_t* fromSource){
 			// Handle message
 			switch(msg.msgid){
 				case MAVLINK_MSG_ID_HEARTBEAT:
-						mavlink_msg_heartbeat_decode(&msg, &mlHeartbeat);
+					mavlink_msg_heartbeat_decode(&msg, &mlHeartbeat);
 				break;
 				
 				case MAVLINK_MSG_ID_GPS_RAW:
-						mavlink_msg_gps_raw_decode(&msg, &mlGpsData);
+					mavlink_msg_gps_raw_decode(&msg, &mlGpsData);
 				break;
 				
 				case MAVLINK_MSG_ID_CPU_LOAD:
-						mavlink_msg_cpu_load_decode(&msg, &mlCpuLoadData);
+					mavlink_msg_cpu_load_decode(&msg, &mlCpuLoadData);
 				break;
 				
 				case MAVLINK_MSG_ID_LOCAL_POSITION:
-						mavlink_msg_local_position_decode(&msg, &mlLocalPositionData);
+					mavlink_msg_local_position_decode(&msg, &mlLocalPositionData);
 				break;
 				
 				case MAVLINK_MSG_ID_AIR_DATA:
-						mavlink_msg_air_data_decode(&msg, &mlAirData);
+					mavlink_msg_air_data_decode(&msg, &mlAirData);
 				break;
 				
 				case MAVLINK_MSG_ID_BOOT:
-						temp = mavlink_msg_boot_get_version(&msg);
-						
-						if (temp != 0 && mlBoot.version != 0){
-							mlBoot.version =3;
-						} else if (mlBoot == 0) {
-							mavlink_msg_air_data_decode(&msg, &mlBoot);	
-						}
+					temp = mavlink_msg_boot_get_version(&msg);
+					
+					if (temp != 0 && mlBoot.version != 0){
+						mlBoot.version += temp;
+					} else if (mlBoot.version == 0) {
+						mavlink_msg_air_data_decode(&msg, &mlBoot);	
+					}
 				break;
 				
 				case MAVLINK_MSG_ID_SENSOR_BIAS:
-						mavlink_msg_sensor_bias_decode(&msg, &mlSensorBiasData);
+					mavlink_msg_sensor_bias_decode(&msg, &mlSensorBiasData);
 				break
 				
 				case MAVLINK_MSG_ID_DIAGNOSTIC:
-						mavlink_msg_diagnostic_decode(&msg, &mlDiagnosticData);
+					mavlink_msg_diagnostic_decode(&msg, &mlDiagnosticData);
 				break;
 				
 				case MAVLINK_MSG_ID_PILOT_CONSOLE:
-						mavlink_msg_pilot_console_decode(&msg, &mlPilotConsoleData);
+					mavlink_msg_pilot_console_decode(&msg, &mlPilotConsoleData);
 				break;
 				
 				case MAVLINK_MSG_ID_FILTERED_DATA:
-						mavlink_msg_filtered_data_decode(&msg, &mlFilteredData);
+					mavlink_msg_filtered_data_decode(&msg, &mlFilteredData);
 				break;
 				
 				case MAVLINK_MSG_ID_ATTITUDE:
-						mavlink_msg_attitude_decode(&msg, mlAttitudeData);
+					mavlink_msg_attitude_decode(&msg, &mlAttitudeData);
 				break;
 				
 				case MAVLINK_MSG_ID_RAW_IMU:
-						mavlink_msg_raw_imu_decode(&msg, mlRawImuData);
+					mavlink_msg_raw_imu_decode(&msg, &mlRawImuData);
+				break;
+
+				case MAVLINK_MSG_ID_RAW_PRESSURE:
+					mavlink_msg_raw_pressure_decode(&msg, &mlRawPressureData);
 				break;
 				
+				case MAVLINK_MSG_ID_SYSTEM_TIME:
+					mavlink_msg_system_time_decode(&msg, &mlSystemTime);
+				break;
+				
+				case MAVLINK_MSG_ID_GPS_DATE_TIME:
+					mavlink_msg_gps_date_time_decode(&msg, &mlGpsDateTime);
+				break;
+				
+				//  End of Sensor MCU exclusive Messages
+				// =====================================
+				
+				case MAVLINK_MSG_ID_SET_MODE:
+					mavlink_msg_set_mode_decode(&msg, &mlApMode);
+					
+					// Report the Change
+					mlActionAck.action = SLUGS_ACTION_MODE_CHANGE;
+					mlActionAck.result = mlApMode.mode;	
+
+				break;
+
+ 				case MAVLINK_MSG_ID_MID_LVL_CMDS:
+					mavlink_msg_mid_lvl_cmds_decode(&msg, &mlMidLevelCommands);
+					
+					// Report the Change
+					mlActionAck.action = SLUGS_ACTION_MLC_CHANGE;
+					mlActionAck.result = SLUGS_ACTION_SUCCESS;	
+
+				break;				
+				case MAVLINK_MSG_ID_SET_PID:
+					mavlink_msg_set_pid_decode(&msg, &mlSinglePid);
+					
+					indx = mlSinglePid.pid_id
+					
+					// store the values in the temp array
+					mlPidValues.P[indx] = mlSinglePid.k_p;
+					mlPidValues.I[indx] = mlSinglePid.k_i;
+					mlPidValues.D[indx] = mlSinglePid.k_d;
+				
+					// Save the data to the EEPROM
+					indexOffset = indx*6;
+					
+					tempFloat.flData = mlSinglePid.k_p;
+					writeSuccess += DataEEWrite(tempFloat.shData[0], PID_OFFSET+indexOffset);
+					writeSuccess += DataEEWrite(tempFloat.shData[1], PID_OFFSET+indexOffset+1);
+					
+					tempFloat.flData = mlSinglePid.k_i;
+					writeSuccess += DataEEWrite(tempFloat.shData[0], PID_OFFSET+indexOffset+2);
+					writeSuccess += DataEEWrite(tempFloat.shData[1], PID_OFFSET+indexOffset+3);
+					
+					tempFloat.flData = mlSinglePid.k_d;
+					writeSuccess += DataEEWrite(tempFloat.shData[0], PID_OFFSET+indexOffset+4);
+					writeSuccess += DataEEWrite(tempFloat.shData[1], PID_OFFSET+indexOffset+5);
+				
+					// Set the flag of Aknowledge for the AKN Message
+					// if the write was successful
+					if (writeSuccess==0){
+						mlActionAck.action = SLUGS_ACTION_PID_CHANGE;
+						mlActionAck.result = indx+1;	
+					} else{
+						mlActionAck.action = SLUGS_ACTION_EEPROM;
+						mlActionAck.result = EEP_WRITE_FAIL;	
+					}
+
+				break;	
+				
+				case MAVLINK_MSG_ID_WAYPOINT:
+					mavlink_msg_waypoint_decode(&msg, &mlSingleWp);
+					
+					indx = (uint8_t)mlSingleWp.seq;
+					
+					mlWpValues.lat[indx] 		= mlSingleWp.y;
+					mlWpValues.lon[indx] 		= mlSingleWp.x;
+					mlWpValues.alt[indx] 		= mlSingleWp.z;
+					mlWpValues.type[indx] 	= mlSingleWp.type;
+					mlWpValues.orbit[indx]	= (uint16_t)mlSingleWp.orbit;
+					
+					// Compute the adecuate index offset
+					indexOffset = indx*8;
+					
+					// Save the data to the EEPROM
+					tempFloat.flData = mlSingleWp.y
+					writeSuccess += DataEEWrite(tempFloat.shData[0], WPS_OFFSET+indexOffset);   
+					writeSuccess += DataEEWrite(tempFloat.shData[1], WPS_OFFSET+indexOffset+1);
+					
+					tempFloat.flData = mlSingleWp.x  
+					writeSuccess += DataEEWrite(tempFloat.shData[0], WPS_OFFSET+indexOffset+2);      
+					writeSuccess += DataEEWrite(tempFloat.shData[1], WPS_OFFSET+indexOffset+3);
+					
+					tempFloat.flData = mlSingleWp.alt;       
+					writeSuccess += DataEEWrite(tempFloat.shData[0], WPS_OFFSET+indexOffset+4);      
+					writeSuccess += DataEEWrite(tempFloat.shData[1], WPS_OFFSET+indexOffset+5);
+					
+					
+					writeSuccess += DataEEWrite((unsigned short)mlSingleWp.type, WPS_OFFSET+indexOffset+6);
+					
+					writeSuccess += DataEEWrite(mlSingleWp.orbit, WPS_OFFSET+indexOffset+7);          
+					
+					// Set the flag of Aknowledge for the AKN Message
+					// if the write was successful
+					if (writeSuccess==0){
+						mlActionAck.action = SLUGS_ACTION_WP_CHANGE;
+						mlActionAck.result = indx+1;	
+					} else{
+						mlActionAck.action = SLUGS_ACTION_EEPROM;
+						mlActionAck.result = EEP_WRITE_FAIL;	
+					}
+					
+					// Update the waypoint count
+					mlWpValues.wpCount = 0;
+					while ((int)(mlWpValues.lat[mlWpValues.wpCount]) != 0 && mlWpValues.wpCount< MAX_NUM_WPS-1 ){
+						mlWpValues.wpCount++;
+					}
+				break;
+				
+				case MAVLINK_MSG_ID_CTRL_SRFC_PT:
+					mavlink_msg_ctrl_srfc_pt_decode(&msg, &mlPassthrough);
+					
+					// Report the Change
+					mlActionAck.action = SLUGS_ACTION_PT_CHANGE;
+					mlActionAck.result = SLUGS_ACTION_SUCCESS;	
+				break;
+				
+				case MAVLINK_MSG_ID_PING:
+					mavlink_msg_ping_decode(&msg, &mlPing);
+					
+					mlPending.requestCount++;
+					mlPending.ping = 1;
+					mlPending.dataRequest = 0;
+				break;
+				
+				case MAVLINK_MSG_ID_SLUGS_ACTION:
+					mavlink_msg_slugs_action_decode(&msg, &mlAction);
+					
+					switch (mlAction.actionId){
+						case SLUGS_ACTION_PT_REPORT:
+							mlPending.requestCount++;
+							mlPending.pt = 1;
+						break;
+						
+						case SLUGS_ACTION_PID_REPORT:
+							mlPending.requestCount++;
+							mlPending.pid = 1;
+							mlPending.pidIdx = (uint8_t)mlAction.actionVal;
+						break;
+						
+						case SLUGS_ACTION_WP_REPORT:
+							mlPending.requestCount++;
+							mlPending.wp = 1;
+							mlPending.wpsIdx = (uint8_t)mlAction.actionVal;
+						break;
+						
+						case SLUGS_ACTION_MLC_REPORT:
+							mlPending.requestCount++;
+							mlPending.midLvlCmds = 1;
+						break;	
+						
+						case SLUGS_ACTION_MODE_REPORT:
+							mlPending.requestCount++;
+							mlPending.mode = 1;
+						break;						
+					}// switch
+				break;
 			}	// switch	
 		} // if
 	}// for  
@@ -440,10 +731,6 @@ void send2GS(unsigned char* protData){
 	
 }
 
-
-
-
-
 // Interrupts
 
 void __attribute__((interrupt, no_auto_psv)) _DMA1Interrupt(void)
@@ -475,135 +762,6 @@ void __attribute__ ((interrupt, no_auto_psv)) _U1ErrInterrupt(void)
 	IFS4bits.U2EIF = 0; // Clear the UART2 Error Interrupt Flag
 }
 
-
-// VERY IMPORTANT NOTE
-// ===================
-// THIS PROCEDURE ALSO EXISTS IN THE SENSOR MCU IN A
-// DIFFERENT FILE (LOGDATA.C ) THEY ARE DUPLICATED 
-// HERE TO KEEP SENSOR MCU AND CONTROL MCU FILES COMPLETELY
-// INDEPENDENT
-//
-// IT WILL BE REPLICATED TO A STANDARD LIBRARY TIME PERMITTING
-void protParseDecodeGS(unsigned char* fromSPI){
-	// Static variables CAREFUL
-	static unsigned char prevBufferGS[2*MAXLOGLEN];
-	static unsigned char previousCompleteGS =1;
-	static unsigned char indexLastGS = 0;
-	
-	// local variables 
-	unsigned char i;
-	unsigned char tmpChksum = 0, headerFound=0, noMoreBytes = 1;
-	unsigned char trailerFound = 0;
-
-	//unsigned char logSize = 0;
-	
-	// Add the received bytes to the protocol parsing circular buffer
-    for(i = 1; i <= fromSPI[0]; i += 1 )
-    //for(i = 0; i <= 95; i += 1 )
-	{
-		writeBack(gsBuffer, fromSPI[i]);
-	}
-	
-	// update the noMoreBytes flag accordingly
-   noMoreBytes = (fromSPI[0]>0)?0:1;
-   // noMoreBytes = 0;
-	
-	while (!noMoreBytes){
-		// if the previous message was complete then read from the circular buffer
-		// and make sure that you are into the begining of a message
-		if(previousCompleteGS){
-			while (!headerFound && !noMoreBytes) {
-				// move along until you find a dollar sign or run out of bytes
-				while (getLength(gsBuffer)>1 && peak(gsBuffer)!=DOLLAR){
-					readFront(gsBuffer);
-				}			
-				// if you found a dollar then make sure the next one is an AT
-				if(getLength(gsBuffer)>1 && peak(gsBuffer) == DOLLAR){
-					// read it
-					prevBufferGS[indexLastGS++] = readFront(gsBuffer);
-                    // if next is a at sign
-					if (peak(gsBuffer) == AT){
-						// read it
-						prevBufferGS[indexLastGS++] = readFront(gsBuffer);
-						// and signal you found a header
-						headerFound = 1;
-                         // and set as  incomplete the sentece
-                         previousCompleteGS = 0;
-					}
-				} else {
-					noMoreBytes = 1;
-				} // else no dollar				
-			} // while we found header && no more bytes
-		}// if previous complete
-		
-		// At this point either you found a header from a previous complete
-		// or you are reading from a message that was incomplete the last time
-		// in any of those two cases, keep reading until you run out of bytes
-		// or find a STAR and an AT
-		while (!trailerFound && !noMoreBytes){
-			while (getLength(gsBuffer)>2 && peak(gsBuffer)!=STAR){
-				prevBufferGS[indexLastGS++] = readFront(gsBuffer);
-			}
-			// if you found a STAR (42) and stil have bytes
-			if (getLength(gsBuffer)>2 && peak(gsBuffer)==STAR){
-				// read it
-				prevBufferGS[indexLastGS++] = readFront(gsBuffer);
-				// if you still have 2 bytes
-				if (getLength(gsBuffer)>1){
-					// and the next byte is an AT sign
-					if (peak(gsBuffer)==AT){
-						// then you found a trailer
-						trailerFound =1;
-					}
-				} else {
-					noMoreBytes =1;
-				}
-			} else {
-				// no more bytes
-				noMoreBytes =1;
-			} 
-		}
-		
-		// if you found a trailer, then the message is done
-		if(trailerFound){
-			// read the AT and the checksum
-			prevBufferGS[indexLastGS++] = readFront(gsBuffer);
-			prevBufferGS[indexLastGS] = readFront(gsBuffer);
-
-			// Compute the checksum
-			tmpChksum= getChecksum(prevBufferGS, indexLastGS-1);
-	
-			// if the checksum is valid
-			if (tmpChksum ==prevBufferGS[indexLastGS]){
-				// update the states depending on the message
-				updateStates(&prevBufferGS[0]);
-				// Copy the data to the out buffer for logging purposes
-				// increment the log size
-				//logSize += (indexLastGS+1);
-			}
-            else{
-             indexLastGS = 1; // just to stop debugger
-            }
-            // get everything ready to start all-over
-			previousCompleteGS =1;
-			indexLastGS = 0;
-            headerFound = 0;
-            trailerFound = 0;
-            memset(prevBufferGS, 0, sizeof(prevBufferGS));
-
-		}else { // you ran out of bytes
-			// No More Bytes
-			noMoreBytes = 1;
-		}// else no star	
-	} // big outer while (no more bytes)
-}
-
-/*
-	TODO: This function needs to be merged with logData
-	in dataLogger.c and moved to something like
-	apUtils.c
-	
-*/
 
 
 

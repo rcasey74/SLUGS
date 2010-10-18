@@ -42,21 +42,15 @@ and data types.
 
 // Circular Buffer Size
 // ===================
-#ifdef __cplusplus
-       #define BSIZE			1024
-#else
-       #define BSIZE			512
-#endif
+#define BSIZE			512
 
 // UAV System ID
 // =============
 #define SLUGS_SYSTEMID		100
 #define SLUGS_COMPID			1
 
-// GPS Checksum Messages
-// =====================
-#define GGACS			86
-#define RMCCS			75
+#define GS_SYSTEMID				200
+#define GS_COMPID					1
 
 // GPS Header IDs
 // ==============
@@ -64,16 +58,15 @@ and data types.
 #define RMCID			2
 #define UNKID			254
 
-// GPS Circular Buffers
-// ====================
-#define MSIZE			150
-#define CSIZE			26 //[newBytes payload remaingBytes]  (comms buffer out of readGPS)
 
-// DMA Maximum Char Snding
-// =======================
+// DMA Maximum Char Sending
+// ========================
 #define MAXSEND					107
 
 
+// Maximun Number of WPs and PIDs
+#define MAX_NUM_WPS		11
+#define MAX_NUM_PIDS	10
 
 // Define log raw data at 100 hz. Comment out to have
 // XYZ data come at 100 Hz instead. COMMENT not Change to 0 (using #ifdef)
@@ -82,97 +75,6 @@ and data types.
 // Define diagnostic data at 100 hz. Comment out to have
 // XYZ data come at 100 Hz instead. COMMENT not Change to 0 (using #ifdef)
 #define DIAG100		1
-
-// Message Protocol Lengths and IDs
-// ================================
-
-// SENSOR MCU
-// ==========
-#define GPS_START 		0
-#define GPSMSG_ID		1
-#define GPSMSG_LEN		27 
-
-#define LOAD_START		27
-#define LOADMSG_ID		2
-#define LOADMSG_LEN		4
-
-#define RAW_START 		31
-#define RAWMSG_ID		3
-#define RAWMSG_LEN		26
-
-#define ATT_START		49
-#define ATTMSG_ID		4
-#define ATTMSG_LEN		26
-
-#define XYZ_START		75
-#define XYZMSG_ID		11
-#define XYZMSG_LEN		24
-
-#define DYN_START		99
-#define DYNMSG_ID		5
-#define DYNMSG_LEN		10
-
-#define BIA_START		109
-#define BIAMSG_ID		6
-#define BIAMSG_LEN		24
-
-#define DIA_START		133
-#define DIAMSG_ID		7
-#define DIAMSG_LEN		18
-
-#define HIL_START		151
-
-#define PIL_START		152
-#define PILMSG_ID		9
-#define PILMSG_LEN		10
-
-#define SENMSG_ID		25
-#define SENMSG_LEN		24
-
-#define LOGMSG_ID		26
-#define LOGMSG_LEN	24
-
-// CONTROL MCU
-// ===========
-#define AKNMSG_ID		105
-#define AKNMSG_LEN		6
-
-#define PWMMSG_ID		100
-#define PWMMSG_LEN		20 
-
-#define CALMSG_ID		102
-#define CALMSG_LEN		17
-
-#define APSMSG_ID		101
-#define APSMSG_LEN		20
-
-#define NAVMSG_ID		120
-#define	NAVMSG_LEN	30
-
-
-// GROUND STATION
-// ==============
-// NOTE: for HIL simulator the GS uses the same IDs for the 
-// simulated sensor readings, i.e. GPS, Raw, Air Data, etc. Than
-// for the actual readings.
-
-#define FILMSG_ID		205
-#define FILMSG_LEN		1
-
-#define PIDMSG_ID		202
-#define PIDMSG_LEN		13
-
-#define QUEMSG_ID		204
-#define QUEMSG_LEN		10
-
-#define WPSMSG_ID		201
-#define WPSMSG_LEN		16
-
-#define COMMSG_ID		206
-#define COMMSG_LEN		10
-
-#define CHSMSG_ID		207
-#define CHSMSG_LEN		9
 
 
 // Identifier values for messages that have a type ID
@@ -207,10 +109,31 @@ and data types.
 // ==============
 
 // PID EEPROM Error Messages
-#define PIDEEP_WRITE_FAIL	11
-#define PIDEEP_MEMORY_OK  0
-#define PIDEEP_PAGE_EXP		12
-#define PIDEEP_MEMORY_CORR	13
+
+enum EEPROM_STATUS{
+	EEP_MEMORY_OK,
+	EEP_WRITE_FAIL = 10,
+	EEP_PAGE_EXP = 20,
+	EEP_MEMORY_CORR = 30
+};
+
+enum SLUGS_ACTION {
+	SLUGS_ACTION_NONE,
+	SLUGS_ACTION_SUCCESS,
+	SLUGS_ACTION_FAIL,
+	SLUGS_ACTION_EEPROM,
+	SLUGS_ACTION_MODE_CHANGE,
+	SLUGS_ACTION_MODE_REPORT,
+	SLUGS_ACTION_PT_CHANGE,
+	SLUGS_ACTION_PT_REPORT,
+	SLUGS_ACTION_PID_CHANGE,
+	SLUGS_ACTION_PID_REPORT,
+	SLUGS_ACTION_WP_CHANGE,
+	SLUGS_ACTION_WP_REPORT,
+	SLUGS_ACTION_MLC_CHANGE,
+	SLUGS_ACTION_MLC_REPORT
+};
+
 
 
 // WP EEPROM Error Messages
@@ -231,7 +154,7 @@ and data types.
 
 // Standard characters used in the parsing of messages
 // ===================================================
-#define DOLLAR			36
+#define DOLLAR		36
 #define STAR			42
 #define CR				13
 #define LF				10
@@ -279,8 +202,8 @@ and data types.
 	#define DEBUG 1
 #endif
 
-// Uncomment if there is no magentometers
-//#define NO_MAGNETO 
+// Uncomment if there is no magentometer
+#define NO_MAGNETO 
 
 // Uncomment to allow full gyro calibration
 #define DO_FULL_CALL
