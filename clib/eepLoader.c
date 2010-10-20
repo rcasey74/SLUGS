@@ -32,10 +32,10 @@ unsigned char EEPInit(void){
 	eepInitMsg = DataEEInit();
 	
 	if (eepInitMsg == 1){
-		mlActionAck.type 	 = SLUGS_ACTION_EEPROM; // EEPROM Action
+		mlActionAck.action = SLUGS_ACTION_EEPROM; // EEPROM Action
 		mlActionAck.result = EEP_PAGE_EXP; // Page Expired
 	} else if (eepInitMsg == 6){
-		mlActionAck.type 	 = SLUGS_ACTION_EEPROM; // EEPROM Action
+		mlActionAck.action = SLUGS_ACTION_EEPROM; // EEPROM Action
 		mlActionAck.result = EEP_MEMORY_CORR; // Memory Corrupted
 	}
 	

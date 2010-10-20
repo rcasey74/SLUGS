@@ -19,6 +19,39 @@
 	//	
   // ^^ Temporary value does not require decode nor encode
  
+  typedef struct mavlink_pid_values_t {
+		float P[MAX_NUM_PIDS];
+		float I[MAX_NUM_PIDS];
+		float D[MAX_NUM_PIDS];
+	}mavlink_pid_values_t;
+
+
+	typedef struct mavlink_waypoint_values_t{
+		float			lat[MAX_NUM_WPS];
+		float			lon[MAX_NUM_WPS];
+		float			alt[MAX_NUM_WPS];
+		uint8_t		type[MAX_NUM_WPS];
+		uint16_t	orbit[MAX_NUM_WPS];
+		uint8_t		wpCount;
+	}mavlink_waypoint_values_t;
+
+
+	typedef struct mavlink_pending_requests_t{
+		// requests
+		uint8_t		ping;
+		uint8_t		pid;
+		uint8_t		wp;
+		uint8_t		midLvlCmds;
+		uint8_t		pt;
+		uint8_t		mode;
+		
+		// Info
+		uint8_t		pidIdx;
+		uint8_t		wpsIdx;
+		
+		//uint8_t 	requestCount;
+	}mavlink_pending_requests_t;
+	
 	extern mavlink_raw_imu_t 					mlRawImuData;					// 	..	==
 	extern mavlink_gps_raw_t					mlGpsData;						// 	..	==
 	extern mavlink_cpu_load_t 				mlCpuLoadData;				// 	..	== 
@@ -51,38 +84,6 @@
 	extern mavlink_ping_t							mlPing; 							// 	..	**
 	extern mavlink_slugs_action_t			mlAction; 						// 	..	**
 
-	typedef struct mavlink_pid_values_t {
-		float P[MAX_NUM_PIDS];
-		float I[MAX_NUM_PIDS];
-		float D[MAX_NUM_PIDS];
-	}mavlink_pid_values_t;
-
-
-	typedef struct mavlink_waypoint_values_t{
-		float			lat[MAX_NUM_WPS];
-		float			lon[MAX_NUM_WPS];
-		float			alt[MAX_NUM_WPS];
-		uint8_t		type[MAX_NUM_WPS];
-		uint16_t	orbit[MAX_NUM_WPS];
-		uint8_t		wpCount;
-	}mavlink_waypoint_values_t;
-
-
-	typedef struct mavlink_pending_requests_t{
-		// requests
-		uint8_t		ping;
-		uint8_t		pid;
-		uint8_t		wp;
-		uint8_t		midLvlCmds;
-		uint8_t		pt;
-		uint8_t		mode;
-		
-		// Info
-		uint8_t		pidIdx;
-		uint8_t		wpsIdx;
-		
-		uint8_t 	requestCount;
-	}mavlink_pending_requests_t;
 
 	void mavlinkInit (void);
   	

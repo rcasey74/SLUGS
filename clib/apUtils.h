@@ -38,7 +38,6 @@ THE SOFTWARE.
 #include <math.h>
 #include <string.h>
 #include "apDefinitions.h"
-#include "protDecoder.h"
 #include <stdlib.h>
 #include <stdarg.h>
 #include "mavlink.h"

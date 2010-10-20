@@ -119,7 +119,7 @@ unsigned char getPassValues (uint8_t* pasVals){
 }
 
 void setCurrentCommands (float airSpeed){
-	mlMidLevelCommands.uCommand = airspeed;
+	mlMidLevelCommands.uCommand = airSpeed;
 	mlMidLevelCommands.hCommand = mlLocalPositionData.z;
 	mlMidLevelCommands.rCommand = 0.0;
 	
@@ -146,8 +146,8 @@ void setNavNav (float* values) {
 
 void getAccels (float * accels){
 	accels[0] = mlFilteredData.aX;
-	accels[1] = mlFulteredData.aY;
-	accels[2] = mlFulteredData.aZ;
+	accels[1] = mlFilteredData.aY;
+	accels[2] = mlFilteredData.aZ;
 }
 
 void getAccBias (float * bias){

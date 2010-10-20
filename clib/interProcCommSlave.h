@@ -29,7 +29,6 @@ THE SOFTWARE.
 #include "apDefinitions.h"
 #include "circBuffer.h"
 #include "mavlinkControlMcu.h"
-#include "groundstationDriver.h"
 #include "apUtils.h"
 
 #include <p33fxxxx.h>

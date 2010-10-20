@@ -33,7 +33,7 @@ THE SOFTWARE.
 // The main functions are: 1.- readIpc which reads the circularBuffer
 // filled by the SPI interrupt and sends the data for processing.
 // 2.- SPI1 interrupt gets bytes from the master MCU. It stores bytes in
-// a circular buffer
+// a circular buffer`
 // 
 // Code by: Mariano I. Lizarraga
 // First Revision: Sep 1st 2008 @ 21:15

@@ -31,7 +31,7 @@ void updatePWM2(unsigned short PWMData, unsigned char channel ){
 }
 
 void updateLoad (uint8_t mcuLoad){
-	mlCpuLoad.ctrlLoad =  mcuLoad;
+	mlCpuLoadData.ctrlLoad =  mcuLoad;
 }
 
 void updateEuler(float* newEuler){

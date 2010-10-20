@@ -95,3 +95,8 @@ unsigned short hil_getTs(void){
 	return attitudeControlData.timeStamp.usData;
 }
 
+unsigned char getHilOnOff (void){
+	return 0;
+}
+}
+

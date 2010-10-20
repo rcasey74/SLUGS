@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.724"
+    ComputedModelVersion    "1.726"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Tue Oct 05 15:17:26 2010"
-  ModelVersionFormat	  "1.%<AutoIncrement:724>"
+  LastModifiedDate	  "Wed Oct 20 16:42:56 2010"
+  ModelVersionFormat	  "1.%<AutoIncrement:726>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -328,7 +328,7 @@ Model {
 	  CustomSource		  "clib\\circBuffer.c\nclib\\sbrk.c\nclib\\int"
 "erProcCommSlave.c\nclib\\eepLoader.c\nclib\\apUtils.c\nclib\\DEE.c\nclib\\DEE"
 "S.s\nclib\\navSupport.c\nclib\\mavlinkControlMcu.c\nclib\\updateControlMcuSta"
-"te.c"
+"te.c\nclib\\mavlinkCommsControlMcu.c"
 	  IncludeHyperlinkInReport on
 	  LaunchReport		  on
 	  TargetLang		  "C"
@@ -979,7 +979,7 @@ Model {
   }
   System {
     Name		    "controlMCUSlugsMKII"
-    Location		    [6, 83, 1381, 605]
+    Location		    [6, 83, 967, 605]
     Open		    off
     ModelBrowserVisibility  off
     ModelBrowserWidth	    188
@@ -30597,8 +30597,8 @@ Model {
       MaskHideContents	      off
       System {
 	Name			"Pilot LED and\nHIL Control Pins"
-	Location		[2, 78, 1244, 1004]
-	Open			off
+	Location		[-1389, 106, -46, 669]
+	Open			on
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -30636,39 +30636,6 @@ Model {
 	}
 	Block {
 	  BlockType		  Reference
-	  Name			  "GetFilterOnOff"
-	  Tag			  "dsPIC_dsPIC_CFunctionCall"
-	  Ports			  [0, 1]
-	  Position		  [25, 82, 130, 118]
-	  BackgroundColor	  "orange"
-	  List {
-	    ListType		    RTWdata
-	    FctDeclaration	    "extern uint8_T getFilterOnOff();"
-	    FctCall		    "%y1 = getFilterOnOff();"
-	    fctName		    "getFilterOnOff"
-	    INPUT_SIZE		    "1"
-	    OUTPUT_SIZE		    "1"
-	    NBR_INPUT		    "0"
-	    NBR_OUTPUT		    "1"
-	  }
-	  SourceBlock		  "dsPICdrivers/OTHERS/C Function Call"
-	  SourceType		  "C Function Call"
-	  fctName		  "'getFilterOnOff'"
-	  INPUT_SIZE		  "1"
-	  INPUT1		  "--"
-	  INPUT2		  "--"
-	  INPUT3		  "--"
-	  OUTPUT_SIZE		  "1"
-	  OUTPUT1		  "uint8"
-	  SampleTime		  ".01"
-	  InputType		  "[ ]"
-	  OutputType		  "[ 2 ]"
-	  FctDeclaration	  "extern uint8_T getFilterOnOff();"
-	  FctCall		  "%y1 = getFilterOnOff();"
-	  OrderingInOutPopup	  "None"
-	}
-	Block {
-	  BlockType		  Reference
 	  Name			  "HIL Attitude \nOn/Off Switch"
 	  Tag			  "dsPIC_Digital_Output"
 	  Ports			  [1]
@@ -30700,12 +30667,19 @@ Model {
 	  OrderingInOutPopup	  "None"
 	}
 	Block {
+	  BlockType		  Constant
+	  Name			  "Put getHilOnOff\nfunction here"
+	  Position		  [60, 85, 90, 115]
+	  Value			  "0"
+	  OutDataTypeMode	  "uint8"
+	}
+	Block {
 	  BlockType		  Terminator
 	  Name			  "Terminator"
 	  Position		  [170, 35, 190, 55]
 	}
 	Line {
-	  SrcBlock		  "GetFilterOnOff"
+	  SrcBlock		  "Put getHilOnOff\nfunction here"
 	  SrcPort		  1
 	  DstBlock		  "Data Type Conversion1"
 	  DstPort		  1
@@ -33786,8 +33760,8 @@ Model {
       MaskHideContents	      off
       System {
 	Name			"Update PWM Commands\nand Send Telemetry"
-	Location		[18, 82, 1285, 635]
-	Open			on
+	Location		[-1389, 106, -46, 669]
+	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -33850,10 +33824,10 @@ Model {
 	  BackgroundColor	  "orange"
 	  List {
 	    ListType		    RTWdata
-	    FctDeclaration	    "extern void prepareTelemetryPixHawk(uint8"
+	    FctDeclaration	    "extern void prepareTelemetryMavlink(uint8"
 "_T* y1);"
-	    FctCall		    "prepareTelemetryPixHawk(*%y1);"
-	    fctName		    "prepareTelemetryPixHawk"
+	    FctCall		    "prepareTelemetryMavlink(*%y1);"
+	    fctName		    "prepareTelemetryMavlink"
 	    INPUT_SIZE		    "1"
 	    OUTPUT_SIZE		    "120"
 	    NBR_INPUT		    "0"
@@ -33861,7 +33835,7 @@ Model {
 	  }
 	  SourceBlock		  "dsPICdrivers/OTHERS/C Function Call"
 	  SourceType		  "C Function Call"
-	  fctName		  "'prepareTelemetryPixHawk'"
+	  fctName		  "'prepareTelemetryMavlink'"
 	  INPUT_SIZE		  "1"
 	  INPUT1		  "--"
 	  INPUT2		  "--"
@@ -33871,9 +33845,9 @@ Model {
 	  SampleTime		  ".01"
 	  InputType		  "[ ]"
 	  OutputType		  "[ 2 ]"
-	  FctDeclaration	  "extern void prepareTelemetryPixHawk(uint8_T"
+	  FctDeclaration	  "extern void prepareTelemetryMavlink(uint8_T"
 "* y1);"
-	  FctCall		  "prepareTelemetryPixHawk(*%y1);"
+	  FctCall		  "prepareTelemetryMavlink(*%y1);"
 	  OrderingInOutPopup	  "Input"
 	}
 	Block {

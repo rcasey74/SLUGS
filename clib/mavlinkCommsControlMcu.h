@@ -16,7 +16,7 @@
   void gsRead (unsigned char* gsChunk);
   
 	void prepareTelemetryMavlink (unsigned char* dataOut);
-  void protDecodeMavlink (uint8_t* dataIn, uint8_t commChannel);          
+  void protDecodeMavlink (uint8_t* dataIn);          
        	
        	
        		
