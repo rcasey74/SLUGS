@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.726"
+    ComputedModelVersion    "1.727"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Oct 20 16:42:56 2010"
-  ModelVersionFormat	  "1.%<AutoIncrement:726>"
+  LastModifiedDate	  "Mon Nov 08 14:35:44 2010"
+  ModelVersionFormat	  "1.%<AutoIncrement:727>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -979,7 +979,7 @@ Model {
   }
   System {
     Name		    "controlMCUSlugsMKII"
-    Location		    [6, 83, 967, 605]
+    Location		    [91, 82, 1492, 945]
     Open		    off
     ModelBrowserVisibility  off
     ModelBrowserWidth	    188
@@ -30597,8 +30597,8 @@ Model {
       MaskHideContents	      off
       System {
 	Name			"Pilot LED and\nHIL Control Pins"
-	Location		[-1389, 106, -46, 669]
-	Open			on
+	Location		[168, 208, 1511, 771]
+	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -33761,7 +33761,7 @@ Model {
       System {
 	Name			"Update PWM Commands\nand Send Telemetry"
 	Location		[-1389, 106, -46, 669]
-	Open			off
+	Open			on
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
