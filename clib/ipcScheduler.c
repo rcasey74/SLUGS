@@ -316,10 +316,10 @@ void scheduleData (unsigned char hilOn, unsigned char* dataOut){
 																 				 SLUGS_COMPID, 
 																 				 &msg, 
 																	 			 0,
-																	 			 mlRawPressure.press_abs,
-																	 			 mlRawPressure.press_diff1,
-																	 			 mlRawPressure.press_diff2,
-																	 			 mlRawPressure.temperature);
+																	 			 mlRawPressureData.press_abs,
+																	 			 mlRawPressureData.press_diff1,
+																	 			 mlRawPressureData.press_diff2,
+																	 			 mlRawPressureData.temperature);
 																	 				
 			// Copy the message to the send buffer
 			bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);	
