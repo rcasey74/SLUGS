@@ -318,7 +318,6 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 			// Copy the message to the send buffer
 			bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);
 
-			sampleBiases++;
 			sampleBiases = (sampleBiases>10)? 1 : sampleBiases + 1;
 			
 			// if there is a pending request for the Mid Level Commands

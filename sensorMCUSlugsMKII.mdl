@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.900"
+    ComputedModelVersion    "1.903"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Fri Sep 17 10:59:46 2010"
-  ModelVersionFormat	  "1.%<AutoIncrement:900>"
+  LastModifiedDate	  "Mon Nov 08 15:36:26 2010"
+  ModelVersionFormat	  "1.%<AutoIncrement:903>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -324,7 +324,7 @@ Model {
 	  ProcessScript		  "dspic_make_rtw_hook"
 	  ConfigAtBuild		  off
 	  CustomHeaderCode	  "#include \"apDefinitions.h\"\n"
-	  CustomInclude		  "..\\mavlink\\contrib\\slugs\\include\\"
+	  CustomInclude		  "..\\mavlink\\include\\slugs\\"
 	  CustomSource		  "clib\\circBuffer.c\nclib\\sbrk.c\nclib\\gps"
 ".c\nclib\\ipcScheduler.c\nclib\\updateSensorMcuState.c\nclib\\interProcCommMa"
 "ster.c\nclib\\conversions.c\nclib\\apUtils.c\nclib\\magneto.c\nclib\\adisCube"
@@ -981,7 +981,7 @@ Model {
   }
   System {
     Name		    "sensorMCUSlugsMKII"
-    Location		    [58, 97, 1204, 692]
+    Location		    [36, 78, 1182, 673]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    212

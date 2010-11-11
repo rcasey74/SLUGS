@@ -4,9 +4,9 @@
 void updatePWM(unsigned short * PWMData){
 	mlPwmCommands.dt_c 	= PWMData[0];
 	mlPwmCommands.dla_c = PWMData[1];
-	mlPwmCommands.dra_c = PWMData[2];
+	mlPwmCommands.dle_c = PWMData[2];
 	mlPwmCommands.dr_c	= PWMData[3];
-	mlPwmCommands.dle_c = PWMData[4];	
+	mlPwmCommands.dre_c = PWMData[4];	
 }
 
 void updatePWM2(unsigned short PWMData, unsigned char channel ){
