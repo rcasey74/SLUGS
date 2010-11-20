@@ -17,7 +17,7 @@
   
 	void prepareTelemetryMavlink (unsigned char* dataOut);
   void protDecodeMavlink (uint8_t* dataIn);          
-       	
+	void lowRateTelemetryMavlink (unsigned char* dataOut);       	
        	
        		
 #ifdef __cplusplus

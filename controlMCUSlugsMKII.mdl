@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.728"
+    ComputedModelVersion    "1.735"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Nov 10 15:36:21 2010"
-  ModelVersionFormat	  "1.%<AutoIncrement:728>"
+  LastModifiedDate	  "Fri Nov 19 19:51:00 2010"
+  ModelVersionFormat	  "1.%<AutoIncrement:735>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -979,8 +979,8 @@ Model {
   }
   System {
     Name		    "controlMCUSlugsMKII"
-    Location		    [36, 82, 901, 571]
-    Open		    on
+    Location		    [21, 90, 976, 936]
+    Open		    off
     ModelBrowserVisibility  off
     ModelBrowserWidth	    188
     ScreenColor		    "white"
@@ -33571,14 +33571,14 @@ Model {
 	Block {
 	  BlockType		  Inport
 	  Name			  "IPC"
-	  Position		  [275, 243, 305, 257]
+	  Position		  [250, 243, 280, 257]
 	  BackgroundColor	  "darkGreen"
 	  IconDisplay		  "Port number"
 	}
 	Block {
 	  BlockType		  Inport
 	  Name			  "GS"
-	  Position		  [280, 143, 310, 157]
+	  Position		  [255, 143, 285, 157]
 	  BackgroundColor	  "darkGreen"
 	  Port			  "2"
 	  IconDisplay		  "Port number"
@@ -33761,7 +33761,7 @@ Model {
       System {
 	Name			"Update PWM Commands\nand Send Telemetry"
 	Location		[91, 82, 1509, 945]
-	Open			off
+	Open			on
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -33775,15 +33775,15 @@ Model {
 	ZoomFactor		"100"
 	Block {
 	  BlockType		  Inport
-	  Name			  "PWM(rad)"
-	  Position		  [155, 223, 185, 237]
+	  Name			  "PWM(rad)\n[dT dA dR dE]"
+	  Position		  [55, 223, 85, 237]
 	  BackgroundColor	  "darkGreen"
 	  IconDisplay		  "Port number"
 	}
 	Block {
 	  BlockType		  Inport
-	  Name			  "Pilot Console (IC)"
-	  Position		  [130, 248, 160, 262]
+	  Name			  "Pilot Console (IC)\n[dT dA dR dE]"
+	  Position		  [145, 248, 175, 262]
 	  BackgroundColor	  "darkGreen"
 	  Port			  "2"
 	  IconDisplay		  "Port number"
@@ -33824,10 +33824,10 @@ Model {
 	  BackgroundColor	  "orange"
 	  List {
 	    ListType		    RTWdata
-	    FctDeclaration	    "extern void prepareTelemetryMavlink(uint8"
+	    FctDeclaration	    "extern void lowRateTelemetryMavlink(uint8"
 "_T* y1);"
-	    FctCall		    "prepareTelemetryMavlink(*%y1);"
-	    fctName		    "prepareTelemetryMavlink"
+	    FctCall		    "lowRateTelemetryMavlink(*%y1);"
+	    fctName		    "lowRateTelemetryMavlink"
 	    INPUT_SIZE		    "1"
 	    OUTPUT_SIZE		    "120"
 	    NBR_INPUT		    "0"
@@ -33835,7 +33835,7 @@ Model {
 	  }
 	  SourceBlock		  "dsPICdrivers/OTHERS/C Function Call"
 	  SourceType		  "C Function Call"
-	  fctName		  "'prepareTelemetryMavlink'"
+	  fctName		  "'lowRateTelemetryMavlink'"
 	  INPUT_SIZE		  "1"
 	  INPUT1		  "--"
 	  INPUT2		  "--"
@@ -33845,9 +33845,9 @@ Model {
 	  SampleTime		  ".01"
 	  InputType		  "[ ]"
 	  OutputType		  "[ 2 ]"
-	  FctDeclaration	  "extern void prepareTelemetryMavlink(uint8_T"
+	  FctDeclaration	  "extern void lowRateTelemetryMavlink(uint8_T"
 "* y1);"
-	  FctCall		  "prepareTelemetryMavlink(*%y1);"
+	  FctCall		  "lowRateTelemetryMavlink(*%y1);"
 	  OrderingInOutPopup	  "Input"
 	}
 	Block {
@@ -36657,7 +36657,7 @@ Model {
 	  Name			  "Get Control Type\n[navSupport.c]"
 	  Tag			  "dsPIC_dsPIC_CFunctionCall"
 	  Ports			  [0, 1]
-	  Position		  [30, 187, 135, 223]
+	  Position		  [30, 117, 135, 153]
 	  BackgroundColor	  "orange"
 	  List {
 	    ListType		    RTWdata
@@ -37017,6 +37017,7 @@ Model {
 	Line {
 	  SrcBlock		  "Get Control Type\n[navSupport.c]"
 	  SrcPort		  1
+	  Points		  [0, 70]
 	  DstBlock		  "Generate PWM Signals\nBased on the Control "
 "Type"
 	  DstPort		  1
@@ -37071,14 +37072,14 @@ Model {
 	  }
 	}
 	Line {
-	  SrcBlock		  "PWM(rad)"
+	  SrcBlock		  "PWM(rad)\n[dT dA dR dE]"
 	  SrcPort		  1
 	  DstBlock		  "Generate PWM Signals\nBased on the Control "
 "Type"
 	  DstPort		  2
 	}
 	Line {
-	  SrcBlock		  "Pilot Console (IC)"
+	  SrcBlock		  "Pilot Console (IC)\n[dT dA dR dE]"
 	  SrcPort		  1
 	  DstBlock		  "Generate PWM Signals\nBased on the Control "
 "Type"

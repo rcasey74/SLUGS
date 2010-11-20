@@ -1,12 +1,12 @@
 Model {
-  Name			  "HILModelManual"
+  Name			  "HILModel"
   Version		  6.6
   MdlSubVersion		  0
   GraphicalInterface {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.698"
+    ComputedModelVersion    "1.699"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -47,8 +47,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Fri Nov 13 16:41:04 2009"
-  ModelVersionFormat	  "1.%<AutoIncrement:698>"
+  LastModifiedDate	  "Tue Nov 16 17:15:40 2010"
+  ModelVersionFormat	  "1.%<AutoIncrement:699>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -980,8 +980,8 @@ Model {
     FontAngle		    "normal"
   }
   System {
-    Name		    "HILModelManual"
-    Location		    [-3, 82, 924, 880]
+    Name		    "HILModel"
+    Location		    [36, 78, 963, 876]
     Open		    off
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -11137,7 +11137,7 @@ Model {
 	      System {
 		Name			"Get GPS"
 		Location		[176, 146, 1036, 832]
-		Open			on
+		Open			off
 		ModelBrowserVisibility	off
 		ModelBrowserWidth	200
 		ScreenColor		"white"
@@ -11283,8 +11283,7 @@ Model {
 		    Block {
 		    BlockType		    "S-Function"
 		    Name		    " SFunction "
-		    Tag			    "Stateflow S-Function HILModelManu"
-"al 2"
+		    Tag			    "Stateflow S-Function HILModel 2"
 		    Ports		    [2, 2]
 		    Position		    [180, 100, 230, 160]
 		    FunctionName	    "sf_sfun"
@@ -16447,7 +16446,7 @@ Model {
       Ports		      [4]
       Position		      [790, 547, 820, 663]
       Floating		      off
-      Location		      [919, 54, 1381, 859]
+      Location		      [789, 56, 1251, 851]
       Open		      on
       NumInputPorts	      "4"
       ZoomMode		      "yonly"
@@ -18900,7 +18899,7 @@ Model {
       Ports		      [1]
       Position		      [265, 29, 295, 61]
       Floating		      off
-      Location		      [9, 753, 943, 894]
+      Location		      [39, 666, 973, 807]
       Open		      on
       NumInputPorts	      "1"
       ZoomMode		      "yonly"
@@ -18929,7 +18928,7 @@ Model {
       System {
 	Name			"To AP"
 	Location		[202, 82, 1373, 1004]
-	Open			off
+	Open			on
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -19456,6 +19455,15 @@ Model {
 	  DisplayOption		  "bar"
 	}
 	Block {
+	  BlockType		  Display
+	  Name			  "Display"
+	  Ports			  [1]
+	  Position		  [1035, 25, 1225, 415]
+	  Format		  "long"
+	  Decimation		  "1"
+	  Lockdown		  off
+	}
+	Block {
 	  BlockType		  Reference
 	  Name			  "GPS Pack"
 	  Ports			  [15, 1]
@@ -19474,6 +19482,15 @@ Model {
 	  Position		  [790, 405, 795, 515]
 	  ShowName		  off
 	  Inputs		  "5"
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  Mux
+	  Name			  "Mux1"
+	  Ports			  [3, 1]
+	  Position		  [975, 180, 980, 260]
+	  ShowName		  off
+	  Inputs		  "3"
 	  DisplayOption		  "bar"
 	}
 	Block {
@@ -19945,20 +19962,44 @@ Model {
 	Line {
 	  SrcBlock		  "Data Type Conversion11"
 	  SrcPort		  1
-	  DstBlock		  "GPS Pack"
-	  DstPort		  10
+	  Points		  [60, 0]
+	  Branch {
+	    DstBlock		    "GPS Pack"
+	    DstPort		    10
+	  }
+	  Branch {
+	    Points		    [0, -35]
+	    DstBlock		    "Mux1"
+	    DstPort		    1
+	  }
 	}
 	Line {
 	  SrcBlock		  "Data Type Conversion7"
 	  SrcPort		  1
-	  DstBlock		  "GPS Pack"
-	  DstPort		  11
+	  Points		  [85, 0]
+	  Branch {
+	    DstBlock		    "GPS Pack"
+	    DstPort		    11
+	  }
+	  Branch {
+	    Points		    [0, -30]
+	    DstBlock		    "Mux1"
+	    DstPort		    2
+	  }
 	}
 	Line {
 	  SrcBlock		  "Data Type Conversion12"
 	  SrcPort		  1
-	  DstBlock		  "GPS Pack"
-	  DstPort		  12
+	  Points		  [130, 0]
+	  Branch {
+	    DstBlock		    "GPS Pack"
+	    DstPort		    12
+	  }
+	  Branch {
+	    Points		    [0, -25]
+	    DstBlock		    "Mux1"
+	    DstPort		    3
+	  }
 	}
 	Line {
 	  SrcBlock		  "Data Type Conversion14"
@@ -20187,6 +20228,12 @@ Model {
 	  SrcPort		  1
 	  DstBlock		  "Sensor Pack"
 	  DstPort		  13
+	}
+	Line {
+	  SrcBlock		  "Mux1"
+	  SrcPort		  1
+	  DstBlock		  "Display"
+	  DstPort		  1
 	}
       }
     }
@@ -20712,7 +20759,7 @@ Stateflow {
 
 	machine {
 		id                   		1
-		name                 		"HILModelManual"
+		name                 		"HILModel"
 		created              		"18-Sep-2008 12:14:47"
 		isLibrary            		0
 		firstTarget          		10

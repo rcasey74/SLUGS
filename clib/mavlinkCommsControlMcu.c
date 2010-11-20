@@ -4,7 +4,6 @@ struct CircBuffer com2BufferIn;
 CBRef uartBufferIn;
 
 
-
 struct CircBuffer com1BufferOut;
 CBRef uartBufferOut;
 
@@ -19,8 +18,6 @@ void uart2Init (void){
 	// initialize the circular buffers
 	uartBufferIn = (struct CircBuffer* )&com2BufferIn;
 	newCircBuffer(uartBufferIn);
-
-
 
 	uartBufferOut = (struct CircBuffer* )&com1BufferOut;
 	newCircBuffer(uartBufferOut);
@@ -113,6 +110,8 @@ void gsRead(unsigned char* gsChunk){
 	{
 		gsChunk[i] = readFront(uartBufferIn);
 	}
+	
+	gsChunk[MAXSEND+1] = 1;
 }
 
 
@@ -135,6 +134,7 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 	uint8_t bytes2Send = 0;
 	
 	memset(&msg,0,sizeof(mavlink_message_t));
+
 	
 	switch (sampleTelemetry){
 		case 1: // GPS or WPS/PID pending requests
@@ -405,11 +405,11 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 		
 		case 8: // Aknowledge, GPS Date time || Mid Lvl Commands Report, Ping Request
 			if (mlActionAck.action != SLUGS_ACTION_NONE){
-				mavlink_msg_set_mode_pack( SLUGS_SYSTEMID, 
-																   SLUGS_COMPID, 
-																   &msg, 
-																   mlActionAck.action,
-															 		 mlActionAck.result);  
+				mavlink_msg_action_ack_pack( SLUGS_SYSTEMID, 
+																     SLUGS_COMPID, 
+																     &msg, 
+																     mlActionAck.action,
+															 		   mlActionAck.result);  
 				
 				// Copy the message to the send buffer
 				bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);
@@ -448,7 +448,7 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 					
 					// Copy the message to the send buffer
 					bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);									
-				}		
+				}	
 		break;
 		
 		case 9: // Navigation
@@ -525,7 +525,6 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 														 mlAttitudeRotated.yawspeed);
 	// Copy the message to the send buffer	
 	bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);
-	
 	 
 	// Put the length of the message in the first byte of the outgoing array
 	*dataOut = bytes2Send;
@@ -536,6 +535,368 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 
 }
 
+
+void lowRateTelemetryMavlink(unsigned char* dataOut){
+	// Generic message container used to pack the messages
+	mavlink_message_t msg;
+	
+	// Generic buffer used to hold data to be streamed via serial port
+	uint8_t buf[MAVLINK_MAX_PACKET_LEN];
+	
+	// Cycles from 1 to 10 to decide which 
+	// message's turn is to be sent
+	static uint8_t sampleTelemetry = 1;
+	
+	// Low frequency reporting flags (used inside particular cases)
+	static uint8_t sampleBiases = 1;
+	
+	// Contains the total bytes to send via the serial port
+	uint8_t bytes2Send = 0;
+
+	// Scheduling varialbes. There are two types, the sw_ prefix means that it is used as a 
+	// selector inside the swithces and ct_ is a counter that decides when it is time to 
+	// transmit		
+	static uint8_t sw_50hz = 0;
+
+	static uint8_t sw_10hz = 1;
+	static uint8_t ct_10hz = 1;
+	volatile uint8_t sw_10hzod = 0;
+
+	static uint8_t sw_5hz = 1;
+	static uint8_t ct_5hz = 1;
+	volatile uint8_t sw_5hzod = 0;
+	
+	memset(&msg,0,sizeof(mavlink_message_t));
+	
+	if (sw_50hz){
+		mavlink_msg_system_time_encode( SLUGS_SYSTEMID, 
+																	SLUGS_COMPID, 
+																	&msg, 
+																	&mlSystemTime);
+		// Copy the message to the send buffer	
+		bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);
+		
+		if (ct_10hz == 5){
+			
+			memset(&msg,0,sizeof(mavlink_message_t));
+			
+			switch (sw_10hz){
+				case 1: // GPS
+					mavlink_msg_gps_raw_encode(SLUGS_SYSTEMID, 
+																	 	 SLUGS_COMPID, 
+																		 &msg,  
+																		 &mlGpsData);
+				break;
+				
+				case 2: // PWM Commands
+					mavlink_msg_pwm_commands_encode( SLUGS_SYSTEMID, 
+																 		 		 	 SLUGS_COMPID, 
+																 		 		 	 &msg, 
+																 		 		 	 &mlPwmCommands);
+				break;
+				
+				case 3: // XYZ - Local Position
+					mavlink_msg_local_position_encode( SLUGS_SYSTEMID, 
+																 			 			 SLUGS_COMPID, 
+																 			 			 &msg, 
+																 			 			 &mlLocalPositionData);
+				break;
+				
+				case 4:	// Air Data
+					mavlink_msg_air_data_encode( SLUGS_SYSTEMID, 
+																 			 SLUGS_COMPID, 
+																 			 &msg, 
+																 			 &mlAirData);
+				break;
+	
+				case 5: // Pilot Console
+					mavlink_msg_pilot_console_encode( SLUGS_SYSTEMID, 
+																 						SLUGS_COMPID, 
+																 						&msg, 
+																 						&mlPilotConsoleData);
+				break;	
+	
+				case 6: // Diagnostic
+					mavlink_msg_diagnostic_encode( SLUGS_SYSTEMID, 
+																   			 SLUGS_COMPID, 
+																   			 &msg, 
+																   			 &mlDiagnosticData);
+				break;
+	
+				case 7: // Raw Pressure
+					mavlink_msg_raw_pressure_encode( SLUGS_SYSTEMID, 
+																		 			 SLUGS_COMPID, 
+																					 &msg, 
+																					 &mlRawPressureData);
+				break;
+	
+				case 8: // Raw IMU
+					mavlink_msg_raw_imu_encode( SLUGS_SYSTEMID, 
+																			SLUGS_COMPID, 
+																			&msg, 
+																			&mlRawImuData);
+				break;
+	
+				case 9: // Navigation
+					mavlink_msg_slugs_navigation_encode(SLUGS_SYSTEMID, 
+																  						SLUGS_COMPID, 
+																  						&msg, 
+																  						&mlNavigation);
+				break;
+	
+				case 10: // Filtered Data
+					mavlink_msg_filtered_data_encode( SLUGS_SYSTEMID, 
+																   					SLUGS_COMPID, 
+																   					&msg, 
+																   					&mlFilteredData);
+				break;
+	
+			}// switch sw_10hz
+			
+			// Copy the message to the send buffer
+			bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);
+
+			
+			sw_10hz = (sw_10hz>=10)? 1 : sw_10hz + 1;
+			ct_10hz = 1;
+		}else {
+			
+			// sorted from lowes to highest priority
+			sw_10hzod = (mlPending.ping> 0)? 1 : sw_10hzod;
+			sw_10hzod = (mlPending.pid > 0)? 2 : sw_10hzod;
+			sw_10hzod = (mlPending.wp >  0)? 3 : sw_10hzod;
+			sw_10hzod = (mlPending.midLvlCmds> 0)? 4 : sw_10hzod;
+
+			switch (sw_10hzod){
+				case 1:
+					memset(&msg,0,sizeof(mavlink_message_t));			
+					
+					mavlink_msg_ping_pack(  SLUGS_SYSTEMID, 
+																  SLUGS_COMPID, 
+																  &msg, 
+																  mlPing.seq,
+																  SLUGS_SYSTEMID, 
+																  SLUGS_COMPID,
+																  mlSystemTime.time_usec);	
+					
+					// Copy the message to the send buffer
+					bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);		
+					
+					mlPending.ping = 0;
+				break;
+				
+				case 2:
+					memset(&msg,0,sizeof(mavlink_message_t));		
+					
+					// send PID
+					mavlink_msg_pid_pack(SLUGS_SYSTEMID, 
+															 SLUGS_COMPID,
+															 &msg,
+															 GS_SYSTEMID,
+															 mlPending.pidIdx, 
+															 mlPidValues.P[mlPending.pidIdx], 
+															 mlPidValues.I[mlPending.pidIdx],
+															 mlPidValues.D[mlPending.pidIdx]);
+
+					// Copy the message to the send buffer
+					bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);		
+										
+					mlPending.pid = 0;
+					mlPending.pidIdx = 0;				
+				break;
+				
+				case 3:
+					memset(&msg,0,sizeof(mavlink_message_t));		
+					
+					// Send WP
+					mavlink_msg_waypoint_pack(SLUGS_SYSTEMID, 
+																		SLUGS_COMPID,
+															 			&msg,
+															 			GS_SYSTEMID,
+															 			GS_COMPID,
+															 			mlPending.wpsIdx, 
+															 			mlWpValues.type[mlPending.wpsIdx], 
+															 			(float)mlWpValues.orbit[mlPending.wpsIdx],
+																		0,// always clockwise
+																		0.0,// Not used
+																		0.0,// Not used
+																		0,// Nor used
+																		mlWpValues.lon[mlPending.wpsIdx],
+																		mlWpValues.lat[mlPending.wpsIdx],
+																		mlWpValues.alt[mlPending.wpsIdx],
+																		0.0, //not used
+																		1); // always autocontinue
+																		
+				  // Copy the message to the send buffer
+					bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);		
+
+					mlPending.wp = 0;
+					mlPending.wpsIdx = 0;
+				break;
+				
+				case 4:
+					// clear the msg
+					memset(&msg,0,sizeof(mavlink_message_t));
+				
+					mavlink_msg_mid_lvl_cmds_pack( SLUGS_SYSTEMID, 
+																	   		 SLUGS_COMPID, 
+																	   		 &msg, 
+																	   		 GS_SYSTEMID,
+																 				 mlMidLevelCommands.hCommand,  
+																 				 mlMidLevelCommands.uCommand,  
+																 				 mlMidLevelCommands.rCommand);  
+				
+					// Copy the message to the send buffer
+					bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);
+				
+					// clear the flag
+					mlPending.midLvlCmds = 0;
+				break;			
+			}
+			
+			ct_10hz++;
+		}// if ct_10hz
+	} else {
+	
+		mavlink_msg_attitude_encode( SLUGS_SYSTEMID, 
+														 		 SLUGS_COMPID, 
+														 		 &msg, 
+														 		 &mlAttitudeRotated);
+														 		 
+		// Copy the message to the send buffer	
+		bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);
+		
+		if (ct_5hz == 10){
+			
+			memset(&msg,0,sizeof(mavlink_message_t));
+			
+			switch (sw_5hz){
+				case 1:
+					mavlink_msg_cpu_load_encode( SLUGS_SYSTEMID, 
+																 			 SLUGS_COMPID, 
+																 			 &msg, 
+																 			 &mlCpuLoadData);	
+				break;
+
+				case 2:
+					mavlink_msg_data_log_encode( SLUGS_SYSTEMID, 
+																 	 		 SLUGS_COMPID, 
+																 	 		 &msg, 
+																 	 		 &mlDataLog);									
+				break;
+				
+				case 3:
+					mavlink_msg_gps_date_time_encode( SLUGS_SYSTEMID, 
+																   					SLUGS_COMPID, 
+																   					&msg, 
+																   					&mlGpsDateTime); 
+				break;
+				
+				case 4:
+					mavlink_msg_sensor_bias_encode( SLUGS_SYSTEMID, 
+																 					SLUGS_COMPID, 
+																 					&msg, 
+																 					&mlSensorBiasData);	
+				break;
+	
+				case 5:
+					mavlink_msg_heartbeat_pack(SLUGS_SYSTEMID, 
+																 		 SLUGS_COMPID, 
+																 		 &msg, 
+																 		 MAV_FIXED_WING, 
+																 		 MAV_AUTOPILOT_SLUGS);
+				break;
+			}// switch sw_ 5hz
+		
+			// Copy the message to the send buffer
+			bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);
+	
+			sw_5hz = (sw_5hz>=5)? 1 : sw_5hz + 1;
+			ct_5hz = 1;
+		} else {
+			
+			// sorted from lowes to highest priority
+			sw_5hzod = (mlPending.pt> 0)? 1 : sw_5hzod;
+			sw_5hzod = (mlPending.mode > 0)? 2 : sw_5hzod;
+			sw_5hzod = (mlActionAck.action != SLUGS_ACTION_NONE)? 3 : sw_5hzod;
+			sw_5hzod = (mlBoot.version> 0)? 4 : sw_5hzod;
+
+			switch (sw_5hzod){
+				case 1:
+					// clear the message
+					memset(&msg,0,sizeof(mavlink_message_t));
+			
+					mavlink_msg_ctrl_srfc_pt_pack( SLUGS_SYSTEMID, 
+																	 			SLUGS_COMPID, 
+																	 			&msg, 
+																	 			GS_SYSTEMID, 
+																	 			mlPassthrough.bitfieldPt);
+					// Copy the message to the send buffer
+					bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);
+			
+					// Clear the flag
+					mlPending.pt = 0;
+				break;
+				
+				case 2:
+					// clear the msg
+					memset(&msg,0,sizeof(mavlink_message_t));
+				
+					mavlink_msg_set_mode_pack( SLUGS_SYSTEMID, 
+																	   SLUGS_COMPID, 
+																	   &msg, 
+																	   GS_SYSTEMID,
+																 		 mlApMode.mode);  
+				
+					// Copy the message to the send buffer
+					bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);
+				
+					// clear the flag
+					mlPending.mode = 0;
+				break;
+				
+				case 3:							
+					// clear the msg
+					memset(&msg,0,sizeof(mavlink_message_t));
+					
+					mavlink_msg_action_ack_pack( SLUGS_SYSTEMID, 
+																     SLUGS_COMPID, 
+																     &msg, 
+																     mlActionAck.action,
+															 		   mlActionAck.result);  
+				
+					// Copy the message to the send buffer
+					bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);
+				
+					mlActionAck.action = SLUGS_ACTION_NONE;
+				break;
+				
+				case 4:
+					// clear the msg
+					memset(&msg,0,sizeof(mavlink_message_t));
+					
+					mavlink_msg_boot_pack(SLUGS_SYSTEMID, 
+													SLUGS_COMPID, 
+													&msg, 
+													mlBoot.version);
+					
+					// Copy the message to the send buffer
+					bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);
+											 
+					// reset the boot message
+					mlBoot.version = 0;	
+				break;			
+			}
+			ct_5hz++;
+		}
+	} // if 50 Hz
+	
+	// Put the length of the message in the first byte of the outgoing array
+	*dataOut = bytes2Send;
+	
+	// Get ready for the next Tx
+	sw_50hz= !sw_50hz;
+}
  void protDecodeMavlink (uint8_t* dataIn){
 	
 	uint8_t i, indx, writeSuccess, commChannel = dataIn[MAXSEND+1];
@@ -548,10 +909,11 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 	mavlink_message_t msg;
 	mavlink_status_t status;
 	
-	for(i = 1; i < dataIn[0]; i++ ){
+
+	for(i = 1; i <= dataIn[0]; i++ ){
 		// Try to get a new message
 		if(mavlink_parse_char(commChannel, dataIn[i], &msg, &status)) {
-		
+	
 			// Handle message
 			switch(msg.msgid){
 				case MAVLINK_MSG_ID_HEARTBEAT:
@@ -832,6 +1194,7 @@ void __attribute__((__interrupt__, no_auto_psv)) _U2RXInterrupt(void){
 	
 	// clear the interrupt
 	IFS1bits.U2RXIF = 0;
+	
 }
 
 

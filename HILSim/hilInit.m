@@ -4,7 +4,7 @@
 % This sets the sampling ratio for UDP send/receive data.
 
 HIL_K = 3;
-
+SampleT = 0.005;
 
 %% Run the standard setup files
 run ..\apConfiguration\Rascal_Var.m
@@ -21,3 +21,8 @@ run ..\apConfiguration\baroInit.m
 %% Override RascalVar values
 Pos_0   = [200; 350; 350]';     % Initial position vector (m)
 Euler_0 = [0; 0; 0*pi/180]';     % Initial Euler angles    (rad)
+
+%% Wind Configuration
+windBase = 3.5;
+windDirTurb = 180;
+windDirHor = 180;
