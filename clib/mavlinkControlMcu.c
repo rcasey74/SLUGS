@@ -71,5 +71,9 @@ void mavlinkInit (void){
 	
 
 	mlActionAck.action = SLUGS_ACTION_NONE;
+	
+	mlPending.wpTransaction = 0;
+	mlPending.wpProtState = WP_PROT_IDLE;	
+	mlPending.wpTimeOut = 0;
 }
 

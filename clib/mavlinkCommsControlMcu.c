@@ -569,6 +569,7 @@ void lowRateTelemetryMavlink(unsigned char* dataOut){
 	memset(&msg,0,sizeof(mavlink_message_t));
 	
 	if (sw_50hz){
+		// System Time
 		mavlink_msg_system_time_encode( SLUGS_SYSTEMID, 
 																	SLUGS_COMPID, 
 																	&msg, 
@@ -666,9 +667,10 @@ void lowRateTelemetryMavlink(unsigned char* dataOut){
 			sw_10hzod = (mlPending.pid > 0)? 2 : sw_10hzod;
 			sw_10hzod = (mlPending.wp >  0)? 3 : sw_10hzod;
 			sw_10hzod = (mlPending.midLvlCmds> 0)? 4 : sw_10hzod;
+			sw_10hzod = (mlPending.wpTransaction > 0)? 5: sw_10hzod;
 
 			switch (sw_10hzod){
-				case 1:
+				case 1: // Ping
 					memset(&msg,0,sizeof(mavlink_message_t));			
 					
 					mavlink_msg_ping_pack(  SLUGS_SYSTEMID, 
@@ -685,7 +687,7 @@ void lowRateTelemetryMavlink(unsigned char* dataOut){
 					mlPending.ping = 0;
 				break;
 				
-				case 2:
+				case 2: // PID
 					memset(&msg,0,sizeof(mavlink_message_t));		
 					
 					// send PID
@@ -693,10 +695,10 @@ void lowRateTelemetryMavlink(unsigned char* dataOut){
 															 SLUGS_COMPID,
 															 &msg,
 															 GS_SYSTEMID,
-															 mlPending.pidIdx, 
 															 mlPidValues.P[mlPending.pidIdx], 
 															 mlPidValues.I[mlPending.pidIdx],
-															 mlPidValues.D[mlPending.pidIdx]);
+															 mlPidValues.D[mlPending.pidIdx],
+															 mlPending.pidIdx);
 
 					// Copy the message to the send buffer
 					bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);		
@@ -705,7 +707,7 @@ void lowRateTelemetryMavlink(unsigned char* dataOut){
 					mlPending.pidIdx = 0;				
 				break;
 				
-				case 3:
+				case 3: // Waypoint
 					memset(&msg,0,sizeof(mavlink_message_t));		
 					
 					// Send WP
@@ -734,7 +736,7 @@ void lowRateTelemetryMavlink(unsigned char* dataOut){
 					mlPending.wpsIdx = 0;
 				break;
 				
-				case 4:
+				case 4: // Mid-level Commands
 					// clear the msg
 					memset(&msg,0,sizeof(mavlink_message_t));
 				
@@ -752,6 +754,66 @@ void lowRateTelemetryMavlink(unsigned char* dataOut){
 					// clear the flag
 					mlPending.midLvlCmds = 0;
 				break;			
+				
+				case 5: // Wp Protocol state machine
+					switch (mlPending.wpProtState){
+						case WP_PROT_LIST_REQUESTED:
+							// clear the msg
+							memset(&msg,0,sizeof(mavlink_message_t));
+						
+							mavlink_msg_waypoint_count_pack( SLUGS_SYSTEMID, 
+																			   		 	 SLUGS_COMPID, 
+																			   		 	 &msg, 
+																			   		 	 GS_SYSTEMID,
+																			   		 	 GS_COMPID,	
+																			   		 	 mlWpValues.wpCount);  
+						
+							// Copy the message to the send buffer
+							bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);
+						
+							// Change the state machine state
+							mlPending.wpProtState = WP_PROT_NUM_SENT;	
+							
+							// Reset the timeout
+							mlPending.wpTimeOut = 0;
+						break;
+						
+						case WP_PROT_TX_WP:
+							memset(&msg,0,sizeof(mavlink_message_t));		
+							
+							// Send WP
+							mavlink_msg_waypoint_pack(SLUGS_SYSTEMID, 
+																				SLUGS_COMPID,
+																	 			&msg,
+																	 			GS_SYSTEMID,
+																	 			GS_COMPID,
+																	 			mlPending.wpCurrentWpInTransaction, 
+																	 			mlWpValues.type[mlPending.wpsIdx], 
+																	 			(float)mlWpValues.orbit[mlPending.wpCurrentWpInTransaction],
+																				0,// always clockwise
+																				0.0,// Not used
+																				0.0,// Not used
+																				0,// Nor used
+																				mlWpValues.lon[mlPending.wpCurrentWpInTransaction],
+																				mlWpValues.lat[mlPending.wpCurrentWpInTransaction],
+																				mlWpValues.alt[mlPending.wpCurrentWpInTransaction],
+																				0.0, //not used
+																				1); // always autocontinue
+																				
+						  // Copy the message to the send buffer
+							bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);		
+		
+							// Switch the state waiting for the next request
+							// Change the state machine state
+							mlPending.wpProtState = WP_PROT_SENDING_WP_IDLE;	
+							
+							// Reset the timeout
+							mlPending.wpTimeOut = 0;
+						break;
+					} // switch wpProtState
+					
+					mlPending.wpTimeOut++;
+				break;
 			}
 			
 			ct_10hz++;
@@ -822,7 +884,7 @@ void lowRateTelemetryMavlink(unsigned char* dataOut){
 			sw_5hzod = (mlBoot.version> 0)? 4 : sw_5hzod;
 
 			switch (sw_5hzod){
-				case 1:
+				case 1: // Passthrough
 					// clear the message
 					memset(&msg,0,sizeof(mavlink_message_t));
 			
@@ -838,7 +900,7 @@ void lowRateTelemetryMavlink(unsigned char* dataOut){
 					mlPending.pt = 0;
 				break;
 				
-				case 2:
+				case 2: // Mode Report
 					// clear the msg
 					memset(&msg,0,sizeof(mavlink_message_t));
 				
@@ -855,7 +917,7 @@ void lowRateTelemetryMavlink(unsigned char* dataOut){
 					mlPending.mode = 0;
 				break;
 				
-				case 3:							
+				case 3:			 // Acknowledge				
 					// clear the msg
 					memset(&msg,0,sizeof(mavlink_message_t));
 					
@@ -871,7 +933,7 @@ void lowRateTelemetryMavlink(unsigned char* dataOut){
 					mlActionAck.action = SLUGS_ACTION_NONE;
 				break;
 				
-				case 4:
+				case 4: // Boot
 					// clear the msg
 					memset(&msg,0,sizeof(mavlink_message_t));
 					
@@ -1003,6 +1065,8 @@ void lowRateTelemetryMavlink(unsigned char* dataOut){
 
 				break;				
 				case MAVLINK_MSG_ID_PID:
+					writeSuccess = 0;
+					
 					mavlink_msg_pid_decode(&msg, &mlSinglePid);
 					
 					indx = mlSinglePid.idx;
@@ -1031,7 +1095,7 @@ void lowRateTelemetryMavlink(unsigned char* dataOut){
 					// if the write was successful
 					if (writeSuccess==0){
 						mlActionAck.action = SLUGS_ACTION_PID_CHANGE;
-						mlActionAck.result = indx+1;	
+						mlActionAck.result = indx;	
 					} else{
 						mlActionAck.action = SLUGS_ACTION_EEPROM;
 						mlActionAck.result = EEP_WRITE_FAIL;	

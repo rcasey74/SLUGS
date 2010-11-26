@@ -45,6 +45,12 @@
 		uint8_t		pt;
 		uint8_t		mode;
 		
+		// WP Protocol states
+		uint8_t		wpTransaction;
+		uint8_t		wpProtState;	
+		uint8_t		wpCurrentWpInTransaction;
+		uint8_t		wpTimeOut;
+		
 		// Info
 		uint8_t		pidIdx;
 		uint8_t		wpsIdx;
