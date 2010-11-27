@@ -31,7 +31,9 @@ mavlink_action_ack_t				mlActionAck;
 mavlink_pending_requests_t  mlPending;
 mavlink_ping_t							mlPing;
 mavlink_slugs_action_t			mlAction;
-
+mavlink_waypoint_request_t	mlWpRequest;
+mavlink_waypoint_ack_t			mlWpAck;
+mavlink_waypoint_count_t		mlWpCount;
 
 void mavlinkInit (void){
 	
@@ -67,6 +69,9 @@ void mavlinkInit (void){
 	memset(&mlPending ,0, sizeof(mavlink_pending_requests_t));	
 	memset(&mlPing ,0, sizeof(mavlink_ping_t));	
 	memset(&mlAction ,0, sizeof(mavlink_slugs_action_t));	
+	memset(&mlWpRequest ,0, sizeof(mavlink_waypoint_request_t));	
+	memset(&mlWpAck ,0, sizeof(mavlink_waypoint_ack_t));	
+	memset(&mlWpCount ,0, sizeof(mavlink_waypoint_count_t));	
 	
 	
 

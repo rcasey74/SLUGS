@@ -778,6 +778,50 @@ void lowRateTelemetryMavlink(unsigned char* dataOut){
 							mlPending.wpTimeOut = 0;
 						break;
 						
+						case WP_PROT_GETTING_WP_IDLE:	
+							if (mlPending.wpCurrentWpInTransaction< mlPending.wpTotalWps){
+								// clear the msg
+								memset(&msg,0,sizeof(mavlink_message_t));
+							
+								mavlink_msg_waypoint_request_pack( SLUGS_SYSTEMID, 
+																				   		 	   SLUGS_COMPID, 
+																				   		 	 	 &msg, 
+																				   		 	 	 GS_SYSTEMID,
+																				   		 	 	 GS_COMPID,
+																				   		 	   mlPending.wpCurrentWpInTransaction++);  
+							
+								// Copy the message to the send buffer
+								bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);
+							
+								// Change the state machine state
+								mlPending.wpProtState = WP_PROT_RX_WP;	
+								
+							} else {
+								// clear the msg
+								memset(&msg,0,sizeof(mavlink_message_t));
+							
+								mavlink_msg_waypoint_ack_pack( SLUGS_SYSTEMID, 
+																				   		 SLUGS_COMPID, 
+																				   		 &msg,
+																				   		 GS_SYSTEMID,
+																				   		 GS_COMPID,
+																					   	 0);  // 0 is success
+							
+								// Copy the message to the send buffer
+								bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);
+							
+								// End the transaction
+								mlPending.wpTransaction = 0;
+								mlPending.wpProtState = WP_PROT_IDLE;
+								mlPending.wpCurrentWpInTransaction = 0;
+								mlPending.wpTimeOut = 0;
+								mlPending.wpTotalWps = 0;
+							}
+							
+							// Reset the timeout
+							mlPending.wpTimeOut = 0;
+						break;
+						
 						case WP_PROT_TX_WP:
 							memset(&msg,0,sizeof(mavlink_message_t));		
 							
@@ -813,6 +857,27 @@ void lowRateTelemetryMavlink(unsigned char* dataOut){
 					} // switch wpProtState
 					
 					mlPending.wpTimeOut++;
+					
+					// if Timed out reset the state machine and send an error
+					if (mlPending.wpTimeOut > PROTOCOL_TIMEOUT_TICKS){
+						memset(&msg,0,sizeof(mavlink_message_t));
+							
+						mavlink_msg_waypoint_ack_pack( SLUGS_SYSTEMID, 
+																		   		 SLUGS_COMPID, 
+																		   		 &msg,
+																		   		 GS_SYSTEMID,
+																				   GS_COMPID, 
+																			   	 1);  // 1 is failure
+						
+						// Copy the message to the send buffer
+						bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);
+						
+						mlPending.wpTransaction = 0;
+						mlPending.wpProtState = WP_PROT_IDLE;
+						mlPending.wpCurrentWpInTransaction = 0;
+						mlPending.wpTimeOut = 0;
+						mlPending.wpTotalWps = 0;
+					}
 				break;
 			}
 			
@@ -1103,8 +1168,82 @@ void lowRateTelemetryMavlink(unsigned char* dataOut){
 
 				break;	
 				
+				case MAVLINK_MSG_ID_WAYPOINT_COUNT:
+					if (!mlPending.wpTransaction && (mlPending.wpProtState == WP_PROT_IDLE)){
+						
+						mavlink_msg_waypoint_count_decode(&msg, &mlWpCount);
+						
+						// Start the transaction
+						mlPending.wpTransaction = 1;
+						
+						// change the state	
+						mlPending.wpProtState = WP_PROT_GETTING_WP_IDLE;
+						
+						// reset the rest of the state machine
+						mlPending.wpTotalWps = mlWpCount.count;
+						mlPending.wpCurrentWpInTransaction = 0;
+						mlPending.wpTimeOut = 0;	
+					}
+				
+				break;
+				
+				case MAVLINK_MSG_ID_WAYPOINT_REQUEST_LIST:
+					// if there is no transaction going on
+					if (!mlPending.wpTransaction && (mlPending.wpProtState == WP_PROT_IDLE)){
+						// Start the transaction
+						mlPending.wpTransaction = 1;
+						
+						// change the state
+						mlPending.wpProtState = WP_PROT_LIST_REQUESTED;
+						
+						// reset the rest of the state machine
+						mlPending.wpCurrentWpInTransaction = 0;
+						mlPending.wpTimeOut = 0;	
+					}
+				break;
+				
+				case MAVLINK_MSG_ID_WAYPOINT_REQUEST:
+					mavlink_msg_waypoint_request_decode(&msg, &mlWpRequest);
+					
+					if (mlPending.wpTransaction && (mlWpRequest.seq < mlWpValues.wpCount)){
+						// change the state
+						mlPending.wpProtState = WP_PROT_TX_WP;
+						
+						// reset the rest of the state machine
+						mlPending.wpCurrentWpInTransaction = mlWpRequest.seq;
+						mlPending.wpTimeOut = 0;	
+					} else {
+						// TODO: put here a report for a single WP, i.e. not inside a transaction
+					}
+				break;
+				
+				case MAVLINK_MSG_ID_WAYPOINT_ACK:
+					mavlink_msg_waypoint_ack_decode(&msg, &mlWpAck);
+					
+					if(mlPending.wpTransaction){
+						// End the transaction
+						mlPending.wpTransaction = 0;
+						
+						// change the state
+						mlPending.wpProtState = WP_PROT_IDLE;
+						
+						// reset the rest of the state machine
+						mlPending.wpCurrentWpInTransaction = 0;
+						mlPending.wpTimeOut = 0;	
+					}
+						
+				break;
+				
 				case MAVLINK_MSG_ID_WAYPOINT:
+					writeSuccess = 0;
 					mavlink_msg_waypoint_decode(&msg, &mlSingleWp);
+					
+					if (mlPending.wpTransaction && (mlPending.wpProtState == WP_PROT_RX_WP)){
+						mlPending.wpProtState = WP_PROT_GETTING_WP_IDLE;
+						
+					}
+					
+
 					
 					indx = (uint8_t)mlSingleWp.seq;
 					
@@ -1150,6 +1289,58 @@ void lowRateTelemetryMavlink(unsigned char* dataOut){
 					while ((int)(mlWpValues.lat[mlWpValues.wpCount]) != 0 && mlWpValues.wpCount< MAX_NUM_WPS-1 ){
 						mlWpValues.wpCount++;
 					}
+				break;
+				
+				case MAVLINK_MSG_ID_WAYPOINT_CLEAR_ALL:
+				
+					writeSuccess = 0;
+					
+					// clear the WP values in memory;
+					memset(&mlWpValues ,0, sizeof(mavlink_waypoint_values_t));	
+					
+					// erase the flash values in EEPROM emulation
+					for (indx = 0; indx < MAX_NUM_WPS-1; indx++){
+						// Compute the adecuate index offset
+						indexOffset = indx*8;
+						
+						// Clear the data from the EEPROM
+						tempFloat.flData = 0.0;
+						writeSuccess += DataEEWrite(tempFloat.shData[0], WPS_OFFSET+indexOffset);   
+						writeSuccess += DataEEWrite(tempFloat.shData[1], WPS_OFFSET+indexOffset+1);
+						
+						tempFloat.flData = 0.0; 
+						writeSuccess += DataEEWrite(tempFloat.shData[0], WPS_OFFSET+indexOffset+2);      
+						writeSuccess += DataEEWrite(tempFloat.shData[1], WPS_OFFSET+indexOffset+3);
+						
+						tempFloat.flData = 0.0;       
+						writeSuccess += DataEEWrite(tempFloat.shData[0], WPS_OFFSET+indexOffset+4);      
+						writeSuccess += DataEEWrite(tempFloat.shData[1], WPS_OFFSET+indexOffset+5);
+						
+						
+						writeSuccess += DataEEWrite((unsigned short)0, WPS_OFFSET+indexOffset+6);
+						
+						writeSuccess += DataEEWrite((unsigned short)0, WPS_OFFSET+indexOffset+7); 
+					}
+					
+					// Set the flag of Aknowledge for the AKN Message
+					// if the write was successful
+					if (writeSuccess==0){
+						mlActionAck.action = SLUGS_ACTION_WP_CHANGE;
+						mlActionAck.result = 0;	
+					} else{
+						mlActionAck.action = SLUGS_ACTION_EEPROM;
+						mlActionAck.result = EEP_WRITE_FAIL;	
+					}
+					
+					// Update the waypoint count
+					mlWpValues.wpCount = 0;
+					
+					// Set the state machine ready to send the WP akn
+					mlPending.wpCurrentWpInTransaction = 0;
+					mlPending.wpTotalWps = 0;
+					mlPending.wpTransaction = 1;
+					mlPending.wpProtState = WP_PROT_GETTING_WP_IDLE;
+
 				break;
 				
 				case MAVLINK_MSG_ID_CTRL_SRFC_PT:

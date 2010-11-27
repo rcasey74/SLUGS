@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.735"
+    ComputedModelVersion    "1.737"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Fri Nov 19 19:51:00 2010"
-  ModelVersionFormat	  "1.%<AutoIncrement:735>"
+  LastModifiedDate	  "Sat Nov 27 13:20:54 2010"
+  ModelVersionFormat	  "1.%<AutoIncrement:737>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -979,8 +979,8 @@ Model {
   }
   System {
     Name		    "controlMCUSlugsMKII"
-    Location		    [21, 90, 976, 936]
-    Open		    off
+    Location		    [6, 82, 961, 810]
+    Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    188
     ScreenColor		    "white"
@@ -33761,7 +33761,7 @@ Model {
       System {
 	Name			"Update PWM Commands\nand Send Telemetry"
 	Location		[91, 82, 1509, 945]
-	Open			on
+	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"

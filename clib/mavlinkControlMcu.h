@@ -50,6 +50,7 @@
 		uint8_t		wpProtState;	
 		uint8_t		wpCurrentWpInTransaction;
 		uint8_t		wpTimeOut;
+		uint8_t		wpTotalWps;
 		
 		// Info
 		uint8_t		pidIdx;
@@ -89,6 +90,9 @@
 	extern mavlink_pending_requests_t mlPending; 						//	--	**
 	extern mavlink_ping_t							mlPing; 							// 	..	**
 	extern mavlink_slugs_action_t			mlAction; 						// 	..	**
+	extern mavlink_waypoint_request_t	mlWpRequest; 					// 	..	**
+	extern mavlink_waypoint_ack_t			mlWpAck; 							// 	..	**
+	extern mavlink_waypoint_count_t		mlWpCount; 						// 	..	**
 
 
 	void mavlinkInit (void);

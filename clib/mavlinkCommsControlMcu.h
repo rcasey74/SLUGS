@@ -11,6 +11,8 @@
 #include "apUtils.h"
 #include <p33fxxxx.h>       	
        	
+#define PROTOCOL_TIMEOUT_TICKS 200    ///< maximum time to wait for pending messages until timeout
+
 	void uart2Init (void);
   void send2GS (unsigned char* protData);
   void gsRead (unsigned char* gsChunk);
