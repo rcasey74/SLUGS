@@ -756,7 +756,9 @@ void lowRateTelemetryMavlink(unsigned char* dataOut){
 				break;			
 				
 				case 5: // Wp Protocol state machine
+
 					switch (mlPending.wpProtState){
+						
 						case WP_PROT_LIST_REQUESTED:
 							// clear the msg
 							memset(&msg,0,sizeof(mavlink_message_t));
@@ -857,7 +859,7 @@ void lowRateTelemetryMavlink(unsigned char* dataOut){
 					} // switch wpProtState
 					
 					mlPending.wpTimeOut++;
-					
+										
 					// if Timed out reset the state machine and send an error
 					if (mlPending.wpTimeOut > PROTOCOL_TIMEOUT_TICKS){
 						memset(&msg,0,sizeof(mavlink_message_t));

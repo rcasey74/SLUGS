@@ -49,8 +49,8 @@ and data types.
 #define SLUGS_SYSTEMID		100
 #define SLUGS_COMPID			1
 
-#define GS_SYSTEMID				200
-#define GS_COMPID					1
+#define GS_SYSTEMID				127
+#define GS_COMPID					0
 
 // GPS Header IDs
 // ==============
@@ -179,7 +179,7 @@ enum WP_PROTOCOL {
 // Standard Units
 // ==============
 #define KTS2MPS 		0.514444444
-#define PI              3.141592653589793
+#define PI          3.141592653589793
 #define DEG2RAD			0.017453292519943
 #define RAD2DEG			57.29577951308232
 

@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.737"
+    ComputedModelVersion    "1.739"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Sat Nov 27 13:20:54 2010"
-  ModelVersionFormat	  "1.%<AutoIncrement:737>"
+  LastModifiedDate	  "Mon Nov 29 17:06:37 2010"
+  ModelVersionFormat	  "1.%<AutoIncrement:739>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -979,7 +979,7 @@ Model {
   }
   System {
     Name		    "controlMCUSlugsMKII"
-    Location		    [6, 82, 961, 810]
+    Location		    [2, 78, 798, 588]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    188
