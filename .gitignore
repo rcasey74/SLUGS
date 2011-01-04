@@ -110,3 +110,6 @@ GroundStation/Componentes/*
 
 
 /hardware/SLUGS_V2/allegro/signoise.run/case1/case.cfg,1
+
+/clib/testSuite/bin/*
+/clib/testSuite/obj/*
