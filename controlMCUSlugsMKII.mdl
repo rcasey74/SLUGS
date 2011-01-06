@@ -45,7 +45,7 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Mon Nov 29 17:06:37 2010"
+  LastModifiedDate	  "Wed Jan 05 16:40:22 2011"
   ModelVersionFormat	  "1.%<AutoIncrement:739>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
@@ -979,7 +979,7 @@ Model {
   }
   System {
     Name		    "controlMCUSlugsMKII"
-    Location		    [2, 78, 798, 588]
+    Location		    [2, 82, 798, 592]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    188

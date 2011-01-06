@@ -5,6 +5,7 @@
 
 HIL_K = 3;
 SampleT = 0.005;
+apSampleTime = 0.01;
 
 %% Run the standard setup files
 run ..\apConfiguration\Rascal_Var.m

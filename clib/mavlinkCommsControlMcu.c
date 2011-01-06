@@ -834,9 +834,10 @@ void lowRateTelemetryMavlink(unsigned char* dataOut){
 																	 			GS_SYSTEMID,
 																	 			GS_COMPID,
 																	 			mlPending.wpCurrentWpInTransaction, 
+																	 			MAV_FRAME_GLOBAL,
 																	 			mlWpValues.type[mlPending.wpsIdx], 
 																	 			(float)mlWpValues.orbit[mlPending.wpCurrentWpInTransaction],
-																				0,// always clockwise
+																	 			0,// always clockwise
 																				0.0,// Not used
 																				0.0,// Not used
 																				0,// Nor used

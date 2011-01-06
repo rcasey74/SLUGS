@@ -77,7 +77,7 @@ void schedulerInit (void){
 
 	// DMA0CNT Register
 	// ==============
-	DMA0CNT = MAXSEND-1;
+	DMA0CNT = LOGSEND-1;
 
 	// DMA0STA Register
 	// ================
@@ -107,10 +107,10 @@ void schedulerInit (void){
 	U2BRG = LOG_UBRG;				// Set the baud rate for data logger
 
 	// Initialize the Interrupt  
-  // ========================
+  	// ========================
 	IPC7bits.U2RXIP   = 5;    		// Interrupt priority 5  
-  IFS1bits.U2RXIF   = 0;    		// Clear the interrupt flag
-  IEC1bits.U2RXIE   = 1;    		// Enable interrupts
+  	IFS1bits.U2RXIF   = 0;    		// Clear the interrupt flag
+  	IEC1bits.U2RXIE   = 1;    		// Enable interrupts
   		
 	// Enable the port;
 	U2MODEbits.UARTEN	= 1;		// Enable the port	
@@ -160,7 +160,7 @@ void scheduleData (unsigned char hilOn, unsigned char* dataOut){
 	memset(&msg,0,sizeof(mavlink_message_t));
 		
 	switch (samplePeriod){
-		case 1: //GPS and Heartbeat
+		case 1: //GPS 
 			mavlink_msg_heartbeat_pack(SLUGS_SYSTEMID, 
 																 SLUGS_COMPID, 
 																 &msg, 
@@ -226,17 +226,15 @@ void scheduleData (unsigned char hilOn, unsigned char* dataOut){
 			bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);	
 			
 			// clear the message
-			memset(&msg,0,sizeof(mavlink_message_t));
+				memset(&msg,0,sizeof(mavlink_message_t));
 				
 			// it there has been a reboot
 			if(mlBoot.version == 1){
 			 // Copy the message to the send buffer
-			// indicating there has been a reboot
 			 mavlink_msg_boot_pack(SLUGS_SYSTEMID, 
 														 SLUGS_COMPID, 
 														 &msg, 
-														 mlBoot.version);
-			 // Reset the reboot flag since the reboot message has been sent
+														 1);
 			 mlBoot.version=0;
 		  } else {
 				// Copy the message to the send buffer
@@ -294,7 +292,7 @@ void scheduleData (unsigned char hilOn, unsigned char* dataOut){
 		break;
 		
 		case 8: // Sensor Data in meaningful units
-			mavlink_msg_filtered_data_pack( SLUGS_SYSTEMID, 
+					mavlink_msg_filtered_data_pack( SLUGS_SYSTEMID, 
 																 					SLUGS_COMPID, 
 																 					&msg, 
 																	 				mlFilteredData.aX,
@@ -306,47 +304,6 @@ void scheduleData (unsigned char hilOn, unsigned char* dataOut){
 																	 				mlFilteredData.mX,
 																	 				mlFilteredData.mY,
 																	 				mlFilteredData.mZ);
-			// Copy the message to the send buffer
-			bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);	
-		
-		break;
-		
-		case 9: // Raw Pressure Data
-			mavlink_msg_raw_pressure_pack( SLUGS_SYSTEMID, 
-																 				 SLUGS_COMPID, 
-																 				 &msg, 
-																	 			 0,
-																	 			 mlRawPressureData.press_abs,
-																	 			 mlRawPressureData.press_diff1,
-																	 			 mlRawPressureData.press_diff2,
-																	 			 mlRawPressureData.temperature);
-																	 				
-			// Copy the message to the send buffer
-			bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);	
-		
-		break;
-		
-		case 10: // System and GPS time
-			mavlink_msg_system_time_pack( SLUGS_SYSTEMID, 
-																 			SLUGS_COMPID, 
-																 			&msg, 
-																	 		mlSystemTime.time_usec);
-			// Copy the message to the send buffer
-			bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);	
-		
-			// clear the message
-			memset(&msg,0,sizeof(mavlink_message_t));
-
-			mavlink_msg_gps_date_time_pack( SLUGS_SYSTEMID, 
-																 			SLUGS_COMPID, 
-																 			&msg, 
-																	 		mlGpsDateTime.year,
-																	 		mlGpsDateTime.month,
-																	 		mlGpsDateTime.day,
-																	 		mlGpsDateTime.hour,
-																	 		mlGpsDateTime.min,
-																	 		mlGpsDateTime.sec,
-																	 		mlGpsDateTime.visSat);
 			// Copy the message to the send buffer
 			bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);	
 		
@@ -382,15 +339,15 @@ void scheduleData (unsigned char hilOn, unsigned char* dataOut){
 													 SLUGS_COMPID, 
 													 &msg,
 													 0,
-													 mlRawImuData.xacc, 
-													 mlRawImuData.yacc, 
-													 mlRawImuData.zacc, 
-													 mlRawImuData.xgyro, 
-													 mlRawImuData.ygyro, 
-													 mlRawImuData.zgyro, 
-													 mlRawImuData.xmag, 
-													 mlRawImuData.ymag, 
-													 mlRawImuData.zmag); 
+													mlRawImuData.xacc, 
+													mlRawImuData.yacc, 
+													mlRawImuData.zacc, 
+													mlRawImuData.xgyro, 
+													mlRawImuData.ygyro, 
+													mlRawImuData.zgyro, 
+													mlRawImuData.xmag, 
+													mlRawImuData.ymag, 
+													mlRawImuData.zmag); 
 
 	bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);
 

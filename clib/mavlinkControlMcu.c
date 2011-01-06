@@ -80,5 +80,7 @@ void mavlinkInit (void){
 	mlPending.wpTransaction = 0;
 	mlPending.wpProtState = WP_PROT_IDLE;	
 	mlPending.wpTimeOut = 0;
+	
+	mlHeartbeat.mavlink_version = MAVLINK_VERSION;
 }
 

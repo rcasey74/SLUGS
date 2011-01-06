@@ -19,7 +19,7 @@
 
 
       // Quitar un elemento
-	    x = readHead(bp);
+	    x = readFront(bp);
       REQUIRE( x == 5 );
       REQUIRE( getLength(bp) == 0 );
 
