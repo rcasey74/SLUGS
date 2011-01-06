@@ -2,6 +2,33 @@
 #include "circBuffer.h"
 
 
+TEST_CASE("Peak muestra el proximo elemento a retirar", "Peak debe de mostrar el proximo elemento que readFront nos daria"){
+
+    struct CircBuffer buffer;
+    int x;
+
+    CBRef bp = &buffer;
+    newCircBuffer(bp);
+
+    writeBack(bp, 5);
+    REQUIRE(peak(bp) == 5);
+
+    writeBack(bp, 2);
+    REQUIRE(peak(bp) == 5);
+    x = readFront(bp);
+    REQUIRE_FALSE(peak(bp) == 5);
+    REQUIRE(peak(bp) == 2);
+
+
+    writeBack(bp, 6);
+    REQUIRE(peak(bp) == 2);
+    x = readFront(bp);
+    REQUIRE(peak(bp) == 6);
+    x = readFront(bp);
+    REQUIRE_FALSE(peak(bp) == 6);
+    REQUIRE(peak(bp) == 0);
+}
+
   TEST_CASE( "Anadir y quitar elementos", "La cola debe de anadir y remover elementos de manera adecuada" )
   {
       struct CircBuffer buffer;
@@ -17,6 +44,8 @@
         writeBack(bp, 2);
         writeBack(bp, 6);
         writeBack(bp, 9);
+
+        REQUIRE(getLength(bp) == 4);
 
         x=readHead(bp);
         printf("\ncabeza=%d\n",x);

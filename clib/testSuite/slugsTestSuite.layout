@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="..\circBuffer.c" open="1" top="0" tabpos="2">
-		<Cursor position="6337" topLine="228" />
-	</File>
-	<File name="..\circBuffer.h" open="1" top="0" tabpos="3">
-		<Cursor position="3684" topLine="61" />
+	<File name="..\circBuffer.h" open="1" top="0" tabpos="2">
+		<Cursor position="3063" topLine="93" />
 	</File>
 	<File name="main.cpp" open="1" top="1" tabpos="1">
-		<Cursor position="1235" topLine="6" />
+		<Cursor position="510" topLine="0" />
 	</File>
 </CodeBlocks_layout_file>
