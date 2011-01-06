@@ -114,3 +114,114 @@
 	"circBuffer.h"
 	<stdio.h>
 
+1294329202 source:c:\desarrollososa\slugs\clib\circbuffer.c
+	<stdlib.h>
+	"circBuffer.h"
+	<stdio.h>
+
+1294329202 c:\desarrollososa\slugs\clib\circbuffer.h
+	"apDefinitions.h"
+
+1294170016 c:\desarrollososa\slugs\clib\apdefinitions.h
+
+1294324389 source:c:\desarrollososa\slugs\clib\testsuite\main.cpp
+	"catch_default_main.hpp"
+	"circBuffer.h"
+
+1294174174 c:\desarrollososa\slugs\catch\catch_default_main.hpp
+	"catch_runner.hpp"
+	"catch.hpp"
+
+1294174174 c:\desarrollososa\slugs\catch\catch_runner.hpp
+	"internal/catch_commandline.hpp"
+	"internal/catch_list.hpp"
+	"catch_reporter_basic.hpp"
+	"catch_reporter_xml.hpp"
+	"catch_reporter_junit.hpp"
+
+1294174174 c:\desarrollososa\slugs\catch\internal\catch_commandline.hpp
+	"catch_runnerconfig.hpp"
+	"catch_runner_impl.hpp"
+
+1294174174 c:\desarrollososa\slugs\catch\internal\catch_runnerconfig.hpp
+	"catch_reporter_registry.hpp"
+	<memory>
+	<vector>
+	<string>
+
+1294174174 c:\desarrollososa\slugs\catch\internal\catch_reporter_registry.hpp
+	"catch_testcaseinfo.hpp"
+	"catch_resultinfo.hpp"
+	"catch_common.h"
+	<map>
+	<iostream>
+	<fstream>
+
+1294174174 c:\desarrollososa\slugs\catch\internal\catch_testcaseinfo.hpp
+	<map>
+	<string>
+
+1294174174 c:\desarrollososa\slugs\catch\internal\catch_resultinfo.hpp
+	<string>
+
+1294174174 c:\desarrollososa\slugs\catch\internal\catch_common.h
+
+1294174174 c:\desarrollososa\slugs\catch\internal\catch_runner_impl.hpp
+	"catch_reporter_registry.hpp"
+	"catch_runnerconfig.hpp"
+	"catch_registry.hpp"
+	"catch_capture.hpp"
+
+1294174174 c:\desarrollososa\slugs\catch\internal\catch_registry.hpp
+	"catch_testcaseinfo.hpp"
+	"catch_common.h"
+	<vector>
+	<set>
+	<stdexcept>
+	<iostream>
+
+1294174174 c:\desarrollososa\slugs\catch\internal\catch_capture.hpp
+	"catch_resultinfo.hpp"
+	"catch_debugger.hpp"
+	<sstream>
+	<cmath>
+
+1294174174 c:\desarrollososa\slugs\catch\internal\catch_debugger.hpp
+	<assert.h>
+	<stdbool.h>
+	<sys/types.h>
+	<unistd.h>
+	<sys/sysctl.h>
+
+1294174174 c:\desarrollososa\slugs\catch\internal\catch_list.hpp
+	"catch_commandline.hpp"
+	<limits>
+
+1294174174 c:\desarrollososa\slugs\catch\catch_reporter_basic.hpp
+	"internal/catch_capture.hpp"
+	"internal/catch_reporter_registry.hpp"
+
+1294174174 c:\desarrollososa\slugs\catch\catch_reporter_xml.hpp
+	"internal/catch_capture.hpp"
+	"internal/catch_reporter_registry.hpp"
+	"internal/catch_xmlwriter.hpp"
+
+1294174174 c:\desarrollososa\slugs\catch\internal\catch_xmlwriter.hpp
+	<sstream>
+	<string>
+	<vector>
+
+1294174174 c:\desarrollososa\slugs\catch\catch_reporter_junit.hpp
+	"internal/catch_capture.hpp"
+	"internal/catch_reporter_registry.hpp"
+	"internal/catch_xmlwriter.hpp"
+
+1294174174 c:\desarrollososa\slugs\catch\catch.hpp
+	"internal/catch_registry.hpp"
+	"internal/catch_capture.hpp"
+	"internal/catch_section.hpp"
+
+1294174174 c:\desarrollososa\slugs\catch\internal\catch_section.hpp
+	"catch_capture.hpp"
+	<string>
+
