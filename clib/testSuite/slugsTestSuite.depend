@@ -100,7 +100,7 @@
 	"catch_capture.hpp"
 	<string>
 
-1289250253 c:\mariano\semar\slugs\apcode\clib\circbuffer.h
+1294768887 c:\mariano\semar\slugs\apcode\clib\circbuffer.h
 	"apDefinitions.h"
 
 1294331672 c:\mariano\semar\slugs\apcode\clib\apdefinitions.h
@@ -109,7 +109,7 @@
 	"catch_default_main.hpp"
 	"circBuffer.h"
 
-1289250253 source:c:\mariano\semar\slugs\apcode\clib\circbuffer.c
+1294769930 source:c:\mariano\semar\slugs\apcode\clib\circbuffer.c
 	<stdlib.h>
 	"circBuffer.h"
 	<stdio.h>
@@ -231,4 +231,10 @@
 	"apDefinitions.h"
 
 1293035091 c:\desarrollososa\slugs\clib\conversions.h
+
+1294768887 source:c:\mariano\semar\slugs\apcode\clib\conversions.c
+	"conversions.h"
+	"apDefinitions.h"
+
+1289250253 c:\mariano\semar\slugs\apcode\clib\conversions.h
 

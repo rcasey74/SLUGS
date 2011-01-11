@@ -2,6 +2,47 @@
 #include "circBuffer.h"
 #include "../conversions.h"
 
+TEST_CASE("circBuffer", "Tests requeridos para cada funcion de Circular Buffer"){
+
+    struct CircBuffer buffer;
+    CBRef bp = &buffer;
+    newCircBuffer(bp);
+
+    SECTION ("newCircBuffer()", "Debe inicializar todo a cero"){
+        REQUIRE(getLength(bp) == 0);
+        REQUIRE(readTail(bp) == 0);
+        REQUIRE(readHead(bp) == 0);
+        REQUIRE(getOverflow(bp) == 0);
+    }
+
+
+
+}
+
+TEST_CASE("conversions", "Tests requeridos para cada funcion de conversions.c"){
+
+    union floatToChar {
+        float fl ;
+        unsigned char ch[4];
+    };
+
+    union floatToChar temp;
+
+
+    SECTION ("floatToBytes()", "La conversion de flotante a bytes para transmision"){
+
+        temp.fl = 50.0;
+
+        REQUIRE(bytesToFloat(temp.ch) == temp.fl);
+
+        temp.fl = 0.0;
+    }
+
+
+
+}
+
+
 TEST_CASE("Peak muestra el proximo elemento a retirar", "Peak debe de mostrar el proximo elemento que readFront nos daria"){
 
     struct CircBuffer buffer;
@@ -37,12 +78,17 @@ TEST_CASE(" Introducir datos y mostrar cuantos elementos hay en el bufer", "debe
     CBRef bp = &buffer;
     newCircBuffer(bp);
 
-    REQUIRE( getLength(bp) == NULL);
+    REQUIRE( getLength(bp) == 0);
 
-    for (x=0; x<200; x++)
+    for (x=0; x<200; x++){
+        writeBack(bp, 5);
+    }
+
+    readFront(bp);
     writeBack(bp, 5);
 
-    REQUIRE( readTail(bp) == 200);
+
+    REQUIRE( getLength(bp) == 200);
 
 }
 
@@ -207,7 +253,10 @@ TEST_CASE("Vaciar   el  bufer", " makeEmpty  debe  si  efectivamente el bufer se
 //  test  del  archivo  de  conversiones   //
 
 TEST_CASE("Conversion de  Bytes a   float", " Checar si se  realiza  efectivamente  la  conversion de Bytes a float"){
-
+    union floatToChar {
+        float fl ;
+        unsigned char ch[4];
+    };
 
     unsigned char x[4]={1,0,0,0};
     int  n,t,r,ce,te,se,pe,res;
@@ -216,8 +265,20 @@ TEST_CASE("Conversion de  Bytes a   float", " Checar si se  realiza  efectivamen
     float f,flo;
     unsigned short int s;     //valor maximo   0   a  65535
 
+    union floatToChar temp;
 
-     flo=0.345;
+    temp.fl = 50.0;
+
+    printf("%f => [%d][%d][%d][%d]\n", temp.fl, temp.ch[0], temp.ch[1], temp.ch[2], temp.ch[3]);
+
+    flo = bytesToFloat(temp.ch);
+
+    REQUIRE(flo == temp.fl);
+
+
+
+
+    flo=0.345;
 
     //c=200;
 
