@@ -161,6 +161,7 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 															 			GS_SYSTEMID,
 															 			GS_COMPID,
 															 			mlPending.wpsIdx, 
+															 			MAV_FRAME_GLOBAL,
 															 			mlWpValues.type[mlPending.wpsIdx], 
 															 			(float)mlWpValues.orbit[mlPending.wpsIdx],
 																		0,// always clockwise
@@ -717,6 +718,7 @@ void lowRateTelemetryMavlink(unsigned char* dataOut){
 															 			GS_SYSTEMID,
 															 			GS_COMPID,
 															 			mlPending.wpsIdx, 
+															 			MAV_FRAME_GLOBAL,
 															 			mlWpValues.type[mlPending.wpsIdx], 
 															 			(float)mlWpValues.orbit[mlPending.wpsIdx],
 																		0,// always clockwise
@@ -1253,7 +1255,7 @@ void lowRateTelemetryMavlink(unsigned char* dataOut){
 					mlWpValues.lat[indx] 		= mlSingleWp.y;
 					mlWpValues.lon[indx] 		= mlSingleWp.x;
 					mlWpValues.alt[indx] 		= mlSingleWp.z;
-					mlWpValues.type[indx] 	= mlSingleWp.type;
+					mlWpValues.type[indx] 	= mlSingleWp.action;
 					mlWpValues.orbit[indx]	= (uint16_t)mlSingleWp.orbit;
 					
 					// Compute the adecuate index offset
@@ -1273,7 +1275,7 @@ void lowRateTelemetryMavlink(unsigned char* dataOut){
 					writeSuccess += DataEEWrite(tempFloat.shData[1], WPS_OFFSET+indexOffset+5);
 					
 					
-					writeSuccess += DataEEWrite((unsigned short)mlSingleWp.type, WPS_OFFSET+indexOffset+6);
+					writeSuccess += DataEEWrite((unsigned short)mlSingleWp.action, WPS_OFFSET+indexOffset+6);
 					
 					writeSuccess += DataEEWrite(mlSingleWp.orbit, WPS_OFFSET+indexOffset+7);          
 					
