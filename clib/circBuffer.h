@@ -27,7 +27,7 @@ THE SOFTWARE.
 // circBuffer.h
 // This is the header file for the circular buffer. This library
 // implements a circular buffer to be used in the serial readers
-// for the GPS, IPC and telemetry decoders of the UCSC AutoPilot. 
+// for the GPS, IPC and telemetry decoders of the UCSC AutoPilot.
 //
 // Comment the DEBUG define prior to compile for dsPIC
 //
@@ -52,7 +52,7 @@ THE SOFTWARE.
 		unsigned int size;
 		unsigned char overflowCount;
 	}CircBuffer;
-	
+
 #else
 	typedef struct CircBuffer{
 		unsigned char* buffer;
@@ -66,10 +66,10 @@ THE SOFTWARE.
 // Exported Types
 // ==============
 typedef struct CircBuffer* CBRef;
-	
+
 // Constructors - Destructors
 // ==========================
-// this Function returns a pointer to a new Circular Buffer of size pm_size 
+// this Function returns a pointer to a new Circular Buffer of size pm_size
 
 #if __IN_DSPIC__
 	void newCircBuffer (CBRef cB);

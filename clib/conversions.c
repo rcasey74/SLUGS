@@ -35,15 +35,15 @@ float bytesToFloat (unsigned char* inBytes){
 	convert.chData[3] = inBytes[3];
 	return convert.flData;
 }
-
+/*
 void floatToBytes (float inFloat, unsigned char* inBytes){
 	tFloatToChar convert;
 	convert.flData = inFloat;
-	
+
 	inBytes[0] = convert.chData[0];
 	inBytes[1] = convert.chData[1];
 	inBytes[2] = convert.chData[2];
-	inBytes[3] = convert.chData[3];	
+	inBytes[3] = convert.chData[3];
 }
 
 unsigned short bytesToUShort (unsigned char* inBytes){
@@ -56,7 +56,7 @@ unsigned short bytesToUShort (unsigned char* inBytes){
 void uShortToBytes (unsigned short inUShort, unsigned char* inBytes){
 	tUnsignedShortToChar convert;
 	convert.usData = inUShort;
-	
+
 	inBytes[0] = convert.chData[0];
 	inBytes[1] = convert.chData[1];
 }
@@ -71,7 +71,8 @@ short bytesToShort (unsigned char* inBytes){
 void shortToBytes (short inShort, unsigned char* inBytes){
 	tShortToChar convert;
 	convert.shData = inShort;
-	
+
 	inBytes[0] = convert.chData[0];
 	inBytes[1] = convert.chData[1];
 }
+*/
