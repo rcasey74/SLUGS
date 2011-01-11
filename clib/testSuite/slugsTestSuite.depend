@@ -124,9 +124,10 @@
 
 1294170016 c:\desarrollososa\slugs\clib\apdefinitions.h
 
-1294423125 source:c:\desarrollososa\slugs\clib\testsuite\main.cpp
+1294691715 source:c:\desarrollososa\slugs\clib\testsuite\main.cpp
 	"catch_default_main.hpp"
 	"circBuffer.h"
+	"../conversions.h"
 
 1294174174 c:\desarrollososa\slugs\catch\catch_default_main.hpp
 	"catch_runner.hpp"
@@ -224,4 +225,10 @@
 1294174174 c:\desarrollososa\slugs\catch\internal\catch_section.hpp
 	"catch_capture.hpp"
 	<string>
+
+1294761606 source:c:\desarrollososa\slugs\clib\conversions.c
+	"conversions.h"
+	"apDefinitions.h"
+
+1293035091 c:\desarrollososa\slugs\clib\conversions.h
 

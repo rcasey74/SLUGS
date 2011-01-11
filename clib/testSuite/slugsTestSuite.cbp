@@ -38,6 +38,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="..\circBuffer.h" />
+		<Unit filename="..\conversions.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\conversions.h" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />

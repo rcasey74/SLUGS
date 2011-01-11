@@ -1,6 +1,6 @@
 #include "catch_default_main.hpp" // This brings in a default implementation for main()
 #include "circBuffer.h"
-
+#include "../conversions.h"
 
 TEST_CASE("Peak muestra el proximo elemento a retirar", "Peak debe de mostrar el proximo elemento que readFront nos daria"){
 
@@ -188,7 +188,7 @@ TEST_CASE("Leer  del  bufer  sin  haber  introducido datos", "Que  sucede si  se
 TEST_CASE("Vaciar   el  bufer", " makeEmpty  debe  si  efectivamente el bufer se  vacia"){
 
     struct CircBuffer buffer;
-    int x,f,n;
+    int x;
 
 
     CBRef bp = &buffer;
@@ -203,4 +203,110 @@ TEST_CASE("Vaciar   el  bufer", " makeEmpty  debe  si  efectivamente el bufer se
    REQUIRE( readTail(bp)== 480);
 
 }
+
+//  test  del  archivo  de  conversiones   //
+
+TEST_CASE("Conversion de  Bytes a   float", " Checar si se  realiza  efectivamente  la  conversion de Bytes a float"){
+
+
+    //unsigned char x[4]={1,0,0,0};
+    int  n,t,r,ce,te,se,pe,res;
+    unsigned char z[2]={99,0};
+    unsigned char c;
+    float f,flo;
+    unsigned short int s;     //valor maximo   0   a  65535
+
+     unsigned char x;
+     flo=0.345;
+      x=23;
+    //c=200;
+
+
+   f = bytesToFloat(&x);
+
+    //f=floatToBytes( flo, x);
+
+
+    printf("%.2f\n",f);
+
+}
+    //REQUIRE( f == 50.00);
+
+/*
+///////////////////////////////////////////////////
+    s=bytesToShort(z);
+
+    printf("%d\n",s);
+
+   REQUIRE( s == 99);
+
+
+
+///////////////////////////////////////////
+
+//procedimiento  para el  ver los  indices del intercambio  de  informacion
+// de bytes to  Short.
+
+
+printf("\nteclea un numero\n");
+scanf("%d",&n);
+
+t=n/256;
+r=n%256;
+
+z[0]=r;
+z[1]=t;
+
+s=bytesToShort(z);
+printf("%d\n",s);
+
+
+//REQUIRE( bytesToShort(z)== n);
+/*
+unsigned char b[4]={1,0,0,0};
+int  n;
+float f;
+
+    f = bytesToFloat(b);
+
+    printf("%.2f\n",f);
+
+    //REQUIRE( f == 0.00);
+
+}
+
+
+TEST_CASE("Conversion de  short bytes a UShort", " Checar si se  realiza  efectivamente  la  conversion short bytes a UShort"){
+
+unsigned char x;
+unsigned short s;
+float f;
+
+    x=0;
+
+    s = bytesToUShort(&x);
+
+
+
+}
+
+
+
+
+
+TEST_CASE("Conversion de  Short  a Bytes", " Checar si se  realiza  efectivamente  la  conversion de Short  a  Bytes"){
+
+unsigned char x;
+short s;
+
+
+
+    shortToBytes(s, &x);
+
+
+    //REQUIRE( f == 0);
+
+}
+
+*/
 
