@@ -209,20 +209,20 @@ TEST_CASE("Vaciar   el  bufer", " makeEmpty  debe  si  efectivamente el bufer se
 TEST_CASE("Conversion de  Bytes a   float", " Checar si se  realiza  efectivamente  la  conversion de Bytes a float"){
 
 
-    //unsigned char x[4]={1,0,0,0};
+    unsigned char x[4]={1,0,0,0};
     int  n,t,r,ce,te,se,pe,res;
     unsigned char z[2]={99,0};
     unsigned char c;
     float f,flo;
     unsigned short int s;     //valor maximo   0   a  65535
 
-     unsigned char x;
+
      flo=0.345;
-      x=23;
+
     //c=200;
 
 
-   f = bytesToFloat(&x);
+   f = bytesToFloat(x);
 
     //f=floatToBytes( flo, x);
 
