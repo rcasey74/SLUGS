@@ -100,7 +100,7 @@
 	"catch_capture.hpp"
 	<string>
 
-1289250253 c:\mariano\semar\slugs\apcode\clib\circbuffer.h
+1294768887 c:\mariano\semar\slugs\apcode\clib\circbuffer.h
 	"apDefinitions.h"
 
 1294331672 c:\mariano\semar\slugs\apcode\clib\apdefinitions.h
@@ -109,24 +109,25 @@
 	"catch_default_main.hpp"
 	"circBuffer.h"
 
-1289250253 source:c:\mariano\semar\slugs\apcode\clib\circbuffer.c
+1294769930 source:c:\mariano\semar\slugs\apcode\clib\circbuffer.c
 	<stdlib.h>
 	"circBuffer.h"
 	<stdio.h>
 
-1294329202 source:c:\desarrollososa\slugs\clib\circbuffer.c
+1294419326 source:c:\desarrollososa\slugs\clib\circbuffer.c
 	<stdlib.h>
 	"circBuffer.h"
 	<stdio.h>
 
-1294329202 c:\desarrollososa\slugs\clib\circbuffer.h
+1294334767 c:\desarrollososa\slugs\clib\circbuffer.h
 	"apDefinitions.h"
 
 1294170016 c:\desarrollososa\slugs\clib\apdefinitions.h
 
-1294324389 source:c:\desarrollososa\slugs\clib\testsuite\main.cpp
+1294851361 source:c:\desarrollososa\slugs\clib\testsuite\main.cpp
 	"catch_default_main.hpp"
 	"circBuffer.h"
+	"../conversions.h"
 
 1294174174 c:\desarrollososa\slugs\catch\catch_default_main.hpp
 	"catch_runner.hpp"
@@ -224,4 +225,16 @@
 1294174174 c:\desarrollososa\slugs\catch\internal\catch_section.hpp
 	"catch_capture.hpp"
 	<string>
+
+1294841333 source:c:\desarrollososa\slugs\clib\conversions.c
+	"conversions.h"
+	"apDefinitions.h"
+
+1293035091 c:\desarrollososa\slugs\clib\conversions.h
+
+1294768887 source:c:\mariano\semar\slugs\apcode\clib\conversions.c
+	"conversions.h"
+	"apDefinitions.h"
+
+1289250253 c:\mariano\semar\slugs\apcode\clib\conversions.h
 
