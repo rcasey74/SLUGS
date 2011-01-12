@@ -122,6 +122,8 @@ float myExp(float x){
      #endif
 }
 
+#ifndef __cplusplus
+
 // ================================
 //    Debug Functions
 // ================================
@@ -135,3 +137,4 @@ void printToUart2 (const char *fmt, ...){
 	putsUART2((unsigned int*)buf);
 }
 
+#endif
