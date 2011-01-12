@@ -124,7 +124,7 @@
 
 1294170016 c:\desarrollososa\slugs\clib\apdefinitions.h
 
-1294691715 source:c:\desarrollososa\slugs\clib\testsuite\main.cpp
+1294851361 source:c:\desarrollososa\slugs\clib\testsuite\main.cpp
 	"catch_default_main.hpp"
 	"circBuffer.h"
 	"../conversions.h"
@@ -226,7 +226,7 @@
 	"catch_capture.hpp"
 	<string>
 
-1294761606 source:c:\desarrollososa\slugs\clib\conversions.c
+1294841333 source:c:\desarrollososa\slugs\clib\conversions.c
 	"conversions.h"
 	"apDefinitions.h"
 

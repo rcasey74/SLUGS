@@ -35,7 +35,7 @@ float bytesToFloat (unsigned char* inBytes){
 	convert.chData[3] = inBytes[3];
 	return convert.flData;
 }
-/*
+
 void floatToBytes (float inFloat, unsigned char* inBytes){
 	tFloatToChar convert;
 	convert.flData = inFloat;
@@ -75,4 +75,4 @@ void shortToBytes (short inShort, unsigned char* inBytes){
 	inBytes[0] = convert.chData[0];
 	inBytes[1] = convert.chData[1];
 }
-*/
+
