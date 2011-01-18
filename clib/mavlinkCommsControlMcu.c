@@ -445,7 +445,7 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 																  mlPing.seq,
 																  SLUGS_SYSTEMID, 
 																  SLUGS_COMPID,
-																  mlSystemTime.time_usec);	
+																  mlAttitudeData.usec);	
 					
 					// Copy the message to the send buffer
 					bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);									
@@ -501,12 +501,7 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 											 
 		// reset the boot message
 		mlBoot.version = 0;	
-	} else {  // transmit the system time
-		mavlink_msg_system_time_pack( SLUGS_SYSTEMID, 
-																	SLUGS_COMPID, 
-																	&msg, 
-																	mlSystemTime.time_usec);													
-	}
+	} 
 	
 	
 	// Copy the message to the send buffer	
@@ -570,13 +565,6 @@ void lowRateTelemetryMavlink(unsigned char* dataOut){
 	memset(&msg,0,sizeof(mavlink_message_t));
 	
 	if (sw_50hz){
-		// System Time
-		mavlink_msg_system_time_encode( SLUGS_SYSTEMID, 
-																	SLUGS_COMPID, 
-																	&msg, 
-																	&mlSystemTime);
-		// Copy the message to the send buffer	
-		bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);
 		
 		if (ct_10hz == 5){
 			
@@ -680,7 +668,7 @@ void lowRateTelemetryMavlink(unsigned char* dataOut){
 																  mlPing.seq,
 																  SLUGS_SYSTEMID, 
 																  SLUGS_COMPID,
-																  mlSystemTime.time_usec);	
+																  mlAttitudeData.usec);	
 					
 					// Copy the message to the send buffer
 					bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);		
@@ -1029,6 +1017,7 @@ void lowRateTelemetryMavlink(unsigned char* dataOut){
 	// Get ready for the next Tx
 	sw_50hz= !sw_50hz;
 }
+
  void protDecodeMavlink (uint8_t* dataIn){
 	
 	uint8_t i, indx, writeSuccess, commChannel = dataIn[MAXSEND+1];
@@ -1104,10 +1093,6 @@ void lowRateTelemetryMavlink(unsigned char* dataOut){
 
 				case MAVLINK_MSG_ID_RAW_PRESSURE:
 					mavlink_msg_raw_pressure_decode(&msg, &mlRawPressureData);
-				break;
-				
-				case MAVLINK_MSG_ID_SYSTEM_TIME:
-					mavlink_msg_system_time_decode(&msg, &mlSystemTime);
 				break;
 				
 				case MAVLINK_MSG_ID_GPS_DATE_TIME:
@@ -1193,6 +1178,7 @@ void lowRateTelemetryMavlink(unsigned char* dataOut){
 				break;
 				
 				case MAVLINK_MSG_ID_WAYPOINT_REQUEST_LIST:
+								
 					// if there is no transaction going on
 					if (!mlPending.wpTransaction && (mlPending.wpProtState == WP_PROT_IDLE)){
 						// Start the transaction
@@ -1200,6 +1186,8 @@ void lowRateTelemetryMavlink(unsigned char* dataOut){
 						
 						// change the state
 						mlPending.wpProtState = WP_PROT_LIST_REQUESTED;
+						
+						
 						
 						// reset the rest of the state machine
 						mlPending.wpCurrentWpInTransaction = 0;
@@ -1463,5 +1451,28 @@ void __attribute__ ((interrupt, no_auto_psv)) _U1ErrInterrupt(void)
 	IFS4bits.U2EIF = 0; // Clear the UART2 Error Interrupt Flag
 }
 
+
+void sendQGCDebugMessage (const char* dbgMessage, char severity){
+		mavlink_message_t msg;
+		unsigned char strMessage[50];
+		unsigned char packedMessage [100];
+		unsigned char bytes2Send = 0;
+		char sizeMessage = (sizeof(dbgMessage)>50) ? 50 : sizeof(dbgMessage);
+		
+		memset(strMessage,0,50);
+		memcpy(strMessage, dbgMessage,sizeMessage);
+		
+		mavlink_msg_statustext_pack (SLUGS_SYSTEMID, 
+																 SLUGS_COMPID, 
+																 &msg, 
+																 severity,
+																 strMessage);
+																 
+		bytes2Send = mavlink_msg_to_send_buffer((packedMessage+1), &msg);
+		packedMessage[0] = bytes2Send;
+		
+		send2GS(packedMessage);
+	
+}
 
 

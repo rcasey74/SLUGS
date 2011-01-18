@@ -20,6 +20,7 @@
 	void prepareTelemetryMavlink (unsigned char* dataOut);
   void protDecodeMavlink (uint8_t* dataIn);          
 	void lowRateTelemetryMavlink (unsigned char* dataOut);       	
+	void sendQGCDebugMessage (const char* dbgMessage, char severity);
        	
        		
 #ifdef __cplusplus

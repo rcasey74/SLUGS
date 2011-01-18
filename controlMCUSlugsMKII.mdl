@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.741"
+    ComputedModelVersion    "1.744"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Fri Jan 07 08:43:03 2011"
-  ModelVersionFormat	  "1.%<AutoIncrement:741>"
+  LastModifiedDate	  "Tue Jan 18 13:57:56 2011"
+  ModelVersionFormat	  "1.%<AutoIncrement:744>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -579,7 +579,7 @@ Model {
 	PropName		"Components"
       }
       Name		      "Configuration"
-      CurrentDlgPage	      "Real-Time Workshop/Custom Code"
+      CurrentDlgPage	      "Solver"
     }
     PropName		    "ConfigurationSets"
   }
@@ -979,7 +979,7 @@ Model {
   }
   System {
     Name		    "controlMCUSlugsMKII"
-    Location		    [6, 82, 802, 592]
+    Location		    [6, 82, 1228, 925]
     Open		    off
     ModelBrowserVisibility  off
     ModelBrowserWidth	    188
@@ -2516,11 +2516,38 @@ Model {
 	  }
 	}
 	Block {
+	  BlockType		  Reference
+	  Name			  "Counter\nFree-Running"
+	  Ports			  [0, 1]
+	  Position		  [890, 260, 920, 290]
+	  SourceBlock		  "simulink/Sources/Counter\nFree-Running"
+	  SourceType		  "Counter Free-Running"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  NumBits		  "8"
+	  tsamp			  "-1"
+	}
+	Block {
 	  BlockType		  DataTypeConversion
 	  Name			  "Data Type Conversion1"
 	  Position		  [1140, 176, 1200, 194]
 	  ShowName		  off
 	  OutDataTypeMode	  "single"
+	  RndMeth		  "Floor"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  DataTypeConversion
+	  Name			  "Data Type Conversion2"
+	  Position		  [1195, 281, 1255, 299]
+	  ShowName		  off
+	  OutDataTypeMode	  "int16"
 	  RndMeth		  "Floor"
 	  SaturateOnIntegerOverflow off
 	}
@@ -2560,6 +2587,61 @@ Model {
 	  OrderingInOutPopup	  "None"
 	}
 	Block {
+	  BlockType		  Reference
+	  Name			  "Diagnostics\n[navSupport.c]1"
+	  Tag			  "dsPIC_dsPIC_CFunctionCall"
+	  Ports			  [1]
+	  Position		  [1285, 276, 1390, 304]
+	  BackgroundColor	  "orange"
+	  List {
+	    ListType		    RTWdata
+	    FctDeclaration	    "extern void setDiagnosticShort(int16_T* u"
+"1);"
+	    FctCall		    "setDiagnosticShort(*%u1);"
+	    fctName		    "setDiagnosticShort"
+	    INPUT_SIZE		    "3"
+	    OUTPUT_SIZE		    "1"
+	    NBR_INPUT		    "1"
+	    NBR_OUTPUT		    "0"
+	  }
+	  SourceBlock		  "dsPICdrivers/OTHERS/C Function Call"
+	  SourceType		  "C Function Call"
+	  fctName		  "'setDiagnosticShort'"
+	  INPUT_SIZE		  "3"
+	  INPUT1		  "int16"
+	  INPUT2		  "--"
+	  INPUT3		  "--"
+	  OUTPUT_SIZE		  "1"
+	  OUTPUT1		  "--"
+	  SampleTime		  ".01"
+	  InputType		  "[ 3 ]"
+	  OutputType		  "[ ]"
+	  FctDeclaration	  "extern void setDiagnosticShort(int16_T* u1)"
+";"
+	  FctCall		  "setDiagnosticShort(*%u1);"
+	  OrderingInOutPopup	  "None"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From4"
+	  Position		  [1030, 302, 1085, 318]
+	  BackgroundColor	  "cyan"
+	  ShowName		  off
+	  CloseFcn		  "tagdialog Close"
+	  GotoTag		  "DShort3"
+	  TagVisibility		  "global"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From5"
+	  Position		  [1030, 282, 1085, 298]
+	  BackgroundColor	  "cyan"
+	  ShowName		  off
+	  CloseFcn		  "tagdialog Close"
+	  GotoTag		  "DShort2"
+	  TagVisibility		  "global"
+	}
+	Block {
 	  BlockType		  From
 	  Name			  "From6"
 	  Position		  [1035, 177, 1090, 193]
@@ -2581,6 +2663,16 @@ Model {
 	}
 	Block {
 	  BlockType		  From
+	  Name			  "From8"
+	  Position		  [1030, 262, 1085, 278]
+	  BackgroundColor	  "cyan"
+	  ShowName		  off
+	  CloseFcn		  "tagdialog Close"
+	  GotoTag		  "DShort1"
+	  TagVisibility		  "global"
+	}
+	Block {
+	  BlockType		  From
 	  Name			  "From9"
 	  Position		  [1035, 197, 1090, 213]
 	  BackgroundColor	  "cyan"
@@ -2590,12 +2682,48 @@ Model {
 	  TagVisibility		  "global"
 	}
 	Block {
+	  BlockType		  Gain
+	  Name			  "Gain3"
+	  Position		  [1135, 275, 1165, 305]
+	  ParameterDataTypeMode	  "Inherit via internal rule"
+	  OutDataTypeMode	  "Specify via dialog"
+	  OutDataType		  "float('single')"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
 	  BlockType		  Goto
 	  Name			  "Goto10"
 	  Position		  [1065, 441, 1115, 459]
 	  BackgroundColor	  "lightBlue"
 	  ShowName		  off
 	  GotoTag		  "DFloat1"
+	  TagVisibility		  "global"
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto12"
+	  Position		  [965, 276, 1015, 294]
+	  BackgroundColor	  "lightBlue"
+	  ShowName		  off
+	  GotoTag		  "DShort2"
+	  TagVisibility		  "global"
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto13"
+	  Position		  [965, 301, 1015, 319]
+	  BackgroundColor	  "lightBlue"
+	  ShowName		  off
+	  GotoTag		  "DShort3"
+	  TagVisibility		  "global"
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto5"
+	  Position		  [240, 736, 290, 754]
+	  BackgroundColor	  "lightBlue"
+	  ShowName		  off
+	  GotoTag		  "DShort1"
 	  TagVisibility		  "global"
 	}
 	Block {
@@ -6756,15 +6884,6 @@ Model {
 	      InputPortWidth	      "3"
 	    }
 	    Block {
-	      BlockType		      DataTypeConversion
-	      Name		      "Data Type Conversion2"
-	      Position		      [1005, 791, 1065, 809]
-	      ShowName		      off
-	      OutDataTypeMode	      "int16"
-	      RndMeth		      "Floor"
-	      SaturateOnIntegerOverflow	off
-	    }
-	    Block {
 	      BlockType		      From
 	      Name		      "From1"
 	      Position		      [815, 52, 870, 68]
@@ -6790,46 +6909,6 @@ Model {
 	      ShowName		      off
 	      CloseFcn		      "tagdialog Close"
 	      GotoTag		      "rHp"
-	    }
-	    Block {
-	      BlockType		      From
-	      Name		      "From4"
-	      Position		      [840, 812, 895, 828]
-	      BackgroundColor	      "cyan"
-	      ShowName		      off
-	      CloseFcn		      "tagdialog Close"
-	      GotoTag		      "DShort3"
-	      TagVisibility	      "global"
-	    }
-	    Block {
-	      BlockType		      From
-	      Name		      "From5"
-	      Position		      [840, 792, 895, 808]
-	      BackgroundColor	      "cyan"
-	      ShowName		      off
-	      CloseFcn		      "tagdialog Close"
-	      GotoTag		      "DShort2"
-	      TagVisibility	      "global"
-	    }
-	    Block {
-	      BlockType		      From
-	      Name		      "From8"
-	      Position		      [840, 772, 895, 788]
-	      BackgroundColor	      "cyan"
-	      ShowName		      off
-	      CloseFcn		      "tagdialog Close"
-	      GotoTag		      "DShort1"
-	      TagVisibility	      "global"
-	    }
-	    Block {
-	      BlockType		      Gain
-	      Name		      "Gain3"
-	      Position		      [945, 785, 975, 815]
-	      Gain		      "100"
-	      ParameterDataTypeMode   "Inherit via internal rule"
-	      OutDataTypeMode	      "Specify via dialog"
-	      OutDataType	      "float('single')"
-	      SaturateOnIntegerOverflow	off
 	    }
 	    Block {
 	      BlockType		      Reference
@@ -6865,41 +6944,6 @@ Model {
 	      OrderingInOutPopup      "None"
 	    }
 	    Block {
-	      BlockType		      Reference
-	      Name		      "Get XYZ\n[navSupport.c]2"
-	      Tag		      "dsPIC_dsPIC_CFunctionCall"
-	      Ports		      [1]
-	      Position		      [1095, 786, 1200, 814]
-	      BackgroundColor	      "orange"
-	      List {
-		ListType		RTWdata
-		FctDeclaration		"extern void setDiagnosticShort(int16_"
-"T* u1);"
-		FctCall			"setDiagnosticShort(*%u1);"
-		fctName			"setDiagnosticShort"
-		INPUT_SIZE		"3"
-		OUTPUT_SIZE		"1"
-		NBR_INPUT		"1"
-		NBR_OUTPUT		"0"
-	      }
-	      SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
-	      SourceType	      "C Function Call"
-	      fctName		      "'setDiagnosticShort'"
-	      INPUT_SIZE	      "3"
-	      INPUT1		      "int16"
-	      INPUT2		      "--"
-	      INPUT3		      "--"
-	      OUTPUT_SIZE	      "1"
-	      OUTPUT1		      "--"
-	      SampleTime	      ".01"
-	      InputType		      "[ 3 ]"
-	      OutputType	      "[ ]"
-	      FctDeclaration	      "extern void setDiagnosticShort(int16_T*"
-" u1);"
-	      FctCall		      "setDiagnosticShort(*%u1);"
-	      OrderingInOutPopup      "None"
-	    }
-	    Block {
 	      BlockType		      Goto
 	      Name		      "Goto1"
 	      Position		      [505, 221, 560, 239]
@@ -6907,24 +6951,6 @@ Model {
 	      ShowName		      off
 	      GotoTag		      "psiDot"
 	      TagVisibility	      "local"
-	    }
-	    Block {
-	      BlockType		      Goto
-	      Name		      "Goto12"
-	      Position		      [860, 606, 910, 624]
-	      BackgroundColor	      "lightBlue"
-	      ShowName		      off
-	      GotoTag		      "DShort2"
-	      TagVisibility	      "global"
-	    }
-	    Block {
-	      BlockType		      Goto
-	      Name		      "Goto13"
-	      Position		      [825, 141, 875, 159]
-	      BackgroundColor	      "lightBlue"
-	      ShowName		      off
-	      GotoTag		      "DShort3"
-	      TagVisibility	      "global"
 	    }
 	    Block {
 	      BlockType		      Goto
@@ -6944,15 +6970,6 @@ Model {
 	      ShowName		      off
 	      GotoTag		      "rHp"
 	      TagVisibility	      "local"
-	    }
-	    Block {
-	      BlockType		      Goto
-	      Name		      "Goto4"
-	      Position		      [1160, 536, 1210, 554]
-	      BackgroundColor	      "lightBlue"
-	      ShowName		      off
-	      GotoTag		      "DShort1"
-	      TagVisibility	      "global"
 	    }
 	    Block {
 	      BlockType		      SubSystem
@@ -8938,6 +8955,16 @@ Model {
 	      SaturateOnIntegerOverflow	off
 	    }
 	    Block {
+	      BlockType		      Terminator
+	      Name		      "Terminator"
+	      Position		      [825, 140, 845, 160]
+	    }
+	    Block {
+	      BlockType		      Terminator
+	      Name		      "Terminator1"
+	      Position		      [1155, 535, 1175, 555]
+	    }
+	    Block {
 	      BlockType		      InportShadow
 	      Name		      "U_m  "
 	      Position		      [495, 358, 525, 372]
@@ -9110,144 +9137,6 @@ Model {
 		  Name			  " SFunction "
 		  Tag			  "Stateflow S-Function controlMCUSlug"
 "sMKII 18"
-		  Ports			  [3, 2]
-		  Position		  [180, 100, 230, 220]
-		  FunctionName		  "sf_sfun"
-		  PortCounts		  "[3 2]"
-		  Port {
-		    PortNumber		    2
-		    Name		    "y"
-		    RTWStorageClass	    "Auto"
-		    DataLoggingNameMode	    "SignalName"
-		  }
-		}
-		Block {
-		  BlockType		  Terminator
-		  Name			  " Terminator "
-		  Position		  [460, 231, 480, 249]
-		}
-		Block {
-		  BlockType		  Outport
-		  Name			  "y"
-		  Position		  [460, 101, 480, 119]
-		  IconDisplay		  "Port number"
-		  BusOutputAsStruct	  off
-		}
-		Line {
-		  SrcBlock		  " SFunction "
-		  SrcPort		  1
-		  Points		  [0, 110]
-		  DstBlock		  " Demux "
-		  DstPort		  1
-		}
-		Line {
-		  SrcBlock		  " Demux "
-		  SrcPort		  1
-		  DstBlock		  " Terminator "
-		  DstPort		  1
-		}
-		Line {
-		  SrcBlock		  "u1"
-		  SrcPort		  1
-		  Points		  [120, 0]
-		  DstBlock		  " SFunction "
-		  DstPort		  1
-		}
-		Line {
-		  Name			  "y"
-		  Labels		  [0, 0]
-		  SrcBlock		  " SFunction "
-		  SrcPort		  2
-		  DstBlock		  "y"
-		  DstPort		  1
-		}
-		Line {
-		  SrcBlock		  "u2"
-		  SrcPort		  1
-		  Points		  [120, 0]
-		  DstBlock		  " SFunction "
-		  DstPort		  2
-		}
-		Line {
-		  SrcBlock		  "u3"
-		  SrcPort		  1
-		  DstBlock		  " SFunction "
-		  DstPort		  3
-		}
-	      }
-	    }
-	    Block {
-	      BlockType		      SubSystem
-	      Name		      "myMux Fun3"
-	      Ports		      [3, 1]
-	      Position		      [920, 772, 925, 828]
-	      BackgroundColor	      "black"
-	      ShowName		      off
-	      MinAlgLoopOccurrences   off
-	      RTWSystemCode	      "Auto"
-	      FunctionWithSeparateData off
-	      Array {
-		Type			"Handle"
-		Dimension		0
-		PropName		"AvailSigsLoadSave"
-	      }
-	      MaskHideContents	      off
-	      MaskType		      "Stateflow"
-	      MaskDescription	      "Embedded MATLAB block"
-	      MaskDisplay	      "disp('myMux');"
-	      MaskSelfModifiable      on
-	      MaskIconFrame	      on
-	      MaskIconOpaque	      off
-	      MaskIconRotate	      "none"
-	      MaskIconUnits	      "autoscale"
-	      System {
-		Name			"myMux Fun3"
-		Location		[257, 457, 812, 717]
-		Open			off
-		ModelBrowserVisibility	off
-		ModelBrowserWidth	200
-		ScreenColor		"white"
-		PaperOrientation	"landscape"
-		PaperPositionMode	"auto"
-		PaperType		"usletter"
-		PaperUnits		"inches"
-		TiledPaperMargins	"[0.500000, 0.500000, 0.500000, 0.5000"
-"00]"
-		TiledPageScale		1
-		ShowPageBoundaries	off
-		ZoomFactor		"100"
-		Block {
-		  BlockType		  Inport
-		  Name			  "u1"
-		  Position		  [20, 101, 40, 119]
-		  IconDisplay		  "Port number"
-		}
-		Block {
-		  BlockType		  Inport
-		  Name			  "u2"
-		  Position		  [20, 136, 40, 154]
-		  Port			  "2"
-		  IconDisplay		  "Port number"
-		}
-		Block {
-		  BlockType		  Inport
-		  Name			  "u3"
-		  Position		  [20, 171, 40, 189]
-		  Port			  "3"
-		  IconDisplay		  "Port number"
-		}
-		Block {
-		  BlockType		  Demux
-		  Name			  " Demux "
-		  Ports			  [1, 1]
-		  Position		  [270, 220, 320, 260]
-		  Outputs		  "1"
-		}
-		Block {
-		  BlockType		  "S-Function"
-		  Name			  " SFunction "
-		  Tag			  "Stateflow S-Function controlMCUSlug"
-"sMKII 27"
 		  Ports			  [3, 2]
 		  Position		  [180, 100, 230, 220]
 		  FunctionName		  "sf_sfun"
@@ -9739,16 +9628,9 @@ Model {
 	    Line {
 	      SrcBlock		      "I-> Fail On"
 	      SrcPort		      1
-	      Points		      [20, 0]
-	      Branch {
-		Points			[30, 0; 0, 35]
-		DstBlock		"Switch3"
-		DstPort			2
-	      }
-	      Branch {
-		DstBlock		"Goto12"
-		DstPort			1
-	      }
+	      Points		      [50, 0; 0, 35]
+	      DstBlock		      "Switch3"
+	      DstPort		      2
 	    }
 	    Line {
 	      SrcBlock		      "D-> Fail Mag\nDegrees"
@@ -9777,51 +9659,9 @@ Model {
 	      }
 	    }
 	    Line {
-	      SrcBlock		      "From8"
-	      SrcPort		      1
-	      DstBlock		      "myMux Fun3"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "From5"
-	      SrcPort		      1
-	      DstBlock		      "myMux Fun3"
-	      DstPort		      2
-	    }
-	    Line {
-	      SrcBlock		      "From4"
-	      SrcPort		      1
-	      DstBlock		      "myMux Fun3"
-	      DstPort		      3
-	    }
-	    Line {
-	      SrcBlock		      "myMux Fun3"
-	      SrcPort		      1
-	      DstBlock		      "Gain3"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Gain3"
-	      SrcPort		      1
-	      DstBlock		      "Data Type Conversion2"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Data Type Conversion2"
-	      SrcPort		      1
-	      DstBlock		      "Get XYZ\n[navSupport.c]2"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Angle Conversion1"
-	      SrcPort		      1
-	      DstBlock		      "Goto13"
-	      DstPort		      1
-	    }
-	    Line {
 	      SrcBlock		      "Angle Conversion2"
 	      SrcPort		      1
-	      DstBlock		      "Goto4"
+	      DstBlock		      "Terminator1"
 	      DstPort		      1
 	    }
 	    Line {
@@ -9883,6 +9723,12 @@ Model {
 		DstPort			1
 	      }
 	    }
+	    Line {
+	      SrcBlock		      "Angle Conversion1"
+	      SrcPort		      1
+	      DstBlock		      "Terminator"
+	      DstPort		      1
+	    }
 	  }
 	}
 	Block {
@@ -9900,7 +9746,7 @@ Model {
 	  System {
 	    Name		    "Longitudinal Channel"
 	    Location		    [643, 232, 1784, 959]
-	    Open		    on
+	    Open		    off
 	    ModelBrowserVisibility  off
 	    ModelBrowserWidth	    188
 	    ScreenColor		    "white"
@@ -26423,7 +26269,7 @@ Model {
 	    Block {
 	      BlockType		      Goto
 	      Name		      "Goto1"
-	      Position		      [910, 36, 960, 54]
+	      Position		      [920, 36, 970, 54]
 	      BackgroundColor	      "lightBlue"
 	      ShowName		      off
 	      GotoTag		      "DLog4"
@@ -29727,6 +29573,143 @@ Model {
 	  }
 	}
 	Block {
+	  BlockType		  SubSystem
+	  Name			  "myMux Fun3"
+	  Ports			  [3, 1]
+	  Position		  [1110, 262, 1115, 318]
+	  BackgroundColor	  "black"
+	  ShowName		  off
+	  MinAlgLoopOccurrences	  off
+	  RTWSystemCode		  "Auto"
+	  FunctionWithSeparateData off
+	  Array {
+	    Type		    "Handle"
+	    Dimension		    0
+	    PropName		    "AvailSigsLoadSave"
+	  }
+	  MaskHideContents	  off
+	  MaskType		  "Stateflow"
+	  MaskDescription	  "Embedded MATLAB block"
+	  MaskDisplay		  "disp('myMux');"
+	  MaskSelfModifiable	  on
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  off
+	  MaskIconRotate	  "none"
+	  MaskIconUnits		  "autoscale"
+	  System {
+	    Name		    "myMux Fun3"
+	    Location		    [257, 457, 812, 717]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "u1"
+	      Position		      [20, 101, 40, 119]
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "u2"
+	      Position		      [20, 136, 40, 154]
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "u3"
+	      Position		      [20, 171, 40, 189]
+	      Port		      "3"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Demux
+	      Name		      " Demux "
+	      Ports		      [1, 1]
+	      Position		      [270, 220, 320, 260]
+	      Outputs		      "1"
+	    }
+	    Block {
+	      BlockType		      "S-Function"
+	      Name		      " SFunction "
+	      Tag		      "Stateflow S-Function controlMCUSlugsMKI"
+"I 27"
+	      Ports		      [3, 2]
+	      Position		      [180, 100, 230, 220]
+	      FunctionName	      "sf_sfun"
+	      PortCounts	      "[3 2]"
+	      Port {
+		PortNumber		2
+		Name			"y"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+	      }
+	    }
+	    Block {
+	      BlockType		      Terminator
+	      Name		      " Terminator "
+	      Position		      [460, 231, 480, 249]
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "y"
+	      Position		      [460, 101, 480, 119]
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Line {
+	      SrcBlock		      " SFunction "
+	      SrcPort		      1
+	      Points		      [0, 110]
+	      DstBlock		      " Demux "
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      " Demux "
+	      SrcPort		      1
+	      DstBlock		      " Terminator "
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "u1"
+	      SrcPort		      1
+	      Points		      [120, 0]
+	      DstBlock		      " SFunction "
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "y"
+	      Labels		      [0, 0]
+	      SrcBlock		      " SFunction "
+	      SrcPort		      2
+	      DstBlock		      "y"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "u2"
+	      SrcPort		      1
+	      Points		      [120, 0]
+	      DstBlock		      " SFunction "
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "u3"
+	      SrcPort		      1
+	      DstBlock		      " SFunction "
+	      DstPort		      3
+	    }
+	  }
+	}
+	Block {
 	  BlockType		  InportShadow
 	  Name			  "phi_m (rad) "
 	  Position		  [845, 533, 875, 547]
@@ -30034,8 +30017,16 @@ Model {
 	Line {
 	  SrcBlock		  "Max Wp Idx"
 	  SrcPort		  1
-	  DstBlock		  "Navigation"
-	  DstPort		  2
+	  Points		  [10, 0]
+	  Branch {
+	    DstBlock		    "Navigation"
+	    DstPort		    2
+	  }
+	  Branch {
+	    Points		    [0, 440]
+	    DstBlock		    "Goto5"
+	    DstPort		    1
+	  }
 	}
 	Line {
 	  SrcBlock		  "Vned (m/s)"
@@ -30275,6 +30266,49 @@ Model {
 	  SrcBlock		  "Data Type Conversion1"
 	  SrcPort		  1
 	  DstBlock		  "Diagnostics\n[navSupport.c]"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "From8"
+	  SrcPort		  1
+	  DstBlock		  "myMux Fun3"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "From5"
+	  SrcPort		  1
+	  DstBlock		  "myMux Fun3"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "From4"
+	  SrcPort		  1
+	  DstBlock		  "myMux Fun3"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "myMux Fun3"
+	  SrcPort		  1
+	  DstBlock		  "Gain3"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Gain3"
+	  SrcPort		  1
+	  DstBlock		  "Data Type Conversion2"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Data Type Conversion2"
+	  SrcPort		  1
+	  DstBlock		  "Diagnostics\n[navSupport.c]1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Counter\nFree-Running"
+	  SrcPort		  1
+	  Points		  [10, 0; 0, 10]
+	  DstBlock		  "Goto12"
 	  DstPort		  1
 	}
       }
@@ -33901,7 +33935,7 @@ Model {
       System {
 	Name			"Update PWM Commands\nand Send Telemetry"
 	Location		[91, 82, 1509, 945]
-	Open			off
+	Open			on
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -33964,10 +33998,10 @@ Model {
 	  BackgroundColor	  "orange"
 	  List {
 	    ListType		    RTWdata
-	    FctDeclaration	    "extern void lowRateTelemetryMavlink(uint8"
+	    FctDeclaration	    "extern void prepareTelemetryMavlink(uint8"
 "_T* y1);"
-	    FctCall		    "lowRateTelemetryMavlink(*%y1);"
-	    fctName		    "lowRateTelemetryMavlink"
+	    FctCall		    "prepareTelemetryMavlink(*%y1);"
+	    fctName		    "prepareTelemetryMavlink"
 	    INPUT_SIZE		    "1"
 	    OUTPUT_SIZE		    "120"
 	    NBR_INPUT		    "0"
@@ -33975,7 +34009,7 @@ Model {
 	  }
 	  SourceBlock		  "dsPICdrivers/OTHERS/C Function Call"
 	  SourceType		  "C Function Call"
-	  fctName		  "'lowRateTelemetryMavlink'"
+	  fctName		  "'prepareTelemetryMavlink'"
 	  INPUT_SIZE		  "1"
 	  INPUT1		  "--"
 	  INPUT2		  "--"
@@ -33985,9 +34019,9 @@ Model {
 	  SampleTime		  ".01"
 	  InputType		  "[ ]"
 	  OutputType		  "[ 2 ]"
-	  FctDeclaration	  "extern void lowRateTelemetryMavlink(uint8_T"
+	  FctDeclaration	  "extern void prepareTelemetryMavlink(uint8_T"
 "* y1);"
-	  FctCall		  "lowRateTelemetryMavlink(*%y1);"
+	  FctCall		  "prepareTelemetryMavlink(*%y1);"
 	  OrderingInOutPopup	  "Input"
 	}
 	Block {
@@ -50188,15 +50222,17 @@ Stateflow {
 
 	chart {
 		id                                        		230
-		name                                      		"Inner Loop/ Navigation/Lateral Channel/myMux Fun3"
-		windowPosition                            		[506.827 111.356 200.25 189.75]
+		name                                      		"Inner Loop/ Navigation/myMux Fun3"
+		windowPosition                            		[521.827 96.356 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
-		screen                                    		[1 1 1280 1024 1.333333333333333]
+		screen                                    		[1 1 1680 980 1.333333333333333]
 		treeNode                                  		[0 231 0 0]
 		firstTransition                           		233
 		firstJunction                             		232
 		viewObj                                   		230
 		machine                                   		1
+		subviewS {
+		}
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		234
@@ -50356,7 +50392,7 @@ Stateflow {
 
 	instance {
 		id     		238
-		name   		"Inner Loop// Navigation/Lateral Channel/myMux Fun3"
+		name   		"Inner Loop// Navigation/myMux Fun3"
 		machine		1
 		chart  		230
 	}

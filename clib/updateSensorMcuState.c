@@ -57,7 +57,7 @@ void updateAttitude (float * attitudeData) {
 }
 
 void updateTimeStamp (uint32_t timeSt) {
-	mlSystemTime.time_usec = (uint64_t)timeSt;
+	mlAttitudeData.usec = (uint64_t)timeSt;
 }
 
 void updatePosition (float * posData) {

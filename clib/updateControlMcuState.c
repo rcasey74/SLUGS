@@ -38,6 +38,7 @@ void updateEuler(float* newEuler){
 	mlAttitudeRotated.roll	= newEuler[0];
 	mlAttitudeRotated.pitch = newEuler[1];
 	mlAttitudeRotated.yaw   = newEuler[2];
+	mlAttitudeRotated.usec = mlAttitudeData.usec;
 }
 
 
