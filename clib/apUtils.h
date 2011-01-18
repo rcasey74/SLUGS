@@ -48,29 +48,6 @@ THE SOFTWARE.
 // 
 //#define USE_SENSOR_MCU_DIAG		1
 
-extern mavlink_gps_raw_t	mlGpsData;
-extern mavlink_cpu_load_t	mlCpuLoadData;
-extern mavlink_air_data_t	mlAirData;
-extern mavlink_sensor_bias_t	mlSensorBiasData;
-extern mavlink_diagnostic_t	mlDiagnosticData;
-extern mavlink_pilot_console_t mlPilotConsoleData;
-extern mavlink_pwm_commands_t mlPwmCommandsData;
-extern mavlink_raw_imu_t mlRawImuData;
-extern mavlink_raw_pressure_t mlRawPressureData;
-extern mavlink_attitude_t mlAttitudeData;
-extern mavlink_local_position_t mlLocalPositionData;
-
-
-
-#if 0
-void assembleMsg(unsigned char* rawData , unsigned char size, unsigned char type, unsigned char* protMsg );
-void updateStates(unsigned char * completeSentence);
-void assembleRawSentence (unsigned char id, unsigned char indx, unsigned char * data);
-void decodeCalSentence (unsigned char id, unsigned char indx, unsigned char * data, unsigned char inBoard);
-void decodeCmdsSentence (unsigned char id,unsigned char* data);      	
-
-#endif 
-
 
 // Trig and Math Functions
 float myAtan2 (float num, float denom);
@@ -86,8 +63,9 @@ float myAcos (float x);
 float myExp (float x);
 
 // Debug utilities
-void printToUart2 (const char *fmt, ...);
-
+#ifndef __cplusplus
+	void printToUart2 (const char *fmt, ...);
+#endif
 
 #ifdef __cplusplus
       }

@@ -15,36 +15,10 @@ TEST_CASE("circBuffer", "Tests requeridos para cada funcion de Circular Buffer")
         REQUIRE(getOverflow(bp) == 0);
     }
 
+//////  nuevas  secciones //////
 
 
-}
-
-TEST_CASE("conversions", "Tests requeridos para cada funcion de conversions.c"){
-
-    union floatToChar {
-        float fl ;
-        unsigned char ch[4];
-    };
-
-    union floatToChar temp;
-
-
-    SECTION ("floatToBytes()", "La conversion de flotante a bytes para transmision"){
-
-        temp.fl = 50.0;
-
-        REQUIRE(bytesToFloat(temp.ch) == temp.fl);
-
-        temp.fl = 0.0;
-    }
-
-
-
-}
-
-
-TEST_CASE("Peak muestra el proximo elemento a retirar", "Peak debe de mostrar el proximo elemento que readFront nos daria"){
-
+SECTION ("Peak muestra el proximo elemento a retirar"  , "Peak debe de mostrar el proximo elemento que readFront nos daria "){
     struct CircBuffer buffer;
     int x,y;
 
@@ -67,11 +41,10 @@ TEST_CASE("Peak muestra el proximo elemento a retirar", "Peak debe de mostrar el
     x = readFront(bp);
     REQUIRE_FALSE(peak(bp) == 6);
     REQUIRE(peak(bp) == 0);
-}
+    }
 
 
-TEST_CASE(" Introducir datos y mostrar cuantos elementos hay en el bufer", "debe  mostrar cuantos  elementos  hay en el  buffer"){
-
+SECTION (" Introducir datos y mostrar cuantos elementos hay en el bufer", "debe  mostrar cuantos  elementos  hay en el  buffer"){
     struct CircBuffer buffer;
     int x,z;
 
@@ -89,13 +62,11 @@ TEST_CASE(" Introducir datos y mostrar cuantos elementos hay en el bufer", "debe
 
 
     REQUIRE( getLength(bp) == 200);
+    }
 
-}
 
-
-TEST_CASE(" Obtener cuantos elementos hay en el bufer", "getLength  debe  mostrar cuantos  elementos  hay en el  buffer"){
-
-    struct CircBuffer buffer;
+SECTION ( " Obtener cuantos elementos hay en el bufer", "getLength  debe  mostrar cuantos  elementos  hay en el  buffer"){
+     struct CircBuffer buffer;
     int x;
 
     CBRef bp = &buffer;
@@ -108,13 +79,13 @@ TEST_CASE(" Obtener cuantos elementos hay en el bufer", "getLength  debe  mostra
     writeBack(bp, 5);
 
     x=getLength(bp);
-     printf("elementos en el bufer : %d\n",x);
+
     REQUIRE( x == 200);
-}
+
+    }
 
 
-
-TEST_CASE(" Pedir el  frente sin tener algo en el bufer", "que valor  entrega si no hay elementos en el buffer"){
+SECTION ( " Pedir el  frente sin tener algo en el bufer", "que valor  entrega si no hay elementos en el buffer"  ){
 
     struct CircBuffer buffer;
     int x;
@@ -126,11 +97,10 @@ TEST_CASE(" Pedir el  frente sin tener algo en el bufer", "que valor  entrega si
 
     REQUIRE(x==128);
 
-}
 
+    }
 
-
-TEST_CASE("REALIZAR  UN  OVERFLOW EN EL  BUFER", " getOverflow   debe  mostrar si  hay  desbordamiento  en el bufer"){
+SECTION ( "REALIZAR  UN  OVERFLOW EN EL  BUFER", " getOverflow   debe  mostrar si  hay  desbordamiento  en el bufer"  ){
 
     struct CircBuffer buffer;
     int x,j;
@@ -144,17 +114,16 @@ TEST_CASE("REALIZAR  UN  OVERFLOW EN EL  BUFER", " getOverflow   debe  mostrar s
     writeBack(bp, 5);
 
    j=getOverflow(bp);
-   printf("elementos desbordados :%d  \n",j);
+
 
     REQUIRE( getOverflow(bp) != 0);
 
     REQUIRE( getOverflow(bp) == 39);
 
+    }
 
-}
 
-
-TEST_CASE("Vaciar   el  bufer", " makeEmpty  debe  si  efectivamente el bufer se  vacia"){
+SECTION ("Vaciar   el  bufer", " makeEmpty  debe  si  efectivamente el bufer se  vacia"  ){
 
     struct CircBuffer buffer;
     int x,f,n;
@@ -168,17 +137,19 @@ TEST_CASE("Vaciar   el  bufer", " makeEmpty  debe  si  efectivamente el bufer se
     writeBack(bp, 5);
 
    n=readTail(bp);
-   printf("elementos  en el  bufer: %d\n",n);
 
    makeEmpty(bp);
 
-   REQUIRE( readTail(bp)== 0);
+   REQUIRE(getLength(bp) == 0);
+   REQUIRE(readTail(bp) == 0);
+   REQUIRE(readHead(bp) == 0);
+   REQUIRE(getOverflow(bp) == 0);
 
-}
+
+    }
 
 
-TEST_CASE("Leer  del  bufer  sin  haber  introducido datos", "Que  sucede si  se  pide datos  en el  bufer  vacio"){
-
+SECTION ("Leer  del  bufer  sin  haber  introducido datos", "Que  sucede si  se  pide datos  en el  bufer  vacio"    ){
     struct CircBuffer buffer;
     int x;
 
@@ -189,12 +160,12 @@ TEST_CASE("Leer  del  bufer  sin  haber  introducido datos", "Que  sucede si  se
     x=peak(bp);
 
 
-   REQUIRE( x  == 0);
+    REQUIRE( x  == 0);
+    }
 
-}
 
 
-  TEST_CASE( "Anadir y quitar elementos", "La cola debe de anadir y remover elementos de manera adecuada" )
+SECTION ( "Anadir y quitar elementos", "La cola debe de anadir y remover elementos de manera adecuada" )
   {
       struct CircBuffer buffer;
 
@@ -212,10 +183,9 @@ TEST_CASE("Leer  del  bufer  sin  haber  introducido datos", "Que  sucede si  se
         REQUIRE(getLength(bp) == 4);
 
         z=readFront(bp);//marca  al  byte  como leido  y  pasa la cabeza al  siguiente elemento.
-        printf("\nfrente=%d\n",z);
 
         z=readFront(bp);
-        printf("\nfrente=%d\n",z);
+
   	  REQUIRE( peak(bp) == 6 ); //regresa  el valor de la  cabeza  si  el  buffer  no  esta  vacio.
       REQUIRE( getLength(bp) == 2 );
 
@@ -228,13 +198,14 @@ TEST_CASE("Leer  del  bufer  sin  haber  introducido datos", "Que  sucede si  se
 
       REQUIRE( getLength(bp) == 2);
 
-//      freeCircBuffer(bp)
   }
 
-TEST_CASE("Vaciar   el  bufer", " makeEmpty  debe  si  efectivamente el bufer se  vacia"){
+
+
+SECTION ("Leer  la  cola del  bufer", " Checar si  la  cola apunta  correctamente en el buffer "){
 
     struct CircBuffer buffer;
-    int x;
+    int x,r;
 
 
     CBRef bp = &buffer;
@@ -244,130 +215,137 @@ TEST_CASE("Vaciar   el  bufer", " makeEmpty  debe  si  efectivamente el bufer se
    for (x=0; x<480; x++)
     writeBack(bp, 5);
 
-    //checar lo de  la liberacion del  bufer.
 
    REQUIRE( readTail(bp)== 480);
 
 }
 
-//  test  del  archivo  de  conversiones   //
+SECTION ("funcion freebuffer", " Checar que freebuffer libera el buffer "){
+int  x;
+    struct CircBuffer buffer;
+    CBRef bp = &buffer;
 
-TEST_CASE("Conversion de  Bytes a   float", " Checar si se  realiza  efectivamente  la  conversion de Bytes a float"){
+     for (x=0; x<380; x++)
+     writeBack(bp, 3);
+
+     REQUIRE( bp != NULL );
+
+     freeCircBuffer(&bp);
+
+
+     REQUIRE( bp == NULL );
+
+}
+
+
+///hasta  aqui  de  circBuffer
+}
+
+TEST_CASE("conversions", "Tests requeridos para cada funcion de conversions.c"){
+
     union floatToChar {
         float fl ;
         unsigned char ch[4];
     };
 
-    unsigned char x[4]={1,0,0,0};
-    int  n,t,r,ce,te,se,pe,res;
-    unsigned char z[2]={99,0};
-    unsigned char c;
-    float f,flo;
-    unsigned short int s;     //valor maximo   0   a  65535
-
     union floatToChar temp;
 
-    temp.fl = 50.0;
 
-    printf("%f => [%d][%d][%d][%d]\n", temp.fl, temp.ch[0], temp.ch[1], temp.ch[2], temp.ch[3]);
+    union CharToUShort {
+        unsigned short   UShr;
+        unsigned char ch[2];
+    };
 
-    flo = bytesToFloat(temp.ch);
-
-    REQUIRE(flo == temp.fl);
-
-
+    union CharToUShort tmpUsh;
 
 
-    flo=0.345;
+    union ShorToChar {
+    short   		 shD;
+    unsigned char    ch[2];
+ 	};
 
-    //c=200;
+    union   ShorToChar  tshch;
 
+    SECTION ("floatToBytes()", "La conversion de flotante a bytes para transmision"){
 
-   f = bytesToFloat(x);
+        temp.fl = 50.0;
 
-    //f=floatToBytes( flo, x);
+        printf("%f => [%d][%d][%d][%d]\n", temp.fl, temp.ch[0], temp.ch[1], temp.ch[2], temp.ch[3]);
 
+        REQUIRE(bytesToFloat(temp.ch) == temp.fl);
 
-    printf("%.2f\n",f);
-
-}
-    //REQUIRE( f == 50.00);
-
-/*
-///////////////////////////////////////////////////
-    s=bytesToShort(z);
-
-    printf("%d\n",s);
-
-   REQUIRE( s == 99);
+        temp.fl = 0.0;
+    }
 
 
 
-///////////////////////////////////////////
+SECTION ("bytesToFloat()", "conversion de bytes a  flotante para transmision"){
 
-//procedimiento  para el  ver los  indices del intercambio  de  informacion
-// de bytes to  Short.
+        temp.ch[0] = 0;
+        temp.ch[1] =0;
+        temp.ch[2] =200;
+        temp.ch[3] =65;
 
+        temp.fl=bytesToFloat(temp.ch);
 
-printf("\nteclea un numero\n");
-scanf("%d",&n);
+        REQUIRE(temp.fl == bytesToFloat(temp.ch)  );
 
-t=n/256;
-r=n%256;
-
-z[0]=r;
-z[1]=t;
-
-s=bytesToShort(z);
-printf("%d\n",s);
-
-
-//REQUIRE( bytesToShort(z)== n);
-/*
-unsigned char b[4]={1,0,0,0};
-int  n;
-float f;
-
-    f = bytesToFloat(b);
-
-    printf("%.2f\n",f);
-
-    //REQUIRE( f == 0.00);
-
-}
-
-
-TEST_CASE("Conversion de  short bytes a UShort", " Checar si se  realiza  efectivamente  la  conversion short bytes a UShort"){
-
-unsigned char x;
-unsigned short s;
-float f;
-
-    x=0;
-
-    s = bytesToUShort(&x);
+        //temp.fl = 0.0;
+    }
 
 
 
-}
+SECTION ("BytesToUShort()", "La conversion de Bytes a UShort para transmision"){
+
+
+        tmpUsh.UShr = 33;
+
+        REQUIRE(bytesToShort(tmpUsh.ch) == tmpUsh.UShr);
+
+        tmpUsh.UShr = 0;
+
+
+    }
 
 
 
+SECTION ("UShortToBytes()", "La conversion de UShort  a   bytes para transmision"){
+
+        tmpUsh.ch[0] = 244;
+
+        tmpUsh.ch[1] = 1;
+
+        REQUIRE(500 == bytesToShort(tmpUsh.ch) );
+
+        tmpUsh.UShr = 0;
+    }
 
 
-TEST_CASE("Conversion de  Short  a Bytes", " Checar si se  realiza  efectivamente  la  conversion de Short  a  Bytes"){
+SECTION ("ShorToChar()", "La conversion de Short  a   bytes para transmision"){
 
-unsigned char x;
-short s;
+        tshch.shD=303;
+
+        REQUIRE( tshch.shD == bytesToShort(tshch.ch) );
+
+        tshch.shD = 0;
+    }
 
 
+SECTION ("CharToShort()", "La conversion de Bytes  a  Short  para transmision"){
 
-    shortToBytes(s, &x);
+        tshch.ch[0]=179;
+
+        tshch.ch[1]=4;
+
+        REQUIRE( tshch.shD == 1203 );
+
+        tshch.shD = 0;
+    }
 
 
-    //REQUIRE( f == 0);
-
+////hasta aqui  temina  el test  de  las  conversiones.
 }
 
-*/
+
+
 
