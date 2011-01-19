@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.903"
+    ComputedModelVersion    "1.904"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Mon Nov 08 15:36:26 2010"
-  ModelVersionFormat	  "1.%<AutoIncrement:903>"
+  LastModifiedDate	  "Tue Jan 18 15:01:33 2011"
+  ModelVersionFormat	  "1.%<AutoIncrement:904>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -981,7 +981,7 @@ Model {
   }
   System {
     Name		    "sensorMCUSlugsMKII"
-    Location		    [36, 78, 1182, 673]
+    Location		    [36, 82, 1182, 677]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    212
@@ -29301,7 +29301,7 @@ Model {
 	  MaskHideContents	  off
 	  System {
 	    Name		    "IPC Data"
-	    Location		    [518, 363, 761, 660]
+	    Location		    [518, 363, 761, 677]
 	    Open		    off
 	    ModelBrowserVisibility  off
 	    ModelBrowserWidth	    200
@@ -29412,7 +29412,7 @@ Model {
 		FctDeclaration		"extern void spiSend(uint8_T* u1);"
 		FctCall			"spiSend(*%u1);"
 		fctName			"spiSend"
-		INPUT_SIZE		"104"
+		INPUT_SIZE		"110"
 		OUTPUT_SIZE		"1"
 		NBR_INPUT		"1"
 		NBR_OUTPUT		"0"
@@ -29420,7 +29420,7 @@ Model {
 	      SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
 	      SourceType	      "C Function Call"
 	      fctName		      "'spiSend'"
-	      INPUT_SIZE	      "104"
+	      INPUT_SIZE	      "110"
 	      INPUT1		      "uint8"
 	      INPUT2		      "--"
 	      INPUT3		      "--"
@@ -29500,7 +29500,7 @@ Model {
 	    FctCall		    "scheduleData(%u1, *%y1);"
 	    fctName		    "scheduleData"
 	    INPUT_SIZE		    "1"
-	    OUTPUT_SIZE		    "104"
+	    OUTPUT_SIZE		    "110"
 	    NBR_INPUT		    "1"
 	    NBR_OUTPUT		    "1"
 	  }
@@ -29511,7 +29511,7 @@ Model {
 	  INPUT1		  "uint8"
 	  INPUT2		  "--"
 	  INPUT3		  "--"
-	  OUTPUT_SIZE		  "104"
+	  OUTPUT_SIZE		  "110"
 	  OUTPUT1		  "uint8"
 	  SampleTime		  "-1"
 	  InputType		  "[ 2 ]"

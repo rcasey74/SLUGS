@@ -61,7 +61,7 @@ and data types.
 
 // DMA Maximum Char Sending
 // ========================
-#define MAXSEND					107
+#define MAXSEND					109
 
 
 // Maximun Number of WPs and PIDs

@@ -12,7 +12,6 @@ mavlink_local_position_t 		mlLocalPositionData;
 mavlink_pilot_console_t 		mlPilotConsoleData;
 mavlink_filtered_data_t 		mlFilteredData;
 mavlink_boot_t 							mlBoot;
-mavlink_system_time_t 			mlSystemTime;
 mavlink_gps_date_time_t 		mlGpsDateTime;
 
 mavlink_heartbeat_t 				mlHeartbeat;
@@ -49,7 +48,6 @@ void mavlinkInit (void){
 	memset(&mlAttitudeData ,0, sizeof(mavlink_attitude_t));	
 	memset(&mlLocalPositionData ,0, sizeof(mavlink_local_position_t));	
 	memset(&mlFilteredData ,0, sizeof(mavlink_filtered_data_t));	
-	memset(&mlSystemTime ,0, sizeof(mavlink_system_time_t));	
 	memset(&mlBoot ,0, sizeof(mavlink_boot_t));
 	memset(&mlGpsDateTime ,0, sizeof(mavlink_gps_date_time_t));	
 	memset(&mlHeartbeat ,0, sizeof(mavlink_heartbeat_t));	

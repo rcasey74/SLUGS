@@ -77,7 +77,7 @@ void schedulerInit (void){
 
 	// DMA0CNT Register
 	// ==============
-	DMA0CNT = LOGSEND-1;
+	DMA0CNT = MAXSEND-1;
 
 	// DMA0STA Register
 	// ================
@@ -236,14 +236,7 @@ void scheduleData (unsigned char hilOn, unsigned char* dataOut){
 														 &msg, 
 														 1);
 			 mlBoot.version=0;
-		  } else {
-				// Copy the message to the send buffer
-			 	mavlink_msg_system_time_pack(SLUGS_SYSTEMID, 
-														 				 SLUGS_COMPID, 
-														 				 &msg, 
-														 				 mlSystemTime.time_usec);
-		  	
-		  } 
+		  }
 		  
 		  bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);
 		
