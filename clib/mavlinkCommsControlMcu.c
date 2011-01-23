@@ -12,8 +12,11 @@ CBRef gsBuffer;
 
 unsigned int BufferB[MAXSEND] __attribute__((space(dma))) = {0};
 
+char sw_debug;
+
 // UART, DMA and Buffer initialization
 void uart2Init (void){
+	sw_debug = 0;
 	
 	// initialize the circular buffers
 	uartBufferIn = (struct CircBuffer* )&com2BufferIn;
@@ -101,9 +104,13 @@ void gsRead(unsigned char* gsChunk){
 	// until the next gsRead
 	unsigned int tmpLen = getLength(uartBufferIn), i=0;
 	
+	if (tmpLen > 0){
+				sw_debug = 1;
+	}
+	
 	// if the buffer has more data than the max size, set it to max,
 	// otherwise set it to the length
-	gsChunk[0] =  (tmpLen > MAXSEND -1)? MAXSEND -1: tmpLen;
+	gsChunk[0] =  (tmpLen > MAXSEND)? MAXSEND: tmpLen;
 	
 	// read the data 
 	for(i = 1; i <= gsChunk[0]; i += 1 )
@@ -572,11 +579,18 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 			memset(&msg,0,sizeof(mavlink_message_t));
 						
 			// Pack the Heartbeat message
-			mavlink_msg_heartbeat_pack(SLUGS_SYSTEMID, 
+/*			mavlink_msg_heartbeat_pack(SLUGS_SYSTEMID, 
 																 SLUGS_COMPID, 
 																 &msg, 
 																 MAV_FIXED_WING, 
 																 MAV_AUTOPILOT_SLUGS);
+*/
+		mavlink_msg_heartbeat_pack(SLUGS_SYSTEMID, 
+																 SLUGS_COMPID, 
+																 &msg, 
+																 MAV_FIXED_WING, 
+																 MAV_AUTOPILOT_PIXHAWK);
+			
 			
 			// Copy the message to the send buffer
 			bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);
@@ -773,6 +787,11 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 		break; // case 7
 		
 		case 8:// Wp Protocol state machine
+			if (sw_debug){
+				bytes2Send += sendQGCDebugMessage ("Recibio Count", 0, dataOut, bytes2Send+1);	
+				sw_debug = 0;		
+			}
+
 			switch (mlPending.wpProtState){
 				
 				case WP_PROT_LIST_REQUESTED:
@@ -796,7 +815,7 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 					mlPending.wpTimeOut = 0;
 				break;
 				
-				case WP_PROT_GETTING_WP_IDLE:	
+				case WP_PROT_GETTING_WP_IDLE:					
 					if (mlPending.wpCurrentWpInTransaction< mlPending.wpTotalWps){
 					
 						// clear the msg
@@ -906,6 +925,7 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 		break; // case 8
 		
 		case 9: // PID report, Boot, Mid Level Commands
+			
 			if (mlPending.pid>0){
 				// send PID
 				mavlink_msg_pid_pack(SLUGS_SYSTEMID, 
@@ -973,6 +993,7 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 		
 	} // Switch
 	
+	
 	memset(&msg,0,sizeof(mavlink_message_t));
 		
 	mavlink_msg_attitude_encode( SLUGS_SYSTEMID, 
@@ -981,6 +1002,7 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 														 	 &mlAttitudeRotated);
 	// Copy the message to the send buffer	
 	bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);
+	
 	 
 	// Put the length of the message in the first byte of the outgoing array
 	*dataOut = bytes2Send;
@@ -1488,7 +1510,6 @@ void lowRateTelemetryMavlink(unsigned char* dataOut){
 	static int16_t packet_drops = 0;
 	mavlink_message_t msg;
 	mavlink_status_t status;
-	
 
 	for(i = 1; i <= dataIn[0]; i++ ){
 		// Try to get a new message
@@ -1618,6 +1639,8 @@ void lowRateTelemetryMavlink(unsigned char* dataOut){
 				break;	
 				
 				case MAVLINK_MSG_ID_WAYPOINT_COUNT:
+
+					
 					if (!mlPending.wpTransaction && (mlPending.wpProtState == WP_PROT_IDLE)){
 						
 						mavlink_msg_waypoint_count_decode(&msg, &mlWpCount);
@@ -1900,27 +1923,19 @@ void __attribute__ ((interrupt, no_auto_psv)) _U1ErrInterrupt(void)
 }
 
 
-void sendQGCDebugMessage (const char* dbgMessage, char severity){
+char sendQGCDebugMessage (const char* dbgMessage, char severity, unsigned char* bytesToAdd, char positionStart){
 		mavlink_message_t msg;
-		unsigned char strMessage[50];
-		unsigned char packedMessage [100];
-		unsigned char bytes2Send = 0;
-		char sizeMessage = (sizeof(dbgMessage)>50) ? 50 : sizeof(dbgMessage);
-		
-		memset(strMessage,0,50);
-		memcpy(strMessage, dbgMessage,sizeMessage);
+		unsigned char bytes2Send = 0; // size in bytes of the mavlink packed message (return value)
 		
 		mavlink_msg_statustext_pack (SLUGS_SYSTEMID, 
 																 SLUGS_COMPID, 
 																 &msg, 
 																 severity,
-																 strMessage);
+																 dbgMessage);
 																 
-		bytes2Send = mavlink_msg_to_send_buffer((packedMessage+1), &msg);
-		packedMessage[0] = bytes2Send;
+		bytes2Send = mavlink_msg_to_send_buffer((bytesToAdd + positionStart), &msg);
 		
-		send2GS(packedMessage);
-	
+		return bytes2Send;
 }
 
 

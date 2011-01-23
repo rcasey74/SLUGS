@@ -11,7 +11,7 @@
 #include "apUtils.h"
 #include <p33fxxxx.h>       	
        	
-#define PROTOCOL_TIMEOUT_TICKS 200    ///< maximum time to wait for pending messages until timeout
+#define PROTOCOL_TIMEOUT_TICKS 20    ///< maximum time to wait for pending messages until timeout
 
 	void uart2Init (void);
   void send2GS (unsigned char* protData);
@@ -20,8 +20,7 @@
 	void prepareTelemetryMavlink (unsigned char* dataOut);
   void protDecodeMavlink (uint8_t* dataIn);          
 	void lowRateTelemetryMavlink (unsigned char* dataOut);       	
-	void sendQGCDebugMessage (const char* dbgMessage, char severity);
-       	
+	char sendQGCDebugMessage (const char* dbgMessage, char severity, unsigned char* bytesToAdd, char positionStart);       	
        		
 #ifdef __cplusplus
        }
