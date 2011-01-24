@@ -7,9 +7,6 @@ CBRef uartBufferIn;
 struct CircBuffer com1BufferOut;
 CBRef uartBufferOut;
 
-struct CircBuffer gsParseBuffer; // from GS (i.e receive commands from GS)
-CBRef gsBuffer;
-
 unsigned int BufferB[MAXSEND] __attribute__((space(dma))) = {0};
 
 char sw_debug;
@@ -25,8 +22,6 @@ void uart2Init (void){
 	uartBufferOut = (struct CircBuffer* )&com1BufferOut;
 	newCircBuffer(uartBufferOut);
 	
-	gsBuffer = (struct CircBuffer* )&gsParseBuffer;
-	newCircBuffer(gsBuffer);
 	
 	// DMA1REQ Register
 	// ================
@@ -1917,7 +1912,7 @@ void __attribute__((__interrupt__, no_auto_psv)) _U2RXInterrupt(void){
 }
 
 
-void __attribute__ ((interrupt, no_auto_psv)) _U1ErrInterrupt(void)
+void __attribute__ ((interrupt, no_auto_psv)) _U2ErrInterrupt(void)
 {
 	IFS4bits.U2EIF = 0; // Clear the UART2 Error Interrupt Flag
 }
