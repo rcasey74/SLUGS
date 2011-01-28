@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.748"
+    ComputedModelVersion    "1.752"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Sat Jan 22 11:26:16 2011"
-  ModelVersionFormat	  "1.%<AutoIncrement:748>"
+  LastModifiedDate	  "Fri Jan 28 15:21:39 2011"
+  ModelVersionFormat	  "1.%<AutoIncrement:752>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -579,7 +579,7 @@ Model {
 	PropName		"Components"
       }
       Name		      "Configuration"
-      CurrentDlgPage	      "Solver"
+      CurrentDlgPage	      "Real-Time Workshop/DsPIC options"
     }
     PropName		    "ConfigurationSets"
   }
@@ -979,8 +979,8 @@ Model {
   }
   System {
     Name		    "controlMCUSlugsMKII"
-    Location		    [570, 98, 1792, 941]
-    Open		    on
+    Location		    [8, 82, 1230, 925]
+    Open		    off
     ModelBrowserVisibility  off
     ModelBrowserWidth	    188
     ScreenColor		    "white"
@@ -33795,7 +33795,7 @@ Model {
       System {
 	Name			"Update PWM Commands\nand Send Telemetry"
 	Location		[91, 82, 1509, 945]
-	Open			off
+	Open			on
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -33956,9 +33956,9 @@ Model {
 	      Name		      "If"
 	      Ports		      [1, 4]
 	      Position		      [80, 29, 250, 111]
-	      IfExpression	      "u1 == 1"
-	      ElseIfExpressions	      "((u1 == 2 ) | (u1 == 3)), u1 == 4, u1 ="
-"= 5"
+	      IfExpression	      "u1 == 2"
+	      ElseIfExpressions	      "((u1 == 2) | (u1 == 4)), u1 == 5, u1 =="
+" 9"
 	      ShowElse		      off
 	      SampleTime	      ".01"
 	    }

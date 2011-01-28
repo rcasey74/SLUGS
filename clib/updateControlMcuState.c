@@ -32,20 +32,29 @@ void updatePWM2(unsigned short PWMData, unsigned char channel ){
 
 void updateLoad (uint8_t mcuLoad){
 	mlCpuLoadData.ctrlLoad =  mcuLoad;
+	mlSystemStatus.load = mcuLoad*10;
 }
 
 void updateEuler(float* newEuler){
-	mlAttitudeRotated.roll	= newEuler[0];
-	mlAttitudeRotated.pitch = newEuler[1];
-	mlAttitudeRotated.yaw   = newEuler[2];
-	mlAttitudeRotated.usec = mlAttitudeData.usec;
+	// mlAttitudeRotated.roll	= newEuler[0];
+	// mlAttitudeRotated.pitch = newEuler[1];
+	// mlAttitudeRotated.yaw   = newEuler[2];
+	
+	mlAttitudeRotated.roll	= mlAttitudeData.roll;
+	mlAttitudeRotated.pitch = mlAttitudeData.pitch;
+	mlAttitudeRotated.yaw   = mlAttitudeData.yaw;
+	mlAttitudeRotated.usec  = mlAttitudeData.usec;
 }
 
 
 void updatePQR(float* newPQR){
-	mlAttitudeRotated.rollspeed 	= newPQR[0];
-	mlAttitudeRotated.pitchspeed 	= newPQR[1];
-	mlAttitudeRotated.yawspeed 		= newPQR[2];
+	// mlAttitudeRotated.rollspeed 	= newPQR[0];
+	// mlAttitudeRotated.pitchspeed 	= newPQR[1];
+	// mlAttitudeRotated.yawspeed 		= newPQR[2];
+	
+	mlAttitudeRotated.rollspeed 	= mlAttitudeData.rollspeed;
+	mlAttitudeRotated.pitchspeed 	= mlAttitudeData.pitchspeed;
+	mlAttitudeRotated.yawspeed 		= mlAttitudeData.yawspeed;
 }
 
 void updatePilotCommands (unsigned short*  pilCom){

@@ -9,7 +9,8 @@
 #include "apDefinitions.h"
 #include "mavlinkControlMcu.h"
 #include "apUtils.h"
-#include <p33fxxxx.h>       	
+#include <p33fxxxx.h>   
+#include <string.h>    	
        	
 #define PROTOCOL_TIMEOUT_TICKS 20    ///< maximum time to wait for pending messages until timeout
 
@@ -21,6 +22,7 @@
   void protDecodeMavlink (uint8_t* dataIn);          
 	void lowRateTelemetryMavlink (unsigned char* dataOut);       	
 	char sendQGCDebugMessage (const char* dbgMessage, char severity, unsigned char* bytesToAdd, char positionStart);       	
+	uint8_t clearWaypointsFrom (uint8_t startingWp);
        		
 #ifdef __cplusplus
        }

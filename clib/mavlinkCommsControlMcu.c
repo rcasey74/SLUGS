@@ -80,7 +80,7 @@ void uart2Init (void){
 	
 	// Initialize the Interrupt  
   	// ========================
-	IPC7bits.U2RXIP   = 6;    		// Interrupt priority 6  
+	IPC7bits.U2RXIP   = 7;    		// Interrupt priority 7  
   	IFS1bits.U2RXIF   = 0;    		// Clear the interrupt flag
   	IEC1bits.U2RXIE   = 1;    		// Enable interrupts
 
@@ -88,7 +88,7 @@ void uart2Init (void){
 	U2MODEbits.UARTEN	= 1;		// Enable the port	
 	U2STAbits.UTXEN		= 1;		// Enable TX
 	
-	IEC4bits.U2EIE 		= 0;
+	IEC4bits.U2EIE 		= 1;
 	
 }
 
@@ -548,7 +548,11 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 	// Contains the total bytes to send via the serial port
 	uint8_t bytes2Send = 0;
 	
+	// String used to send text messages to QGC console
+	char vr_message[50];
+	
 	memset(&msg,0,sizeof(mavlink_message_t));
+
 
 	
 	switch (sampleTelemetry){
@@ -645,22 +649,7 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 				mlActionAck.action = SLUGS_ACTION_NONE;				
 			}
 		
-			if (mlPending.mode == 1){
-				// clear the msg
-				memset(&msg,0,sizeof(mavlink_message_t));
-				
-				mavlink_msg_set_mode_pack( SLUGS_SYSTEMID, 
-																   SLUGS_COMPID, 
-																   &msg, 
-																   GS_SYSTEMID,
-															 		 mlApMode.mode);  
-				
-				// Copy the message to the send buffer
-				bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);
-				
-				// clear the flag
-				mlPending.mode = 0;
-			}
+
 		break; // case 2
 		
 		case 3: // data log, ping
@@ -741,7 +730,7 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 			
 		break; // case 5
 		
-		case 6: // Local Position, Pilot console
+		case 6: // Local Position, Pilot console, System Status
 			mavlink_msg_local_position_encode( SLUGS_SYSTEMID, 
 														 			 			 SLUGS_COMPID, 
 														 			 			 &msg, 
@@ -756,6 +745,15 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 														 						SLUGS_COMPID, 
 														 						&msg, 
 														 						&mlPilotConsoleData);
+			// Copy the message to the send buffer
+			bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);
+			
+			memset(&msg,0,sizeof(mavlink_message_t));	
+			
+			mavlink_msg_sys_status_encode( SLUGS_SYSTEMID, 
+														 				 SLUGS_COMPID, 
+														 				 &msg, 
+														 				 &mlSystemStatus);
 			// Copy the message to the send buffer
 			bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);
 						
@@ -782,10 +780,23 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 		break; // case 7
 		
 		case 8:// Wp Protocol state machine
-			if (sw_debug){
-				bytes2Send += sendQGCDebugMessage ("Recibio Count", 0, dataOut, bytes2Send+1);	
+			// if (sw_debug == 1){
+			// 	bytes2Send += sendQGCDebugMessage ("Interrupcion", 0, dataOut, bytes2Send+1);	
+			// 	sw_debug = 0;		
+			// }
+
+			if (sw_debug == 2){
+				bytes2Send += sendQGCDebugMessage ("Error", 0, dataOut, bytes2Send+1);	
 				sw_debug = 0;		
 			}
+			
+			if (sw_debug == 3){
+				memset(vr_message,0,sizeof(vr_message));
+				sprintf(vr_message, "Mode = %d", mlSystemStatus.mode);	
+				bytes2Send += sendQGCDebugMessage (vr_message, 0, dataOut, bytes2Send+1);	
+				sw_debug = 0;		
+			}
+
 
 			switch (mlPending.wpProtState){
 				
@@ -851,6 +862,10 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 						mlPending.wpProtState = WP_PROT_IDLE;
 						mlPending.wpCurrentWpInTransaction = 0;
 						mlPending.wpTotalWps = 0;
+						
+						// put zeros in the rest of the waypoints;
+						clearWaypointsFrom(mlWpValues.wpCount);
+
 					}
 							
 					// Reset the timeout
@@ -1442,7 +1457,7 @@ void lowRateTelemetryMavlink(unsigned char* dataOut){
 																	   SLUGS_COMPID, 
 																	   &msg, 
 																	   GS_SYSTEMID,
-																 		 mlApMode.mode);  
+																 		 mlSystemStatus.mode);  
 				
 					// Copy the message to the send buffer
 					bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);
@@ -1498,9 +1513,10 @@ void lowRateTelemetryMavlink(unsigned char* dataOut){
 	
 	uint8_t i, indx, writeSuccess, commChannel = dataIn[MAXSEND+1];
 	uint16_t indexOffset;
+	tFloatToChar tempFloat;
 	uint32_t temp;
 	
-	tFloatToChar tempFloat;
+
 
 	static int16_t packet_drops = 0;
 	mavlink_message_t msg;
@@ -1578,12 +1594,8 @@ void lowRateTelemetryMavlink(unsigned char* dataOut){
 				// =====================================
 				
 				case MAVLINK_MSG_ID_SET_MODE:
-					mavlink_msg_set_mode_decode(&msg, &mlApMode);
-					
-					// Report the Change
-					mlActionAck.action = SLUGS_ACTION_MODE_CHANGE;
-					mlActionAck.result = mlApMode.mode;	
-
+					mlSystemStatus.mode = mavlink_msg_set_mode_get_mode(&msg);
+					sw_debug = 3;
 				break;
 
  				case MAVLINK_MSG_ID_MID_LVL_CMDS:
@@ -1712,9 +1724,7 @@ void lowRateTelemetryMavlink(unsigned char* dataOut){
 						mlPending.wpProtState = WP_PROT_GETTING_WP_IDLE;
 						
 					}
-					
-
-					
+										
 					indx = (uint8_t)mlSingleWp.seq;
 					
 					mlWpValues.lat[indx] 		= mlSingleWp.y;
@@ -1745,7 +1755,7 @@ void lowRateTelemetryMavlink(unsigned char* dataOut){
 					writeSuccess += DataEEWrite(mlSingleWp.orbit, WPS_OFFSET+indexOffset+7);          
 					
 					// Set the flag of Aknowledge for the AKN Message
-					// if the write was successful
+					// if the write was not successful
 					if (writeSuccess!=0){
 						mlActionAck.action = SLUGS_ACTION_EEPROM;
 						mlActionAck.result = EEP_WRITE_FAIL;	
@@ -1760,30 +1770,8 @@ void lowRateTelemetryMavlink(unsigned char* dataOut){
 					// clear the WP values in memory;
 					memset(&mlWpValues ,0, sizeof(mavlink_waypoint_values_t));	
 					
-					// erase the flash values in EEPROM emulation
-					for (indx = 0; indx < MAX_NUM_WPS-1; indx++){
-						// Compute the adecuate index offset
-						indexOffset = indx*8;
-						
-						// Clear the data from the EEPROM
-						tempFloat.flData = 0.0;
-						writeSuccess += DataEEWrite(tempFloat.shData[0], WPS_OFFSET+indexOffset);   
-						writeSuccess += DataEEWrite(tempFloat.shData[1], WPS_OFFSET+indexOffset+1);
-						
-						tempFloat.flData = 0.0; 
-						writeSuccess += DataEEWrite(tempFloat.shData[0], WPS_OFFSET+indexOffset+2);      
-						writeSuccess += DataEEWrite(tempFloat.shData[1], WPS_OFFSET+indexOffset+3);
-						
-						tempFloat.flData = 0.0;       
-						writeSuccess += DataEEWrite(tempFloat.shData[0], WPS_OFFSET+indexOffset+4);      
-						writeSuccess += DataEEWrite(tempFloat.shData[1], WPS_OFFSET+indexOffset+5);
-						
-						
-						writeSuccess += DataEEWrite((unsigned short)0, WPS_OFFSET+indexOffset+6);
-						
-						writeSuccess += DataEEWrite((unsigned short)0, WPS_OFFSET+indexOffset+7); 
-					}
-					
+					writeSuccess = clearWaypointsFrom(0);
+										
 					// Set the flag of Aknowledge for the AKN Message
 					// if the write was successful
 					if (writeSuccess==0){
@@ -1845,6 +1833,10 @@ void lowRateTelemetryMavlink(unsigned char* dataOut){
 				break;
 			}	// switch	
 		} // if
+		
+		// Update global packet drops counter
+		mlSystemStatus.packet_drop += status.packet_rx_drop_count;
+		
 	}// for  
 }
 
@@ -1895,6 +1887,7 @@ void __attribute__((interrupt, no_auto_psv)) _DMA1Interrupt(void)
 
 void __attribute__((__interrupt__, no_auto_psv)) _U2RXInterrupt(void){
  
+	sw_debug = 1;
 	// Read the buffer while it has data
 	// and add it to the circular buffer
 	while(U2STAbits.URXDA == 1){
@@ -1914,7 +1907,17 @@ void __attribute__((__interrupt__, no_auto_psv)) _U2RXInterrupt(void){
 
 void __attribute__ ((interrupt, no_auto_psv)) _U2ErrInterrupt(void)
 {
-	IFS4bits.U2EIF = 0; // Clear the UART2 Error Interrupt Flag
+	sw_debug = 2;
+	
+	// If there was an overun error clear it and continue
+	if (U2STAbits.OERR == 1){
+		U2STAbits.OERR = 0;
+	}
+	
+		// If there was an overun error clear it and continue
+	if (IFS4bits.U2EIF == 1){
+		IFS4bits.U2EIF = 0; // Clear the UART2 Error Interrupt Flag
+	}
 }
 
 
@@ -1933,4 +1936,36 @@ char sendQGCDebugMessage (const char* dbgMessage, char severity, unsigned char* 
 		return bytes2Send;
 }
 
+uint8_t clearWaypointsFrom(uint8_t startingWp){
+	
+	uint8_t writeSuccess = 0;
+	uint8_t indx, indexOffset;
+	tFloatToChar tempFloat;
+	
+	// erase the flash values in EEPROM emulation
+	for (indx = startingWp; indx < MAX_NUM_WPS-1; indx++){
+		// Compute the adecuate index offset
+		indexOffset = indx*8;
+		
+		// Clear the data from the EEPROM
+		tempFloat.flData = 0.0;
+		writeSuccess += DataEEWrite(tempFloat.shData[0], WPS_OFFSET+indexOffset);   
+		writeSuccess += DataEEWrite(tempFloat.shData[1], WPS_OFFSET+indexOffset+1);
+		
+		tempFloat.flData = 0.0; 
+		writeSuccess += DataEEWrite(tempFloat.shData[0], WPS_OFFSET+indexOffset+2);      
+		writeSuccess += DataEEWrite(tempFloat.shData[1], WPS_OFFSET+indexOffset+3);
+		
+		tempFloat.flData = 0.0;       
+		writeSuccess += DataEEWrite(tempFloat.shData[0], WPS_OFFSET+indexOffset+4);      
+		writeSuccess += DataEEWrite(tempFloat.shData[1], WPS_OFFSET+indexOffset+5);
+		
+		
+		writeSuccess += DataEEWrite((unsigned short)0, WPS_OFFSET+indexOffset+6);
+		
+		writeSuccess += DataEEWrite((unsigned short)0, WPS_OFFSET+indexOffset+7); 
+	}
+		
+	return writeSuccess;
+}
 
