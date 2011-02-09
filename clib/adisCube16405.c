@@ -23,7 +23,7 @@ THE SOFTWARE.
 
 */
 
-#include "adisCube.h"
+#include "adisCube16405.h"
 
 static tCubeBuffer cubeBuffer;
 
@@ -33,12 +33,11 @@ void cubeInit (void){
 	printToUart2("Starting %s\n\r","Cube Init");
 
 	// 150 ms Delay for powerup
-	for(i = 0; i < 6000000; i += 1 )
+	for(i = 0; i < 6000000; i += 1 )		//porque no i++; 
 	{
 		Nop();
 	}	
 	
-
     // SPI1CON1 Register Settings
     SPI2CON1bits.DISSCK = 0;    //Internal Serial Clock is Enabled.
     SPI2CON1bits.DISSDO = 0;    //SDOx pin is controlled by the module.
@@ -54,16 +53,13 @@ void cubeInit (void){
     // Configure the clock for 192 KHz
     SPI2CON1bits.SPRE   = 5;    //Secondary prescaler to 3:1
     SPI2CON1bits.PPRE   = 0;    //Primary prescaler 64:1
-    
-    
+        
     // Enable the module 
     SPI2STATbits.SPIROV  = 0;   //Clear overflow bit
     SPI2STATbits.SPIEN   = 1;   //Enable SPI Module
-    
-    
     printToUart2("Starting %s\n\r","SPI Enabled");
-    // AN18 is used for data reading
     
+	// AN18 is used for data reading
     // Configure the Analog pins C3 as digital.
     // C3 is used to determine if data is ready on the 
     // CUBE
@@ -138,21 +134,8 @@ void cubeInit (void){
 	IPC7bits.T5IP				=	5;		// Interrupt priority 5
 	T5CONbits.TON				= 0; 		// Make sure timer is off
 
-}
+}//cubeInit
 
-// void startCubeRead (void) {
-// 	// dummy read 
-// 	write2Cube(R_GYROX);
-// 	
-// 	cubeBuffer.gx[cubeBuffer.sampleCount].shData = convert14BitToShort(write2Cube(R_GYROY));
-// 	cubeBuffer.gy[cubeBuffer.sampleCount].shData = convert14BitToShort(write2Cube(R_GYROZ));
-// 	cubeBuffer.gz[cubeBuffer.sampleCount].shData = convert14BitToShort(write2Cube(R_ACCELX));
-// 
-// 	cubeBuffer.ax[cubeBuffer.sampleCount].shData =convert14BitToShort(write2Cube(R_ACCELY));
-// 	cubeBuffer.ay[cubeBuffer.sampleCount].shData =convert14BitToShort(write2Cube(R_ACCELZ));
-// 	cubeBuffer.az[cubeBuffer.sampleCount++].shData =convert14BitToShort(write2Cube(R_STATUS)); // dummy write
-// 	
-// }
 
 void getCubeData (short * cubeData) {
 	// Do the last reading
@@ -161,13 +144,15 @@ void getCubeData (short * cubeData) {
 	cubeBuffer.gx[cubeBuffer.sampleCount] = convert14BitToShort(write2Cube(R_GYROY));
 	cubeBuffer.gy[cubeBuffer.sampleCount] = convert14BitToShort(write2Cube(R_GYROZ));
 	cubeBuffer.gz[cubeBuffer.sampleCount] = convert14BitToShort(write2Cube(R_ACCELX));
-
 	cubeBuffer.ax[cubeBuffer.sampleCount] =convert14BitToShort(write2Cube(R_ACCELY));
 	cubeBuffer.ay[cubeBuffer.sampleCount] =convert14BitToShort(write2Cube(R_ACCELZ));
-	cubeBuffer.az[cubeBuffer.sampleCount] =convert14BitToShort(write2Cube(R_STATUS)); // dummy write
+	cubeBuffer.az[cubeBuffer.sampleCount] =convert14BitToShort(write2Cube(R_MAGNX)); 
+	cubeBuffer.mx[cubeBuffer.sampleCount] =convert14BitToShort(write2Cube(R_MAGNY)); 
+	cubeBuffer.my[cubeBuffer.sampleCount] =convert14BitToShort(write2Cube(R_MAGNZ)); 
+	cubeBuffer.mz[cubeBuffer.sampleCount] =convert14BitToShort(write2Cube(R_STATUS)); // dummy write
 	cubeBuffer.sampleCount++;
 	
-	cubeData[6]= cubeBuffer.sampleCount;
+	cubeData[9]= cubeBuffer.sampleCount;		// se incorporaron los magnetometros
 	// Update the state structure with the collected values
 	updateCubeData();
 	
@@ -178,14 +163,16 @@ void getCubeData (short * cubeData) {
 	cubeData[3] = mlRawImuData.xacc;
 	cubeData[4] = mlRawImuData.yacc;
 	cubeData[5] = mlRawImuData.zacc;
+	cubeData[6] = mlRawImuData.xmag;
+	cubeData[7] = mlRawImuData.ymag;
+	cubeData[8] = mlRawImuData.zmag;
 	
 	// Turn on the timer for the first MAX_CUBE_READ readings
 	T5CONbits.TON				= 1;
 }
 
 void updateCubeData(void){
-	char i;
-	
+		
 	// Read the buffered measurements
 	mlRawImuData.xgyro = averageData(cubeBuffer.gx, cubeBuffer.sampleCount);
 	mlRawImuData.ygyro = averageData(cubeBuffer.gy, cubeBuffer.sampleCount);
@@ -195,12 +182,16 @@ void updateCubeData(void){
 	mlRawImuData.yacc = averageData(cubeBuffer.ay, cubeBuffer.sampleCount);
 	mlRawImuData.zacc = averageData(cubeBuffer.az, cubeBuffer.sampleCount);
 	
+	mlRawImuData.xmag = averageData(cubeBuffer.mx, cubeBuffer.sampleCount);
+	mlRawImuData.ymag = averageData(cubeBuffer.my, cubeBuffer.sampleCount);
+	mlRawImuData.zmag = averageData(cubeBuffer.mz, cubeBuffer.sampleCount);
+	
 	// Clear the count for the next reading
 	cubeBuffer.sampleCount = 0;
  
 }
 
-int16_t averageData(int16_t* theData, uint8_t count){
+int16_t averageData(int16_t* theData, uint8_t count){			
 	char i;
 	short value = 0;
 	for (i=0; i< count; i++){
@@ -248,21 +239,25 @@ unsigned short write2Cube (unsigned short data2Send) {
 	return temp;
 }
 
-
+// interrupcion del timer5
 void __attribute__ ((interrupt, no_auto_psv)) _T5Interrupt(void)
 {
 	// Do the reading
+	// lee datos del gyro
 	write2Cube(R_GYROX);
-	
 	cubeBuffer.gx[cubeBuffer.sampleCount] = convert14BitToShort(write2Cube(R_GYROY));
 	cubeBuffer.gy[cubeBuffer.sampleCount] = convert14BitToShort(write2Cube(R_GYROZ));
+	//lee datos del acelerometro
 	cubeBuffer.gz[cubeBuffer.sampleCount] = convert14BitToShort(write2Cube(R_ACCELX));
-
 	cubeBuffer.ax[cubeBuffer.sampleCount] =convert14BitToShort(write2Cube(R_ACCELY));
 	cubeBuffer.ay[cubeBuffer.sampleCount] =convert14BitToShort(write2Cube(R_ACCELZ));
-	cubeBuffer.az[cubeBuffer.sampleCount] =convert14BitToShort(write2Cube(R_STATUS)); // dummy write
+	// lee datos del magnetometro
+	cubeBuffer.az[cubeBuffer.sampleCount] =convert14BitToShort(write2Cube(R_MAGNX)); 
+	cubeBuffer.mx[cubeBuffer.sampleCount] =convert14BitToShort(write2Cube(R_MAGNY)); 
+	cubeBuffer.my[cubeBuffer.sampleCount] =convert14BitToShort(write2Cube(R_MAGNZ)); 
+	cubeBuffer.mz[cubeBuffer.sampleCount] =convert14BitToShort(write2Cube(R_STATUS)); // dummy write
 	cubeBuffer.sampleCount++;
-	
+		
 	// If this is the MAX_CUBE_READ read value turn the timer off
 	if(MAX_CUBE_READ <= cubeBuffer.sampleCount){
 		T5CONbits.TON = 0;
@@ -272,19 +267,13 @@ void __attribute__ ((interrupt, no_auto_psv)) _T5Interrupt(void)
 	TMR5 = 0;							// Start the count again
 }
 
-
-
 short convert14BitToShort (short wordData) {
 	return (wordData & BITTEST_14)? (wordData | BITEXTEND_14) : (wordData & BITMASK_14);
 }
-
 
 short convert12BitToShort (short wordData) {
 	return (wordData & BITTEST_12)? (wordData | BITEXTEND_12) : (wordData & BITMASK_12);
 }
 
-void initDevBoard (void){
-	magnetoInit();
-	cubeInit();
-}
 
+ 
