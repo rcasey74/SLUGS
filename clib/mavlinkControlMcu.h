@@ -75,7 +75,6 @@
 	
 	extern mavlink_heartbeat_t 				mlHeartbeat; 					// 	..	== 
 	extern mavlink_mid_lvl_cmds_t			mlMidLevelCommands; 	// 	..	**
-	extern mavlink_set_mode_t 				mlApMode; 						// 	..	**
 	extern mavlink_pwm_commands_t			mlPwmCommands; 				// 	--	==
 	extern mavlink_pid_values_t				mlPidValues;					// 	..  **	defined in mavlinkControlMcu.h
 	extern mavlink_pid_t							mlSinglePid; 					// 	^^	^^
@@ -92,6 +91,7 @@
 	extern mavlink_waypoint_request_t	mlWpRequest; 					// 	..	**
 	extern mavlink_waypoint_ack_t			mlWpAck; 							// 	..	**
 	extern mavlink_waypoint_count_t		mlWpCount; 						// 	..	**
+	extern mavlink_sys_status_t				mlSystemStatus;				//	--	==
 
 
 	void mavlinkInit (void);

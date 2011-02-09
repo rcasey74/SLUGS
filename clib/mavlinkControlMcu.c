@@ -33,6 +33,7 @@ mavlink_slugs_action_t			mlAction;
 mavlink_waypoint_request_t	mlWpRequest;
 mavlink_waypoint_ack_t			mlWpAck;
 mavlink_waypoint_count_t		mlWpCount;
+mavlink_sys_status_t				mlSystemStatus;
 
 void mavlinkInit (void){
 	
@@ -53,7 +54,6 @@ void mavlinkInit (void){
 	memset(&mlHeartbeat ,0, sizeof(mavlink_heartbeat_t));	
 
 	memset(&mlMidLevelCommands ,0, sizeof(mavlink_mid_lvl_cmds_t));	
-	memset(&mlApMode ,0, sizeof(mavlink_set_mode_t));	
 	memset(&mlPwmCommands ,0, sizeof(mavlink_pwm_commands_t));	
 	memset(&mlPidValues ,0, sizeof(mavlink_pid_values_t));	
 	memset(&mlSinglePid ,0, sizeof(mavlink_pid_t));	
@@ -70,6 +70,7 @@ void mavlinkInit (void){
 	memset(&mlWpRequest ,0, sizeof(mavlink_waypoint_request_t));	
 	memset(&mlWpAck ,0, sizeof(mavlink_waypoint_ack_t));	
 	memset(&mlWpCount ,0, sizeof(mavlink_waypoint_count_t));	
+	memset(&mlSystemStatus ,0, sizeof(mavlink_sys_status_t));	
 	
 	
 
@@ -80,5 +81,14 @@ void mavlinkInit (void){
 	mlPending.wpTimeOut = 0;
 	
 	mlHeartbeat.mavlink_version = MAVLINK_VERSION;
+	
+	// Initialize the system Status
+	mlSystemStatus.mode 		= MAV_MODE_MANUAL;
+	mlSystemStatus.nav_mode = MAV_NAV_GROUNDED;
+	mlSystemStatus.status		= MAV_STATE_BOOT;
+	mlSystemStatus.load			= 500;
+	mlSystemStatus.vbat			= 12000;
+	mlSystemStatus.motor_block = 0;
+	
 }
 

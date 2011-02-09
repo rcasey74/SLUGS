@@ -32,7 +32,9 @@ void getMidLevelCommands(float* commands) {
 }
 
 unsigned char isApManual (void) {
-	return mlApMode.mode == MAV_MODE_MANUAL;
+	// Code from old groundstation
+	// et_de->Caption =  pilControlSample.de.usData > 6000 ? "Manual":"Auto";
+	return mlSystemStatus.mode == MAV_MODE_MANUAL;
 }
 
 void getPidIdx(unsigned char idx, float* PID){
@@ -73,7 +75,7 @@ uint8_t getMaxWp (void){
 }
 
 unsigned char isWpFly (void){
-	return mlApMode.mode == MAV_MODE_AUTO;
+	return mlSystemStatus.mode == MAV_MODE_AUTO;
 }
 
 void setDiagnosticFloat(float * flValues){
@@ -108,7 +110,7 @@ void setLogFloat2(float * flValues){
 }
 
 unsigned char getApControlType (void) {
-	return mlApMode.mode;
+	return mlSystemStatus.mode;
 }
 
 unsigned char getPassValues (uint8_t* pasVals){
