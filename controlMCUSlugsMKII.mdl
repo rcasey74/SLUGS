@@ -45,7 +45,7 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Fri Jan 28 15:21:39 2011"
+  LastModifiedDate	  "Tue Feb 08 15:17:01 2011"
   ModelVersionFormat	  "1.%<AutoIncrement:752>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
@@ -980,7 +980,7 @@ Model {
   System {
     Name		    "controlMCUSlugsMKII"
     Location		    [8, 82, 1230, 925]
-    Open		    off
+    Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    188
     ScreenColor		    "white"
@@ -33795,7 +33795,7 @@ Model {
       System {
 	Name			"Update PWM Commands\nand Send Telemetry"
 	Location		[91, 82, 1509, 945]
-	Open			on
+	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"

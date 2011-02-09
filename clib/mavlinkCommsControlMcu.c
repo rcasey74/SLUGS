@@ -578,18 +578,18 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 			memset(&msg,0,sizeof(mavlink_message_t));
 						
 			// Pack the Heartbeat message
-/*			mavlink_msg_heartbeat_pack(SLUGS_SYSTEMID, 
+			mavlink_msg_heartbeat_pack(SLUGS_SYSTEMID, 
 																 SLUGS_COMPID, 
 																 &msg, 
 																 MAV_FIXED_WING, 
 																 MAV_AUTOPILOT_SLUGS);
-*/
-		mavlink_msg_heartbeat_pack(SLUGS_SYSTEMID, 
-																 SLUGS_COMPID, 
-																 &msg, 
-																 MAV_FIXED_WING, 
-																 MAV_AUTOPILOT_PIXHAWK);
-			
+
+		// mavlink_msg_heartbeat_pack(SLUGS_SYSTEMID, 
+					// 														 SLUGS_COMPID, 
+					// 														 &msg, 
+					// 														 MAV_FIXED_WING, 
+					// 														 MAV_AUTOPILOT_PIXHAWK);
+						
 			
 			// Copy the message to the send buffer
 			bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);
