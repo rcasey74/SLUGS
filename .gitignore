@@ -113,3 +113,7 @@ GroundStation/Componentes/*
 
 /clib/testSuite/bin/*
 /clib/testSuite/obj/*
+
+/hardware/mark_III/*.s#*
+/hardware/mark_III/*.b#*
+/hardware/mark_III/Librerias/*.l#*
