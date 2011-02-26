@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.904"
+    ComputedModelVersion    "1.908"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Tue Jan 18 15:01:33 2011"
-  ModelVersionFormat	  "1.%<AutoIncrement:904>"
+  LastModifiedDate	  "Sat Feb 26 14:51:33 2011"
+  ModelVersionFormat	  "1.%<AutoIncrement:908>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -328,7 +328,7 @@ Model {
 	  CustomSource		  "clib\\circBuffer.c\nclib\\sbrk.c\nclib\\gps"
 ".c\nclib\\ipcScheduler.c\nclib\\updateSensorMcuState.c\nclib\\interProcCommMa"
 "ster.c\nclib\\conversions.c\nclib\\apUtils.c\nclib\\magneto.c\nclib\\adisCube"
-".c\nclib\\mavlinkSensorMcu.c"
+".c\nclib\\mavlinkSensorMcu.c\nclib\\adisCube16405.c"
 	  IncludeHyperlinkInReport on
 	  LaunchReport		  on
 	  TargetLang		  "C"
@@ -981,8 +981,8 @@ Model {
   }
   System {
     Name		    "sensorMCUSlugsMKII"
-    Location		    [36, 82, 1182, 677]
-    Open		    on
+    Location		    [1922, 78, 3358, 880]
+    Open		    off
     ModelBrowserVisibility  off
     ModelBrowserWidth	    212
     ScreenColor		    "white"
@@ -20500,7 +20500,7 @@ Model {
 	      System {
 		Name			"If no HIL then\nRead all the\nSensors"
 		Location		[125, 88, 1155, 935]
-		Open			off
+		Open			on
 		ModelBrowserVisibility	off
 		ModelBrowserWidth	200
 		ScreenColor		"white"
@@ -20636,11 +20636,11 @@ Model {
 		Block {
 		  BlockType		  Demux
 		  Name			  "Demux2"
-		  Ports			  [1, 2]
+		  Ports			  [1, 3]
 		  Position		  [355, 191, 360, 229]
 		  BackgroundColor	  "black"
 		  ShowName		  off
-		  Outputs		  "[6 1]"
+		  Outputs		  "[6 3 1]"
 		  DisplayOption		  "bar"
 		}
 		Block {
@@ -21096,14 +21096,9 @@ Model {
 		  OrderingInOutPopup	  "None"
 		}
 		Block {
-		  BlockType		  RateTransition
-		  Name			  "Rate Transition"
-		  Position		  [365, 269, 405, 311]
-		  OutPortSampleTime	  "0.01"
-		}
-		Block {
 		  BlockType		  Reference
-		  Name			  "Read the Cube Data\n[adisCube.c]"
+		  Name			  "Read the Cube Data\n[adisCube16405."
+"c]"
 		  Tag			  "dsPIC_dsPIC_CFunctionCall"
 		  Ports			  [0, 1]
 		  Position		  [220, 172, 325, 208]
@@ -21115,7 +21110,7 @@ Model {
 		    FctCall		    "getCubeData(*%y1);"
 		    fctName		    "getCubeData"
 		    INPUT_SIZE		    "1"
-		    OUTPUT_SIZE		    "7"
+		    OUTPUT_SIZE		    "10"
 		    NBR_INPUT		    "0"
 		    NBR_OUTPUT		    "1"
 		  }
@@ -21126,7 +21121,7 @@ Model {
 		  INPUT1		  "--"
 		  INPUT2		  "--"
 		  INPUT3		  "--"
-		  OUTPUT_SIZE		  "7"
+		  OUTPUT_SIZE		  "10"
 		  OUTPUT1		  "int16"
 		  SampleTime		  ".01"
 		  InputType		  "[ ]"
@@ -21138,10 +21133,11 @@ Model {
 		}
 		Block {
 		  BlockType		  Reference
-		  Name			  "Read the I2C Mag\n[magneto.c]"
+		  Name			  "Read the I2C Mag\nDEPRECATED\n[magn"
+"eto.c]"
 		  Tag			  "dsPIC_dsPIC_CFunctionCall"
 		  Ports			  [0, 1]
-		  Position		  [165, 242, 270, 278]
+		  Position		  [50, 202, 155, 238]
 		  BackgroundColor	  "orange"
 		  List {
 		    ListType		    RTWdata
@@ -21172,7 +21168,15 @@ Model {
 		Block {
 		  BlockType		  Terminator
 		  Name			  "Terminator"
-		  Position		  [395, 215, 415, 235]
+		  Position		  [325, 255, 345, 275]
+		  Orientation		  "left"
+		  ShowName		  off
+		}
+		Block {
+		  BlockType		  Terminator
+		  Name			  "Terminator1"
+		  Position		  [180, 210, 200, 230]
+		  ShowName		  off
 		}
 		Block {
 		  BlockType		  Reference
@@ -21648,13 +21652,6 @@ Model {
 		  DstPort		  1
 		}
 		Line {
-		  SrcBlock		  "Read the I2C Mag\n[magneto.c]"
-		  SrcPort		  1
-		  Points		  [25, 0; 0, 30]
-		  DstBlock		  "Rate Transition"
-		  DstPort		  1
-		}
-		Line {
 		  SrcBlock		  "Demux"
 		  SrcPort		  1
 		  DstBlock		  "myMux Fun4"
@@ -21748,12 +21745,6 @@ Model {
 		  DstPort		  1
 		}
 		Line {
-		  SrcBlock		  "Rate Transition"
-		  SrcPort		  1
-		  DstBlock		  "Demux1"
-		  DstPort		  1
-		}
-		Line {
 		  SrcBlock		  "Data Type Conversion"
 		  SrcPort		  1
 		  Points		  [55, 0]
@@ -21841,17 +21832,32 @@ Model {
 		  DstPort		  1
 		}
 		Line {
-		  SrcBlock		  "Read the Cube Data\n[adisCube.c]"
+		  SrcBlock		  "Read the Cube Data\n[adisCube16405."
+"c]"
 		  SrcPort		  1
 		  Points		  [5, 0; 0, 20]
 		  DstBlock		  "Demux2"
 		  DstPort		  1
 		}
 		Line {
+		  SrcBlock		  "Read the I2C Mag\nDEPRECATED\n[magn"
+"eto.c]"
+		  SrcPort		  1
+		  DstBlock		  "Terminator1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Demux2"
+		  SrcPort		  3
+		  Points		  [10, 0; 0, 45]
+		  DstBlock		  "Terminator"
+		  DstPort		  1
+		}
+		Line {
 		  SrcBlock		  "Demux2"
 		  SrcPort		  2
-		  Points		  [5, 0; 0, 5]
-		  DstBlock		  "Terminator"
+		  Points		  [45, 0; 0, 80]
+		  DstBlock		  "Demux1"
 		  DstPort		  1
 		}
 	      }

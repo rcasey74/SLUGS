@@ -25,6 +25,8 @@ THE SOFTWARE.
 
 #include "adisCube.h"
 
+#if (USE_CUBE_16405 == 0)
+
 static tCubeBuffer cubeBuffer;
 
 void cubeInit (void){
@@ -288,3 +290,4 @@ void initDevBoard (void){
 	cubeInit();
 }
 
+#endif // #if (USE_CUBE_16405 == 0)

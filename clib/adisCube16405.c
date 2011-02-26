@@ -25,6 +25,8 @@ THE SOFTWARE.
 
 #include "adisCube16405.h"
 
+#if (USE_CUBE_16405 == 1)
+
 static tCubeBuffer cubeBuffer;
 
 void cubeInit (void){
@@ -275,5 +277,5 @@ short convert12BitToShort (short wordData) {
 	return (wordData & BITTEST_12)? (wordData | BITEXTEND_12) : (wordData & BITMASK_12);
 }
 
-
+#endif // USE_CUBE_16405
  

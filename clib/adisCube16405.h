@@ -28,12 +28,16 @@ THE SOFTWARE.
 #ifdef __cplusplus
     extern "C"{
 #endif
+    	
 #include <p33fxxxx.h>
 #include <spi.h>
     	
 #include "apDefinitions.h"
 #include "apUtils.h"
 #include "mavlinkSensorMcu.h"
+
+#if (USE_CUBE_16405 == 1)
+
 
 #define selectCube()		LATGbits.LATG9 = 0
 #define deselectCube()		LATGbits.LATG9 = 1
@@ -63,10 +67,10 @@ THE SOFTWARE.
 #define R_ACCELX    	(unsigned short)0X0A00		// X-CHANNEL ACCEL
 #define R_ACCELY    	(unsigned short)0x0C00		// Y-CHANNEL ACCEL 
 #define R_ACCELZ    	(unsigned short)0x0E00		// Z-CHANNEL ACCEL
-#define R_MAGNX    	(unsigned short)0x1000			// X-CHANNEL MAGNET
-#define R_MAGNY    	(unsigned short)0x1200			// Y-CHANNEL MAGNET 
-#define R_MAGNZ    	(unsigned short)0x1400			// Z-CHANNEL MAGNET
-#define R_TEMP			(unsigned short)0x1600		// Z-CHANNEL TEMP
+#define R_MAGNX    		(unsigned short)0x1000		// X-CHANNEL MAGNE
+#define R_MAGNY    		(unsigned short)0x1200		// Y-CHANNEL MAGNE
+#define R_MAGNZ    		(unsigned short)0x1400		// Z-CHANNEL MAGNE
+#define R_TEMP				(unsigned short)0x1600		// SENSOR TEMP
 #define R_STATUS    	(unsigned short)0x3C00		// STATUS REGISTER
 
 // Note that FOR WRITING register addresses are in the MSB and the actual data
@@ -80,7 +84,7 @@ We will use the precission bias null calibration. That requires the unit to be s
 Address = 0x3E			//GLOB_CMD
 Value   = 0x10
 bits [6:7] of Address must be [1 0] since this will be a write
-=> [1 0 1 1][1 1 1 0][0 0 0 1][0 0 0 0]
+=> [1 0 1 1][1 1 1 0][0 0 0 1][0 0 0 0] X 
 => 0xBE10
 
 we will also use the acceleration bias compensation and use the
@@ -210,6 +214,8 @@ int16_t averageData (int16_t* theData, uint8_t count);
 short convert12BitToShort (short wordData);
 short convert14BitToShort (short wordData);
 	
+#endif // USE_CUBE_16405
+
 #ifdef __cplusplus
     }
 #endif
