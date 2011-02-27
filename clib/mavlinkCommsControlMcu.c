@@ -1453,6 +1453,8 @@ char sendQGCDebugMessage (const char* dbgMessage, char severity, unsigned char* 
 		return bytes2Send;
 }
 
+// TODO: This probably needs to move to another file since, strictly speaking it has nothing
+//				to do with Mavlink comms.
 uint8_t clearWaypointsFrom(uint8_t startingWp){
 	
 	uint8_t writeSuccess = 0;

@@ -302,6 +302,15 @@ void scheduleData (unsigned char hilOn, unsigned char* dataOut){
 		
 		break;
 		
+		case 9: // Raw Pressure
+					mavlink_msg_raw_pressure_encode( SLUGS_SYSTEMID, 
+																 					SLUGS_COMPID, 
+																 					&msg, 
+																	 				&mlRawPressureData);
+			// Copy the message to the send buffer
+			bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);	
+		
+		break;
 		default:
 			*dataOut = 0;
 		

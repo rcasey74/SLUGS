@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.908"
+    ComputedModelVersion    "1.913"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Sat Feb 26 14:51:33 2011"
-  ModelVersionFormat	  "1.%<AutoIncrement:908>"
+  LastModifiedDate	  "Sat Feb 26 17:09:02 2011"
+  ModelVersionFormat	  "1.%<AutoIncrement:913>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -328,7 +328,7 @@ Model {
 	  CustomSource		  "clib\\circBuffer.c\nclib\\sbrk.c\nclib\\gps"
 ".c\nclib\\ipcScheduler.c\nclib\\updateSensorMcuState.c\nclib\\interProcCommMa"
 "ster.c\nclib\\conversions.c\nclib\\apUtils.c\nclib\\magneto.c\nclib\\adisCube"
-".c\nclib\\mavlinkSensorMcu.c\nclib\\adisCube16405.c"
+".c\nclib\\mavlinkSensorMcu.c\nclib\\adisCube16405.c\nclib\\hil.c"
 	  IncludeHyperlinkInReport on
 	  LaunchReport		  on
 	  TargetLang		  "C"
@@ -16201,46 +16201,6 @@ Model {
 	  OutDataTypeMode	  "single"
 	}
 	Block {
-	  BlockType		  Constant
-	  Name			  "Constant2"
-	  Position		  [325, 126, 390, 154]
-	  ShowName		  off
-	  Value			  "zeros(3,1)"
-	  OutDataTypeMode	  "single"
-	}
-	Block {
-	  BlockType		  Constant
-	  Name			  "Constant3"
-	  Position		  [330, 221, 395, 249]
-	  ShowName		  off
-	  Value			  "zeros(3,1)"
-	  OutDataTypeMode	  "single"
-	}
-	Block {
-	  BlockType		  Constant
-	  Name			  "Constant4"
-	  Position		  [335, 321, 400, 349]
-	  ShowName		  off
-	  Value			  "zeros(3,1)"
-	  OutDataTypeMode	  "single"
-	}
-	Block {
-	  BlockType		  Constant
-	  Name			  "Constant5"
-	  Position		  [340, 426, 405, 454]
-	  ShowName		  off
-	  Value			  "zeros(3,1)"
-	  OutDataTypeMode	  "single"
-	}
-	Block {
-	  BlockType		  Constant
-	  Name			  "Constant6"
-	  Position		  [335, 521, 400, 549]
-	  ShowName		  off
-	  Value			  "0"
-	  OutDataTypeMode	  "uint32"
-	}
-	Block {
 	  BlockType		  DataTypeConversion
 	  Name			  "Data Type Conversion"
 	  Position		  [170, 114, 225, 136]
@@ -16273,6 +16233,171 @@ Model {
 	  InputSameDT		  off
 	  OutDataTypeMode	  "uint8"
 	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Read Euler \nfrom HIL\n[hil.c]"
+	  Tag			  "dsPIC_dsPIC_CFunctionCall"
+	  Ports			  [0, 1]
+	  Position		  [290, 217, 395, 253]
+	  BackgroundColor	  "orange"
+	  List {
+	    ListType		    RTWdata
+	    FctDeclaration	    "extern void hil_getEuler(real32_T* y1);"
+	    FctCall		    "hil_getEuler(*%y1);"
+	    fctName		    "hil_getEuler"
+	    INPUT_SIZE		    "1"
+	    OUTPUT_SIZE		    "3"
+	    NBR_INPUT		    "0"
+	    NBR_OUTPUT		    "1"
+	  }
+	  SourceBlock		  "dsPICdrivers/OTHERS/C Function Call"
+	  SourceType		  "C Function Call"
+	  fctName		  "'hil_getEuler'"
+	  INPUT_SIZE		  "1"
+	  INPUT1		  "--"
+	  INPUT2		  "--"
+	  INPUT3		  "--"
+	  OUTPUT_SIZE		  "3"
+	  OUTPUT1		  "real32"
+	  SampleTime		  ".01"
+	  InputType		  "[ ]"
+	  OutputType		  "[ 7 ]"
+	  FctDeclaration	  "extern void hil_getEuler(real32_T* y1);"
+	  FctCall		  "hil_getEuler(*%y1);"
+	  OrderingInOutPopup	  "None"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Read PQR\nfrom HIL\n[hil.c]"
+	  Tag			  "dsPIC_dsPIC_CFunctionCall"
+	  Ports			  [0, 1]
+	  Position		  [290, 317, 395, 353]
+	  BackgroundColor	  "orange"
+	  List {
+	    ListType		    RTWdata
+	    FctDeclaration	    "extern void hil_getRates(real32_T* y1);"
+	    FctCall		    "hil_getRates(*%y1);"
+	    fctName		    "hil_getRates"
+	    INPUT_SIZE		    "1"
+	    OUTPUT_SIZE		    "3"
+	    NBR_INPUT		    "0"
+	    NBR_OUTPUT		    "1"
+	  }
+	  SourceBlock		  "dsPICdrivers/OTHERS/C Function Call"
+	  SourceType		  "C Function Call"
+	  fctName		  "'hil_getRates'"
+	  INPUT_SIZE		  "1"
+	  INPUT1		  "--"
+	  INPUT2		  "--"
+	  INPUT3		  "--"
+	  OUTPUT_SIZE		  "3"
+	  OUTPUT1		  "real32"
+	  SampleTime		  ".01"
+	  InputType		  "[ ]"
+	  OutputType		  "[ 7 ]"
+	  FctDeclaration	  "extern void hil_getRates(real32_T* y1);"
+	  FctCall		  "hil_getRates(*%y1);"
+	  OrderingInOutPopup	  "None"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Read XYZ\nfrom HIL\n[hil.c]"
+	  Tag			  "dsPIC_dsPIC_CFunctionCall"
+	  Ports			  [0, 1]
+	  Position		  [295, 422, 400, 458]
+	  BackgroundColor	  "orange"
+	  List {
+	    ListType		    RTWdata
+	    FctDeclaration	    "extern void hil_getXYZ(real32_T* y1);"
+	    FctCall		    "hil_getXYZ(*%y1);"
+	    fctName		    "hil_getXYZ"
+	    INPUT_SIZE		    "1"
+	    OUTPUT_SIZE		    "3"
+	    NBR_INPUT		    "0"
+	    NBR_OUTPUT		    "1"
+	  }
+	  SourceBlock		  "dsPICdrivers/OTHERS/C Function Call"
+	  SourceType		  "C Function Call"
+	  fctName		  "'hil_getXYZ'"
+	  INPUT_SIZE		  "1"
+	  INPUT1		  "--"
+	  INPUT2		  "--"
+	  INPUT3		  "--"
+	  OUTPUT_SIZE		  "3"
+	  OUTPUT1		  "real32"
+	  SampleTime		  ".01"
+	  InputType		  "[ ]"
+	  OutputType		  "[ 7 ]"
+	  FctDeclaration	  "extern void hil_getXYZ(real32_T* y1);"
+	  FctCall		  "hil_getXYZ(*%y1);"
+	  OrderingInOutPopup	  "None"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Read the Vned \nfrom HIL\n[hil.c]"
+	  Tag			  "dsPIC_dsPIC_CFunctionCall"
+	  Ports			  [0, 1]
+	  Position		  [290, 122, 395, 158]
+	  BackgroundColor	  "orange"
+	  List {
+	    ListType		    RTWdata
+	    FctDeclaration	    "extern void hil_getVned(real32_T* y1);"
+	    FctCall		    "hil_getVned(*%y1);"
+	    fctName		    "hil_getVned"
+	    INPUT_SIZE		    "1"
+	    OUTPUT_SIZE		    "3"
+	    NBR_INPUT		    "0"
+	    NBR_OUTPUT		    "1"
+	  }
+	  SourceBlock		  "dsPICdrivers/OTHERS/C Function Call"
+	  SourceType		  "C Function Call"
+	  fctName		  "'hil_getVned'"
+	  INPUT_SIZE		  "1"
+	  INPUT1		  "--"
+	  INPUT2		  "--"
+	  INPUT3		  "--"
+	  OUTPUT_SIZE		  "3"
+	  OUTPUT1		  "real32"
+	  SampleTime		  ".01"
+	  InputType		  "[ ]"
+	  OutputType		  "[ 7 ]"
+	  FctDeclaration	  "extern void hil_getVned(real32_T* y1);"
+	  FctCall		  "hil_getVned(*%y1);"
+	  OrderingInOutPopup	  "None"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Read timestamp\nfrom HIL\n[hil.c]"
+	  Tag			  "dsPIC_dsPIC_CFunctionCall"
+	  Ports			  [0, 1]
+	  Position		  [295, 517, 400, 553]
+	  BackgroundColor	  "orange"
+	  List {
+	    ListType		    RTWdata
+	    FctDeclaration	    "extern int32_T hil_getTs();"
+	    FctCall		    "%y1 = hil_getTs();"
+	    fctName		    "hil_getTs"
+	    INPUT_SIZE		    "1"
+	    OUTPUT_SIZE		    "1"
+	    NBR_INPUT		    "0"
+	    NBR_OUTPUT		    "1"
+	  }
+	  SourceBlock		  "dsPICdrivers/OTHERS/C Function Call"
+	  SourceType		  "C Function Call"
+	  fctName		  "'hil_getTs'"
+	  INPUT_SIZE		  "1"
+	  INPUT1		  "--"
+	  INPUT2		  "--"
+	  INPUT3		  "--"
+	  OUTPUT_SIZE		  "1"
+	  OUTPUT1		  "int32"
+	  SampleTime		  ".01"
+	  InputType		  "[ ]"
+	  OutputType		  "[ 5 ]"
+	  FctDeclaration	  "extern int32_T hil_getTs();"
+	  FctCall		  "%y1 = hil_getTs();"
+	  OrderingInOutPopup	  "None"
 	}
 	Block {
 	  BlockType		  Switch
@@ -16491,7 +16616,7 @@ Model {
 	  DstPort		  1
 	}
 	Line {
-	  SrcBlock		  "Constant2"
+	  SrcBlock		  "Read the Vned \nfrom HIL\n[hil.c]"
 	  SrcPort		  1
 	  DstBlock		  "Switch1"
 	  DstPort		  1
@@ -16503,7 +16628,7 @@ Model {
 	  DstPort		  3
 	}
 	Line {
-	  SrcBlock		  "Constant3"
+	  SrcBlock		  "Read Euler \nfrom HIL\n[hil.c]"
 	  SrcPort		  1
 	  DstBlock		  "Switch2"
 	  DstPort		  1
@@ -16521,7 +16646,7 @@ Model {
 	  DstPort		  1
 	}
 	Line {
-	  SrcBlock		  "Constant4"
+	  SrcBlock		  "Read PQR\nfrom HIL\n[hil.c]"
 	  SrcPort		  1
 	  DstBlock		  "Switch3"
 	  DstPort		  1
@@ -16539,7 +16664,7 @@ Model {
 	  DstPort		  1
 	}
 	Line {
-	  SrcBlock		  "Constant5"
+	  SrcBlock		  "Read XYZ\nfrom HIL\n[hil.c]"
 	  SrcPort		  1
 	  DstBlock		  "Switch4"
 	  DstPort		  1
@@ -16563,7 +16688,7 @@ Model {
 	  DstPort		  3
 	}
 	Line {
-	  SrcBlock		  "Constant6"
+	  SrcBlock		  "Read timestamp\nfrom HIL\n[hil.c]"
 	  SrcPort		  1
 	  DstBlock		  "Switch5"
 	  DstPort		  1
@@ -16626,7 +16751,7 @@ Model {
       System {
 	Name			"Sensor Data"
 	Location		[2, 78, 1244, 1004]
-	Open			off
+	Open			on
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -16693,22 +16818,129 @@ Model {
 	      Position		      [350, 50, 370, 70]
 	    }
 	    Block {
-	      BlockType		      Constant
-	      Name		      "g,a, m, baro, pito, pwr, ther"
-	      Position		      [210, 169, 295, 201]
-	      Value		      "zeros(13,1)"
-	      OutDataTypeMode	      "int16"
+	      BlockType		      Reference
+	      Name		      "Data from HIL\n[hil.c]"
+	      Tag		      "dsPIC_dsPIC_CFunctionCall"
+	      Ports		      [0, 1]
+	      Position		      [125, 122, 230, 158]
+	      BackgroundColor	      "orange"
+	      List {
+		ListType		RTWdata
+		FctDeclaration		"extern void hilRead(uint8_T* y1);"
+		FctCall			"hilRead(*%y1);"
+		fctName			"hilRead"
+		INPUT_SIZE		"1"
+		OUTPUT_SIZE		"110"
+		NBR_INPUT		"0"
+		NBR_OUTPUT		"1"
+	      }
+	      SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
+	      SourceType	      "C Function Call"
+	      fctName		      "'hilRead'"
+	      INPUT_SIZE	      "1"
+	      INPUT1		      "--"
+	      INPUT2		      "--"
+	      INPUT3		      "--"
+	      OUTPUT_SIZE	      "110"
+	      OUTPUT1		      "uint8"
+	      SampleTime	      ".01"
+	      InputType		      "[ ]"
+	      OutputType	      "[ 2 ]"
+	      FctDeclaration	      "extern void hilRead(uint8_T* y1);"
+	      FctCall		      "hilRead(*%y1);"
+	      OrderingInOutPopup      "None"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "HIL Messages \nParser/Decoder\n[hil.c]"
+	      Tag		      "dsPIC_dsPIC_CFunctionCall"
+	      Ports		      [1, 1]
+	      Position		      [290, 122, 395, 158]
+	      BackgroundColor	      "orange"
+	      List {
+		ListType		RTWdata
+		FctDeclaration		"extern void protDecodeHil(uint8_T* u1"
+");"
+		FctCall			"protDecodeHil(*%u1);"
+		fctName			"protDecodeHil"
+		INPUT_SIZE		"110"
+		OUTPUT_SIZE		"1"
+		NBR_INPUT		"1"
+		NBR_OUTPUT		"0"
+	      }
+	      SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
+	      SourceType	      "C Function Call"
+	      fctName		      "'protDecodeHil'"
+	      INPUT_SIZE	      "110"
+	      INPUT1		      "uint8"
+	      INPUT2		      "--"
+	      INPUT3		      "--"
+	      OUTPUT_SIZE	      "1"
+	      OUTPUT1		      "--"
+	      SampleTime	      "-1"
+	      InputType		      "[ 2 ]"
+	      OutputType	      "[ ]"
+	      FctDeclaration	      "extern void protDecodeHil(uint8_T* u1);"
+	      FctCall		      "protDecodeHil(*%u1);"
+	      OrderingInOutPopup      "Output"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "HIL Raw Readings\n[hil.c]"
+	      Tag		      "dsPIC_dsPIC_CFunctionCall"
+	      Ports		      [1, 1]
+	      Position		      [460, 122, 565, 158]
+	      BackgroundColor	      "orange"
+	      List {
+		ListType		RTWdata
+		FctDeclaration		"extern void hil_getRawRead(int16_T* y"
+"1);"
+		FctCall			"hil_getRawRead(*%y1);"
+		fctName			"hil_getRawRead"
+		INPUT_SIZE		"1"
+		OUTPUT_SIZE		"13"
+		NBR_INPUT		"0"
+		NBR_OUTPUT		"1"
+	      }
+	      SourceBlock	      "dsPICdrivers/OTHERS/C Function Call"
+	      SourceType	      "C Function Call"
+	      fctName		      "'hil_getRawRead'"
+	      INPUT_SIZE	      "1"
+	      INPUT1		      "--"
+	      INPUT2		      "--"
+	      INPUT3		      "--"
+	      OUTPUT_SIZE	      "13"
+	      OUTPUT1		      "int16"
+	      SampleTime	      "-1"
+	      InputType		      "[ ]"
+	      OutputType	      "[ 3 ]"
+	      FctDeclaration	      "extern void hil_getRawRead(int16_T* y1)"
+";"
+	      FctCall		      "hil_getRawRead(*%y1);"
+	      OrderingInOutPopup      "Input"
 	    }
 	    Block {
 	      BlockType		      Outport
 	      Name		      "Raw Msg"
-	      Position		      [405, 178, 435, 192]
+	      Position		      [650, 133, 680, 147]
 	      BackgroundColor	      "yellow"
 	      IconDisplay	      "Port number"
 	      BusOutputAsStruct	      off
 	    }
 	    Line {
-	      SrcBlock		      "g,a, m, baro, pito, pwr, ther"
+	      SrcBlock		      "Data from HIL\n[hil.c]"
+	      SrcPort		      1
+	      DstBlock		      "HIL Messages \nParser/Decoder\n[hil.c]"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "HIL Messages \nParser/Decoder\n[hil.c]"
+	      SrcPort		      1
+	      DstBlock		      "HIL Raw Readings\n[hil.c]"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "HIL Raw Readings\n[hil.c]"
 	      SrcPort		      1
 	      DstBlock		      "Raw Msg"
 	      DstPort		      1
@@ -16908,7 +17140,7 @@ Model {
 	    }
 	    Block {
 	      BlockType		      SubSystem
-	      Name		      "Cube Signal Cond1"
+	      Name		      "Cube Signal Cond"
 	      Ports		      [3, 2]
 	      Position		      [905, 124, 1060, 196]
 	      MinAlgLoopOccurrences   off
@@ -16916,7 +17148,7 @@ Model {
 	      FunctionWithSeparateData off
 	      MaskHideContents	      off
 	      System {
-		Name			"Cube Signal Cond1"
+		Name			"Cube Signal Cond"
 		Location		[-124, 165, 1092, 888]
 		Open			off
 		ModelBrowserVisibility	off
@@ -20500,7 +20732,7 @@ Model {
 	      System {
 		Name			"If no HIL then\nRead all the\nSensors"
 		Location		[125, 88, 1155, 935]
-		Open			on
+		Open			off
 		ModelBrowserVisibility	off
 		ModelBrowserWidth	200
 		ScreenColor		"white"
@@ -21957,7 +22189,7 @@ Model {
 	    Block {
 	      BlockType		      SubSystem
 	      Name		      "Low Pass Filtering,Temperature\nCompens"
-"ation and Calibration1"
+"ation and Calibration"
 	      Ports		      [5, 6]
 	      Position		      [450, 282, 615, 503]
 	      MinAlgLoopOccurrences   off
@@ -21966,7 +22198,7 @@ Model {
 	      MaskHideContents	      off
 	      System {
 		Name			"Low Pass Filtering,Temperature\nCompe"
-"nsation and Calibration1"
+"nsation and Calibration"
 		Location		[106, 82, 1305, 805]
 		Open			off
 		ModelBrowserVisibility	off
@@ -28878,7 +29110,7 @@ Model {
 	    }
 	    Line {
 	      SrcBlock		      "Low Pass Filtering,Temperature\nCompens"
-"ation and Calibration1"
+"ation and Calibration"
 	      SrcPort		      1
 	      DstBlock		      "Baro Alt (m)"
 	      DstPort		      1
@@ -28889,7 +29121,7 @@ Model {
 	      SrcBlock		      "Demux"
 	      SrcPort		      1
 	      Points		      [630, 0]
-	      DstBlock		      "Cube Signal Cond1"
+	      DstBlock		      "Cube Signal Cond"
 	      DstPort		      1
 	    }
 	    Line {
@@ -28905,21 +29137,21 @@ Model {
 	      SrcBlock		      "Demux1"
 	      SrcPort		      1
 	      DstBlock		      "Low Pass Filtering,Temperature\nCompens"
-"ation and Calibration1"
+"ation and Calibration"
 	      DstPort		      2
 	    }
 	    Line {
 	      SrcBlock		      "Demux1"
 	      SrcPort		      2
 	      DstBlock		      "Low Pass Filtering,Temperature\nCompens"
-"ation and Calibration1"
+"ation and Calibration"
 	      DstPort		      3
 	    }
 	    Line {
 	      SrcBlock		      "Demux1"
 	      SrcPort		      4
 	      DstBlock		      "Low Pass Filtering,Temperature\nCompens"
-"ation and Calibration1"
+"ation and Calibration"
 	      DstPort		      5
 	    }
 	    Line {
@@ -28929,19 +29161,19 @@ Model {
 	      SrcPort		      3
 	      Points		      [35, 0; 0, 110]
 	      DstBlock		      "Low Pass Filtering,Temperature\nCompens"
-"ation and Calibration1"
+"ation and Calibration"
 	      DstPort		      1
 	    }
 	    Line {
 	      SrcBlock		      "Demux1"
 	      SrcPort		      3
 	      DstBlock		      "Low Pass Filtering,Temperature\nCompens"
-"ation and Calibration1"
+"ation and Calibration"
 	      DstPort		      4
 	    }
 	    Line {
 	      SrcBlock		      "Low Pass Filtering,Temperature\nCompens"
-"ation and Calibration1"
+"ation and Calibration"
 	      SrcPort		      2
 	      Points		      [55, 0]
 	      Branch {
@@ -28956,7 +29188,7 @@ Model {
 	    }
 	    Line {
 	      SrcBlock		      "Low Pass Filtering,Temperature\nCompens"
-"ation and Calibration1"
+"ation and Calibration"
 	      SrcPort		      3
 	      Points		      [65, 0]
 	      Branch {
@@ -28971,7 +29203,7 @@ Model {
 	    }
 	    Line {
 	      SrcBlock		      "Low Pass Filtering,Temperature\nCompens"
-"ation and Calibration1"
+"ation and Calibration"
 	      SrcPort		      4
 	      DstBlock		      "Mag (mG)"
 	      DstPort		      1
@@ -28984,7 +29216,7 @@ Model {
 	    }
 	    Line {
 	      SrcBlock		      "Low Pass Filtering,Temperature\nCompens"
-"ation and Calibration1"
+"ation and Calibration"
 	      SrcPort		      5
 	      Points		      [85, 0]
 	      Branch {
@@ -28994,7 +29226,7 @@ Model {
 	      }
 	      Branch {
 		Points			[165, 0; 0, -260]
-		DstBlock		"Cube Signal Cond1"
+		DstBlock		"Cube Signal Cond"
 		DstPort			3
 	      }
 	    }
@@ -29007,7 +29239,7 @@ Model {
 	    }
 	    Line {
 	      SrcBlock		      "Low Pass Filtering,Temperature\nCompens"
-"ation and Calibration1"
+"ation and Calibration"
 	      SrcPort		      6
 	      Points		      [75, 0; 0, 115]
 	      DstBlock		      "Update the Load and Power\nData\n[updat"
@@ -29026,17 +29258,17 @@ Model {
 	      Labels		      [-1, 1]
 	      SrcBlock		      "Demux"
 	      SrcPort		      2
-	      DstBlock		      "Cube Signal Cond1"
+	      DstBlock		      "Cube Signal Cond"
 	      DstPort		      2
 	    }
 	    Line {
-	      SrcBlock		      "Cube Signal Cond1"
+	      SrcBlock		      "Cube Signal Cond"
 	      SrcPort		      1
 	      DstBlock		      "Omega (rad/s)"
 	      DstPort		      1
 	    }
 	    Line {
-	      SrcBlock		      "Cube Signal Cond1"
+	      SrcBlock		      "Cube Signal Cond"
 	      SrcPort		      2
 	      DstBlock		      "Accel (m/s^2)"
 	      DstPort		      1
@@ -34443,8 +34675,8 @@ Stateflow {
 	chart {
 		id                                        		185
 		name                                      		"Sensor Data/Sensor Suite/Low Pass Filtering,Temperature\n"
-					"Compensation and Calibration1/3D Tustin Lowpass, Auto Initial Con"
-					"dition/Embedded\n"
+					"Compensation and Calibration/3D Tustin Lowpass, Auto Initial Cond"
+					"ition/Embedded\n"
 					"MATLAB Function"
 		windowPosition                            		[388.241 201.978 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
@@ -34631,8 +34863,8 @@ Stateflow {
 	instance {
 		id     		193
 		name   		"Sensor Data/Sensor Suite/Low Pass Filtering,Temperature\n"
-					"Compensation and Calibration1/3D Tustin Lowpass, Auto Initial Con"
-					"dition/Embedded\n"
+					"Compensation and Calibration/3D Tustin Lowpass, Auto Initial Cond"
+					"ition/Embedded\n"
 					"MATLAB Function"
 		machine		1
 		chart  		185
@@ -35502,8 +35734,8 @@ Stateflow {
 	chart {
 		id                                        		237
 		name                                      		"Sensor Data/Sensor Suite/Low Pass Filtering,Temperature\n"
-					"Compensation and Calibration1/3D Tustin Lowpass, Auto Initial Con"
-					"dition/Embedded\n"
+					"Compensation and Calibration/3D Tustin Lowpass, Auto Initial Cond"
+					"ition/Embedded\n"
 					"MATLAB Function1"
 		windowPosition                            		[399.67 187.349 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
@@ -35690,8 +35922,8 @@ Stateflow {
 	instance {
 		id     		245
 		name   		"Sensor Data/Sensor Suite/Low Pass Filtering,Temperature\n"
-					"Compensation and Calibration1/3D Tustin Lowpass, Auto Initial Con"
-					"dition/Embedded\n"
+					"Compensation and Calibration/3D Tustin Lowpass, Auto Initial Cond"
+					"ition/Embedded\n"
 					"MATLAB Function1"
 		machine		1
 		chart  		237
@@ -35700,8 +35932,8 @@ Stateflow {
 	chart {
 		id                                        		246
 		name                                      		"Sensor Data/Sensor Suite/Low Pass Filtering,Temperature\n"
-					"Compensation and Calibration1/3D Tustin Lowpass, Auto Initial Con"
-					"dition/Embedded\n"
+					"Compensation and Calibration/3D Tustin Lowpass, Auto Initial Cond"
+					"ition/Embedded\n"
 					"MATLAB Function2"
 		windowPosition                            		[411.098 172.721 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
@@ -35888,8 +36120,8 @@ Stateflow {
 	instance {
 		id     		254
 		name   		"Sensor Data/Sensor Suite/Low Pass Filtering,Temperature\n"
-					"Compensation and Calibration1/3D Tustin Lowpass, Auto Initial Con"
-					"dition/Embedded\n"
+					"Compensation and Calibration/3D Tustin Lowpass, Auto Initial Cond"
+					"ition/Embedded\n"
 					"MATLAB Function2"
 		machine		1
 		chart  		246
@@ -37068,8 +37300,8 @@ Stateflow {
 	chart {
 		id                                        		314
 		name                                      		"Sensor Data/Sensor Suite/Low Pass Filtering,Temperature\n"
-					"Compensation and Calibration1/3D Tustin Lowpass, Auto Initial Con"
-					"dition/myMux Fun"
+					"Compensation and Calibration/3D Tustin Lowpass, Auto Initial Cond"
+					"ition/myMux Fun"
 		windowPosition                            		[287.343 210.458 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
@@ -37238,16 +37470,16 @@ Stateflow {
 	instance {
 		id     		322
 		name   		"Sensor Data/Sensor Suite/Low Pass Filtering,Temperature\n"
-					"Compensation and Calibration1/3D Tustin Lowpass, Auto Initial Con"
-					"dition/myMux Fun"
+					"Compensation and Calibration/3D Tustin Lowpass, Auto Initial Cond"
+					"ition/myMux Fun"
 		machine		1
 		chart  		314
 	}
 
 	chart {
 		id                                        		323
-		name                                      		"Sensor Data/Sensor Suite/Cube Signal Cond1/3D Tustin Lowpass, Aut"
-					"o Initial Condition/Embedded\n"
+		name                                      		"Sensor Data/Sensor Suite/Cube Signal Cond/3D Tustin Lowpass, Auto"
+					" Initial Condition/Embedded\n"
 					"MATLAB Function"
 		windowPosition                            		[403.241 186.978 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
@@ -37433,8 +37665,8 @@ Stateflow {
 
 	instance {
 		id     		331
-		name   		"Sensor Data/Sensor Suite/Cube Signal Cond1/3D Tustin Lowpass, Aut"
-					"o Initial Condition/Embedded\n"
+		name   		"Sensor Data/Sensor Suite/Cube Signal Cond/3D Tustin Lowpass, Auto"
+					" Initial Condition/Embedded\n"
 					"MATLAB Function"
 		machine		1
 		chart  		323
@@ -37442,8 +37674,8 @@ Stateflow {
 
 	chart {
 		id                                        		332
-		name                                      		"Sensor Data/Sensor Suite/Cube Signal Cond1/3D Tustin Lowpass, Aut"
-					"o Initial Condition/Embedded\n"
+		name                                      		"Sensor Data/Sensor Suite/Cube Signal Cond/3D Tustin Lowpass, Auto"
+					" Initial Condition/Embedded\n"
 					"MATLAB Function1"
 		windowPosition                            		[414.67 172.349 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
@@ -37629,8 +37861,8 @@ Stateflow {
 
 	instance {
 		id     		340
-		name   		"Sensor Data/Sensor Suite/Cube Signal Cond1/3D Tustin Lowpass, Aut"
-					"o Initial Condition/Embedded\n"
+		name   		"Sensor Data/Sensor Suite/Cube Signal Cond/3D Tustin Lowpass, Auto"
+					" Initial Condition/Embedded\n"
 					"MATLAB Function1"
 		machine		1
 		chart  		332
@@ -37638,8 +37870,8 @@ Stateflow {
 
 	chart {
 		id                                        		341
-		name                                      		"Sensor Data/Sensor Suite/Cube Signal Cond1/3D Tustin Lowpass, Aut"
-					"o Initial Condition/Embedded\n"
+		name                                      		"Sensor Data/Sensor Suite/Cube Signal Cond/3D Tustin Lowpass, Auto"
+					" Initial Condition/Embedded\n"
 					"MATLAB Function2"
 		windowPosition                            		[426.098 157.721 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
@@ -37825,8 +38057,8 @@ Stateflow {
 
 	instance {
 		id     		349
-		name   		"Sensor Data/Sensor Suite/Cube Signal Cond1/3D Tustin Lowpass, Aut"
-					"o Initial Condition/Embedded\n"
+		name   		"Sensor Data/Sensor Suite/Cube Signal Cond/3D Tustin Lowpass, Auto"
+					" Initial Condition/Embedded\n"
 					"MATLAB Function2"
 		machine		1
 		chart  		341
@@ -37834,8 +38066,8 @@ Stateflow {
 
 	chart {
 		id                                        		350
-		name                                      		"Sensor Data/Sensor Suite/Cube Signal Cond1/3D Tustin Lowpass, Aut"
-					"o Initial Condition/myMux Fun"
+		name                                      		"Sensor Data/Sensor Suite/Cube Signal Cond/3D Tustin Lowpass, Auto"
+					" Initial Condition/myMux Fun"
 		windowPosition                            		[302.343 195.458 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
@@ -38003,16 +38235,16 @@ Stateflow {
 
 	instance {
 		id     		358
-		name   		"Sensor Data/Sensor Suite/Cube Signal Cond1/3D Tustin Lowpass, Aut"
-					"o Initial Condition/myMux Fun"
+		name   		"Sensor Data/Sensor Suite/Cube Signal Cond/3D Tustin Lowpass, Auto"
+					" Initial Condition/myMux Fun"
 		machine		1
 		chart  		350
 	}
 
 	chart {
 		id                                        		359
-		name                                      		"Sensor Data/Sensor Suite/Cube Signal Cond1/3D Tustin Lowpass, Aut"
-					"o Initial Condition1/Embedded\n"
+		name                                      		"Sensor Data/Sensor Suite/Cube Signal Cond/3D Tustin Lowpass, Auto"
+					" Initial Condition1/Embedded\n"
 					"MATLAB Function"
 		windowPosition                            		[403.241 186.978 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
@@ -38198,8 +38430,8 @@ Stateflow {
 
 	instance {
 		id     		367
-		name   		"Sensor Data/Sensor Suite/Cube Signal Cond1/3D Tustin Lowpass, Aut"
-					"o Initial Condition1/Embedded\n"
+		name   		"Sensor Data/Sensor Suite/Cube Signal Cond/3D Tustin Lowpass, Auto"
+					" Initial Condition1/Embedded\n"
 					"MATLAB Function"
 		machine		1
 		chart  		359
@@ -38207,8 +38439,8 @@ Stateflow {
 
 	chart {
 		id                                        		368
-		name                                      		"Sensor Data/Sensor Suite/Cube Signal Cond1/3D Tustin Lowpass, Aut"
-					"o Initial Condition1/Embedded\n"
+		name                                      		"Sensor Data/Sensor Suite/Cube Signal Cond/3D Tustin Lowpass, Auto"
+					" Initial Condition1/Embedded\n"
 					"MATLAB Function1"
 		windowPosition                            		[414.67 172.349 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
@@ -38394,8 +38626,8 @@ Stateflow {
 
 	instance {
 		id     		376
-		name   		"Sensor Data/Sensor Suite/Cube Signal Cond1/3D Tustin Lowpass, Aut"
-					"o Initial Condition1/Embedded\n"
+		name   		"Sensor Data/Sensor Suite/Cube Signal Cond/3D Tustin Lowpass, Auto"
+					" Initial Condition1/Embedded\n"
 					"MATLAB Function1"
 		machine		1
 		chart  		368
@@ -38403,8 +38635,8 @@ Stateflow {
 
 	chart {
 		id                                        		377
-		name                                      		"Sensor Data/Sensor Suite/Cube Signal Cond1/3D Tustin Lowpass, Aut"
-					"o Initial Condition1/Embedded\n"
+		name                                      		"Sensor Data/Sensor Suite/Cube Signal Cond/3D Tustin Lowpass, Auto"
+					" Initial Condition1/Embedded\n"
 					"MATLAB Function2"
 		windowPosition                            		[426.098 157.721 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
@@ -38590,8 +38822,8 @@ Stateflow {
 
 	instance {
 		id     		385
-		name   		"Sensor Data/Sensor Suite/Cube Signal Cond1/3D Tustin Lowpass, Aut"
-					"o Initial Condition1/Embedded\n"
+		name   		"Sensor Data/Sensor Suite/Cube Signal Cond/3D Tustin Lowpass, Auto"
+					" Initial Condition1/Embedded\n"
 					"MATLAB Function2"
 		machine		1
 		chart  		377
@@ -38599,8 +38831,8 @@ Stateflow {
 
 	chart {
 		id                                        		386
-		name                                      		"Sensor Data/Sensor Suite/Cube Signal Cond1/3D Tustin Lowpass, Aut"
-					"o Initial Condition1/myMux Fun"
+		name                                      		"Sensor Data/Sensor Suite/Cube Signal Cond/3D Tustin Lowpass, Auto"
+					" Initial Condition1/myMux Fun"
 		windowPosition                            		[302.343 195.458 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
@@ -38768,16 +39000,16 @@ Stateflow {
 
 	instance {
 		id     		394
-		name   		"Sensor Data/Sensor Suite/Cube Signal Cond1/3D Tustin Lowpass, Aut"
-					"o Initial Condition1/myMux Fun"
+		name   		"Sensor Data/Sensor Suite/Cube Signal Cond/3D Tustin Lowpass, Auto"
+					" Initial Condition1/myMux Fun"
 		machine		1
 		chart  		386
 	}
 
 	chart {
 		id                                        		395
-		name                                      		"Sensor Data/Sensor Suite/Cube Signal Cond1/Ellipse Correction/myM"
-					"ux Fun3"
+		name                                      		"Sensor Data/Sensor Suite/Cube Signal Cond/Ellipse Correction/myMu"
+					"x Fun3"
 		windowPosition                            		[416.813 147.216 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
@@ -38946,16 +39178,16 @@ Stateflow {
 
 	instance {
 		id     		403
-		name   		"Sensor Data/Sensor Suite/Cube Signal Cond1/Ellipse Correction/myM"
-					"ux Fun3"
+		name   		"Sensor Data/Sensor Suite/Cube Signal Cond/Ellipse Correction/myMu"
+					"x Fun3"
 		machine		1
 		chart  		395
 	}
 
 	chart {
 		id                                        		404
-		name                                      		"Sensor Data/Sensor Suite/Cube Signal Cond1/Temp Compensate Accel "
-					"X/Tustin Lowpass, Auto Initial Condition1/Embedded\n"
+		name                                      		"Sensor Data/Sensor Suite/Cube Signal Cond/Temp Compensate Accel X"
+					"/Tustin Lowpass, Auto Initial Condition1/Embedded\n"
 					"MATLAB Function"
 		windowPosition                            		[451.813 141.606 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
@@ -39141,8 +39373,8 @@ Stateflow {
 
 	instance {
 		id     		412
-		name   		"Sensor Data/Sensor Suite/Cube Signal Cond1/Temp Compensate Accel "
-					"X/Tustin Lowpass, Auto Initial Condition1/Embedded\n"
+		name   		"Sensor Data/Sensor Suite/Cube Signal Cond/Temp Compensate Accel X"
+					"/Tustin Lowpass, Auto Initial Condition1/Embedded\n"
 					"MATLAB Function"
 		machine		1
 		chart  		404
@@ -39150,7 +39382,7 @@ Stateflow {
 
 	chart {
 		id                                        		413
-		name                                      		"Sensor Data/Sensor Suite/Cube Signal Cond1/myMux Fun"
+		name                                      		"Sensor Data/Sensor Suite/Cube Signal Cond/myMux Fun"
 		windowPosition                            		[327.45 240 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
@@ -39318,7 +39550,7 @@ Stateflow {
 
 	instance {
 		id     		421
-		name   		"Sensor Data/Sensor Suite/Cube Signal Cond1/myMux Fun"
+		name   		"Sensor Data/Sensor Suite/Cube Signal Cond/myMux Fun"
 		machine		1
 		chart  		413
 	}
@@ -39326,7 +39558,7 @@ Stateflow {
 	chart {
 		id                                        		422
 		name                                      		"Sensor Data/Sensor Suite/Low Pass Filtering,Temperature\n"
-					"Compensation and Calibration1/Baro Altimeter/Enables/Disables\n"
+					"Compensation and Calibration/Baro Altimeter/Enables/Disables\n"
 					"the Computation of \n"
 					"initial Baro Bias"
 		windowPosition                            		[360.45 195 200.25 189.75]
@@ -39466,7 +39698,7 @@ Stateflow {
 	instance {
 		id     		427
 		name   		"Sensor Data/Sensor Suite/Low Pass Filtering,Temperature\n"
-					"Compensation and Calibration1/Baro Altimeter/Enables//Disables\n"
+					"Compensation and Calibration/Baro Altimeter/Enables//Disables\n"
 					"the Computation of \n"
 					"initial Baro Bias"
 		machine		1
@@ -39476,7 +39708,7 @@ Stateflow {
 	chart {
 		id                                        		428
 		name                                      		"Sensor Data/Sensor Suite/Low Pass Filtering,Temperature\n"
-					"Compensation and Calibration1/Ellipse Correction/myMux Fun3"
+					"Compensation and Calibration/Ellipse Correction/myMux Fun3"
 		windowPosition                            		[431.813 132.216 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
@@ -39646,7 +39878,7 @@ Stateflow {
 	instance {
 		id     		436
 		name   		"Sensor Data/Sensor Suite/Low Pass Filtering,Temperature\n"
-					"Compensation and Calibration1/Ellipse Correction/myMux Fun3"
+					"Compensation and Calibration/Ellipse Correction/myMux Fun3"
 		machine		1
 		chart  		428
 	}
@@ -39654,8 +39886,8 @@ Stateflow {
 	chart {
 		id                                        		437
 		name                                      		"Sensor Data/Sensor Suite/Low Pass Filtering,Temperature\n"
-					"Compensation and Calibration1/Tustin Lowpass, Auto Initial Condit"
-					"ion1/Embedded\n"
+					"Compensation and Calibration/Tustin Lowpass, Auto Initial Conditi"
+					"on1/Embedded\n"
 					"MATLAB Function"
 		windowPosition                            		[376.813 216.606 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
@@ -39842,8 +40074,8 @@ Stateflow {
 	instance {
 		id     		445
 		name   		"Sensor Data/Sensor Suite/Low Pass Filtering,Temperature\n"
-					"Compensation and Calibration1/Tustin Lowpass, Auto Initial Condit"
-					"ion1/Embedded\n"
+					"Compensation and Calibration/Tustin Lowpass, Auto Initial Conditi"
+					"on1/Embedded\n"
 					"MATLAB Function"
 		machine		1
 		chart  		437
@@ -39852,8 +40084,8 @@ Stateflow {
 	chart {
 		id                                        		446
 		name                                      		"Sensor Data/Sensor Suite/Low Pass Filtering,Temperature\n"
-					"Compensation and Calibration1/Tustin Lowpass, Auto Initial Condit"
-					"ion2/Embedded\n"
+					"Compensation and Calibration/Tustin Lowpass, Auto Initial Conditi"
+					"on2/Embedded\n"
 					"MATLAB Function"
 		windowPosition                            		[391.813 201.606 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
@@ -40040,8 +40272,8 @@ Stateflow {
 	instance {
 		id     		454
 		name   		"Sensor Data/Sensor Suite/Low Pass Filtering,Temperature\n"
-					"Compensation and Calibration1/Tustin Lowpass, Auto Initial Condit"
-					"ion2/Embedded\n"
+					"Compensation and Calibration/Tustin Lowpass, Auto Initial Conditi"
+					"on2/Embedded\n"
 					"MATLAB Function"
 		machine		1
 		chart  		446
@@ -40050,8 +40282,8 @@ Stateflow {
 	chart {
 		id                                        		455
 		name                                      		"Sensor Data/Sensor Suite/Low Pass Filtering,Temperature\n"
-					"Compensation and Calibration1/Tustin Lowpass, Auto Initial Condit"
-					"ion3/Embedded\n"
+					"Compensation and Calibration/Tustin Lowpass, Auto Initial Conditi"
+					"on3/Embedded\n"
 					"MATLAB Function"
 		windowPosition                            		[406.813 186.606 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
@@ -40238,8 +40470,8 @@ Stateflow {
 	instance {
 		id     		463
 		name   		"Sensor Data/Sensor Suite/Low Pass Filtering,Temperature\n"
-					"Compensation and Calibration1/Tustin Lowpass, Auto Initial Condit"
-					"ion3/Embedded\n"
+					"Compensation and Calibration/Tustin Lowpass, Auto Initial Conditi"
+					"on3/Embedded\n"
 					"MATLAB Function"
 		machine		1
 		chart  		455
@@ -40248,8 +40480,8 @@ Stateflow {
 	chart {
 		id                                        		464
 		name                                      		"Sensor Data/Sensor Suite/Low Pass Filtering,Temperature\n"
-					"Compensation and Calibration1/Tustin Lowpass, Auto Initial Condit"
-					"ion4/Embedded\n"
+					"Compensation and Calibration/Tustin Lowpass, Auto Initial Conditi"
+					"on4/Embedded\n"
 					"MATLAB Function"
 		windowPosition                            		[421.813 171.606 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
@@ -40436,8 +40668,8 @@ Stateflow {
 	instance {
 		id     		472
 		name   		"Sensor Data/Sensor Suite/Low Pass Filtering,Temperature\n"
-					"Compensation and Calibration1/Tustin Lowpass, Auto Initial Condit"
-					"ion4/Embedded\n"
+					"Compensation and Calibration/Tustin Lowpass, Auto Initial Conditi"
+					"on4/Embedded\n"
 					"MATLAB Function"
 		machine		1
 		chart  		464
@@ -40446,8 +40678,8 @@ Stateflow {
 	chart {
 		id                                        		473
 		name                                      		"Sensor Data/Sensor Suite/Low Pass Filtering,Temperature\n"
-					"Compensation and Calibration1/ValidateMags/Monitor Norm/Norm/Subs"
-					"ystem1/negprotect"
+					"Compensation and Calibration/ValidateMags/Monitor Norm/Norm/Subsy"
+					"stem1/negprotect"
 		windowPosition                            		[282.588 296.703 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
@@ -40574,8 +40806,8 @@ Stateflow {
 	instance {
 		id     		479
 		name   		"Sensor Data/Sensor Suite/Low Pass Filtering,Temperature\n"
-					"Compensation and Calibration1/ValidateMags/Monitor Norm/Norm/Subs"
-					"ystem1/negprotect"
+					"Compensation and Calibration/ValidateMags/Monitor Norm/Norm/Subsy"
+					"stem1/negprotect"
 		machine		1
 		chart  		473
 	}
@@ -40583,8 +40815,8 @@ Stateflow {
 	chart {
 		id                                        		480
 		name                                      		"Sensor Data/Sensor Suite/Low Pass Filtering,Temperature\n"
-					"Compensation and Calibration1/ValidateMags/Monitor Norm/Norm/Subs"
-					"ystem3/Embedded\n"
+					"Compensation and Calibration/ValidateMags/Monitor Norm/Norm/Subsy"
+					"stem3/Embedded\n"
 					"MATLAB Function"
 		windowPosition                            		[341.813 177.525 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
@@ -40732,8 +40964,8 @@ Stateflow {
 	instance {
 		id     		487
 		name   		"Sensor Data/Sensor Suite/Low Pass Filtering,Temperature\n"
-					"Compensation and Calibration1/ValidateMags/Monitor Norm/Norm/Subs"
-					"ystem3/Embedded\n"
+					"Compensation and Calibration/ValidateMags/Monitor Norm/Norm/Subsy"
+					"stem3/Embedded\n"
 					"MATLAB Function"
 		machine		1
 		chart  		480
