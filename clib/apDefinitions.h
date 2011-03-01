@@ -54,7 +54,7 @@ and data types.
 
 // Cube Model Used
 // ===============
-#define USE_CUBE_16405	1
+#define USE_CUBE_16405	0
 
 // GPS Header IDs
 // ==============

@@ -277,5 +277,8 @@ short convert12BitToShort (short wordData) {
 	return (wordData & BITTEST_12)? (wordData | BITEXTEND_12) : (wordData & BITMASK_12);
 }
 
+unsigned char isCube16405 (void){
+	return 1;
+}
 #endif // USE_CUBE_16405
  

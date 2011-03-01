@@ -208,6 +208,8 @@ int16_t averageData (int16_t* theData, uint8_t count);
 short convert12BitToShort (short wordData);
 short convert14BitToShort (short wordData);
 
+unsigned char isCube16405 (void);
+
 #endif //(USE_CUBE_16405 == 0)
 
 #ifdef __cplusplus

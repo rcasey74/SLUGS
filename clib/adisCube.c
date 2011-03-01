@@ -290,4 +290,9 @@ void initDevBoard (void){
 	cubeInit();
 }
 
+
+unsigned char isCube16405 (void){
+	return 0;
+}
+
 #endif // #if (USE_CUBE_16405 == 0)
