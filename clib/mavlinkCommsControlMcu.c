@@ -364,26 +364,26 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 		
 		case 8:// Wp Protocol state machine
 			 if (sw_debug == 1){
-			 	bytes2Send += sendQGCDebugMessage ("Interrupcion", 0, dataOut, bytes2Send+1);	
-			 	sw_debug = 0;		
-			 }
+			 			 	bytes2Send += sendQGCDebugMessage ("Cuenta", 0, dataOut, bytes2Send+1);	
+			 			 	sw_debug = 0;		
+			 			 }
 
-			 if (sw_debug == 2){
-			 	memset(vr_message,0,sizeof(vr_message));
-				sprintf(vr_message, "r: %x %x %x %x %x %x %x %x %x %x", sw_temp[0],
-																																sw_temp[1],
-																																sw_temp[2],
-																																sw_temp[3],
-																																sw_temp[4],
-																																sw_temp[5],
-																																sw_temp[6],
-																																sw_temp[7],
-																																sw_temp[8],
-																																sw_temp[9]);	
-
-			 	bytes2Send += sendQGCDebugMessage (vr_message, 0, dataOut, bytes2Send+1);	
-			 	sw_debug = 0;		
-			 }
+			 // if (sw_debug == 2){
+			 // 			 	memset(vr_message,0,sizeof(vr_message));
+			 // 				sprintf(vr_message, "r: %x %x %x %x %x %x %x %x %x %x", sw_temp[0],
+			 // 																																sw_temp[1],
+			 // 																																sw_temp[2],
+			 // 																																sw_temp[3],
+			 // 																																sw_temp[4],
+			 // 																																sw_temp[5],
+			 // 																																sw_temp[6],
+			 // 																																sw_temp[7],
+			 // 																																sw_temp[8],
+			 // 																																sw_temp[9]);	
+			 // 
+			 // 			 	bytes2Send += sendQGCDebugMessage (vr_message, 0, dataOut, bytes2Send+1);	
+			 // 			 	sw_debug = 0;		
+			 // 			 }
 						
 			if (sw_debug == 3){
 				memset(vr_message,0,sizeof(vr_message));
@@ -632,16 +632,9 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 
 	for(i = 1; i <= dataIn[0]; i++ ){
 		
-		if (commChannel == 1){
-			sw_debug = 2;
-			
-			sw_temp[i-1] = dataIn[i];
-		}
-		
 		// Try to get a new message
 		if(mavlink_parse_char(commChannel, dataIn[i], &msg, &status)) {
 	
-			
 			// Handle message
 			switch(msg.msgid){
 				case MAVLINK_MSG_ID_HEARTBEAT:
@@ -762,8 +755,7 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 				break;	
 				
 				case MAVLINK_MSG_ID_WAYPOINT_COUNT:
-
-					
+					sw_debug = 1;					
 					if (!mlPending.wpTransaction && (mlPending.wpProtState == WP_PROT_IDLE)){
 						
 						mavlink_msg_waypoint_count_decode(&msg, &mlWpCount);
@@ -1003,7 +995,6 @@ void __attribute__((interrupt, no_auto_psv)) _DMA1Interrupt(void)
 
 void __attribute__((__interrupt__, no_auto_psv)) _U2RXInterrupt(void){
  
-	sw_debug = 1;
 	// Read the buffer while it has data
 	// and add it to the circular buffer
 	while(U2STAbits.URXDA == 1){

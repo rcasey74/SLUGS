@@ -65,9 +65,7 @@ unsigned int hil_getTs(void){
 	return (uint32_t)mlAttitudeData.usec;
 }
 
-// unsigned char getHilOnOff (void){
-// 	return 0;
-// }
+
 
 void protDecodeHil (uint8_t* dataIn){
 	
