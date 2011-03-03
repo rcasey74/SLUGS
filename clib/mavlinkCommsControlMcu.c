@@ -12,6 +12,7 @@ unsigned int BufferB[MAXSEND] __attribute__((space(dma))) = {0};
 char sw_debug;
 char sw_temp[50];
 char sw_intTemp;
+float fl_temp1, fl_temp2;
 
 // UART, DMA and Buffer initialization
 void uart2Init (void){
@@ -328,6 +329,8 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 						mlPending.piProtState = PI_IDLE;
 						mlPending.piCurrentParamInTransaction = PAR_PARAM_COUNT;
 						mlPending.piTransaction = 0;
+						mlPending.piBackToList = 0;
+						mlPending.piQIdx = -1;
 					} 
 				break;
 				
@@ -435,16 +438,18 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 		break; // case 7
 		
 		case 8:// Wp Protocol state machine, raw Pressure
-			 // if (sw_debug == 1){
-			 // 			 			 	bytes2Send += sendQGCDebugMessage ("Cuenta Paso", 0, dataOut, bytes2Send+1);	
-			 // 			 			 	sw_debug = 0;		
-			 // 			 			 }
+			 if (sw_debug == 1){
+					memset(vr_message,0,sizeof(vr_message));
+			 		sprintf(vr_message, "if = %d, p =%2.2f r = %2.2f", sw_intTemp, fl_temp1, fl_temp2);	
+			  	bytes2Send += sendQGCDebugMessage (vr_message, 0, dataOut, bytes2Send+1);			 			 			 	
+			  	sw_debug = 0;		
+			 	}
 			 // 
-			 // 			 if (sw_debug == 2){
-			 // 				 			 	
-			 // 				 			 	bytes2Send += sendQGCDebugMessage ("Pidio WP 0", 0, dataOut, bytes2Send+1);	
-			 // 				 			 	sw_debug = 0;		
-			 // 				 			 }
+			 	if (sw_debug == 2){
+			 		bytes2Send += sendQGCDebugMessage ("No infinit", 0, dataOut, bytes2Send+1);	
+			 		sw_debug = 0;		
+			 		
+			 	}
 			 // 						
 			 // 			if (sw_debug == 3){
 			 // 				memset(vr_message,0,sizeof(vr_message));
@@ -503,7 +508,6 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 						
 						// Change the state machine state
 						mlPending.wpProtState = WP_PROT_RX_WP;	
-						sw_debug = 2;
 						
 					} else {
 						// clear the msg
@@ -694,6 +698,7 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 	uint16_t indexOffset;
 	tFloatToChar tempFloat;
 	uint32_t temp;
+	mavlink_param_set_t set;
 	
 
 
@@ -775,7 +780,6 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 				
 				case MAVLINK_MSG_ID_SET_MODE:
 					mlSystemStatus.mode = mavlink_msg_set_mode_get_mode(&msg);
-					sw_debug = 3;
 				break;
 
  				case MAVLINK_MSG_ID_MID_LVL_CMDS:
@@ -826,10 +830,9 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 				break;	
 				
 				case MAVLINK_MSG_ID_WAYPOINT_COUNT:
-					sw_debug = 1;					
-					if (!mlPending.wpTransaction && (mlPending.wpProtState == WP_PROT_IDLE)){
 						
-						sw_debug = 1;	
+					if (!mlPending.wpTransaction && (mlPending.wpProtState == WP_PROT_IDLE)){
+					
 						
 						mavlink_msg_waypoint_count_decode(&msg, &mlWpCount);
 						
@@ -1021,19 +1024,89 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 				
 				case MAVLINK_MSG_ID_PARAM_REQUEST_READ:	
 					// If it was in the middle of a list transmission or there is already a param enqueued
-					if (mlPending.piProtState != PI_IDLE) {
-						mlPending.piBackToList = 1; // mark to go back
-						mlPending.piQIdx++; // done like this because when empty index = -1
-						mlPending.piQueue[mlPending.piQIdx] = mavlink_msg_param_request_read_get_param_index(&msg); // put in in queue
-					} else{ // you where not in the middle of a transaction
-						mlPending.piBackToList = 0; // no need to go back
-						mlPending.piQIdx = -1; // no Index
-						mlPending.piCurrentParamInTransaction = mavlink_msg_param_request_read_get_param_index(&msg); // assign directly
+					switch (mlPending.piProtState){
+						case PI_IDLE:
+							mlPending.piBackToList = 0; // no need to go back
+							mlPending.piQIdx = -1; // no Index
+							mlPending.piCurrentParamInTransaction = mavlink_msg_param_request_read_get_param_index(&msg); // assign directly
+						break;
+						
+						case PI_SEND_ALL_PARAM:
+							mlPending.piBackToList = 1; // mark to go back
+							mlPending.piQIdx++; // done like this because when empty index = -1
+							mlPending.piQueue[mlPending.piQIdx] = mavlink_msg_param_request_read_get_param_index(&msg); // put in in queue
+						break;
+						
+						case PI_SEND_ONE_PARAM:
+							
+							if (mlPending.piBackToList){
+								mlPending.piQIdx++; // done like this because when empty index = -1
+								mlPending.piQueue[mlPending.piQIdx] = mavlink_msg_param_request_read_get_param_index(&msg); // put in in queue
+							} 
+						
+						break;
 					}
-									  	
+													  	
 						mlPending.piProtState = PI_SEND_ONE_PARAM;				  	
-									
+	
 				break;
+				
+				case MAVLINK_MSG_ID_PARAM_SET:
+					mavlink_msg_param_set_decode(&msg, &set);
+					
+					if ((uint8_t) set.target_system == (uint8_t) SLUGS_SYSTEMID && 
+				      (uint8_t) set.target_component == (uint8_t) SLUGS_COMPID){
+			
+				      	
+				      	char* key = (char*) set.param_id;
+				      	uint8_t i, j; 
+				      	uint8_t match;
+								for (i = 0; i < PAR_PARAM_COUNT; i++){
+									match = 1;
+									for (j = 0; j < SLUGS_PARAM_NAME_LENGTH; j++){					
+										// Compare
+										if (((char) (mlParamInterface.param_name[i][j]))
+												!= (char) (key[j])){
+											match = 0;
+										} // if
+						
+										// End matching if null termination is reached
+										if (((char) mlParamInterface.param_name[i][j]) == '\0'){
+											break;
+										} // if
+									}// for j
+						
+									// Check if matched
+									if (match){
+										//sw_debug = 1;
+										// Only write and emit changes if there is actually a difference
+										// AND only write if new value is NOT "not-a-number"
+										// AND is NOT infinity
+											sw_intTemp = isFinite(set.param_value);
+											fl_temp1 = mlParamInterface.param[i];
+											fl_temp2 = set.param_value;
+										
+										// if ((mlParamInterface.param[i] != set.param_value)
+										// 												&& (isFinite(set.param_value))){
+
+										if (isFinite(set.param_value)){												
+													sw_debug = 2;
+												
+													mlParamInterface.param[i] = set.param_value;
+													
+													// Report back new value
+													mlPending.piBackToList = 0; // no need to go back
+													mlPending.piQIdx = -1; // no Index
+													mlPending.piCurrentParamInTransaction = i; // assign directly
+													mlPending.piProtState = PI_SEND_ONE_PARAM;
+													mlPending.piTransaction = 1;
+													
+										} // if different and not nan and not inf
+									} // if match
+								}// for i
+							} // if addressed to this
+				break;
+				
 			}	// switch	
 		} // if
 		

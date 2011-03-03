@@ -122,6 +122,12 @@ float myExp(float x){
      #endif
 }
 
+uint8_t isFinite(float s) {
+  // By IEEE 754 rule, 2*Inf equals Inf
+  return ((s == s) && ((s == 0) || (s != 2*s)));
+}
+
+
 #ifndef __cplusplus
 
 // ================================
