@@ -129,7 +129,7 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 	static uint8_t sampleTelemetry = 1;
 	
 	// Contains the total bytes to send via the serial port
-	uint8_t bytes2Send = 0;
+	uint8_t bytes2Send = 0, paramDelay = 0;
 	
 	// String used to send text messages to QGC console
 	char vr_message[50];
@@ -293,7 +293,7 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 		
 		break; // case 4
 		
-		case 5: // Raw IMU, Raw Pressure
+		case 5: // Raw IMU, Parameter Interface
 			mavlink_msg_raw_imu_encode( SLUGS_SYSTEMID, 
 																	SLUGS_COMPID, 
 																	&msg, 
@@ -301,15 +301,87 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 			// Copy the message to the send buffer
 			bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);
 			
-			// clear the msg
-			memset(&msg,0,sizeof(mavlink_message_t));	
+			if (!mlPending.piTransaction ) break;
+						
+			switch (mlPending.piProtState){
+
+				case PI_SEND_ALL_PARAM:
+					if (mlPending.piCurrentParamInTransaction < PAR_PARAM_COUNT){
+						memset(vr_message,0,sizeof(vr_message));
+			 			sprintf(vr_message, "Param = %d", mlPending.piCurrentParamInTransaction);	
+			 			bytes2Send += sendQGCDebugMessage (vr_message, 0, dataOut, bytes2Send+1);
+						
+						mavlink_msg_param_value_pack (SLUGS_SYSTEMID, 
+																					SLUGS_COMPID, 
+																					&msg,
+																					mlParamInterface.param_name[mlPending.piCurrentParamInTransaction],
+																					mlParamInterface.param[mlPending.piCurrentParamInTransaction],
+																					PAR_PARAM_COUNT,
+																					mlPending.piCurrentParamInTransaction);
+						
+					  mlPending.piCurrentParamInTransaction++;
+						
+					  // Copy the message to the send buffer
+			      bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);
+			      											
+					} else {
+						mlPending.piProtState = PI_IDLE;
+						mlPending.piCurrentParamInTransaction = PAR_PARAM_COUNT;
+						mlPending.piTransaction = 0;
+					} 
+				break;
+				
+				case PI_SEND_ONE_PARAM:
+	
+					memset(vr_message,0,sizeof(vr_message));
+			 		sprintf(vr_message, "b2l = %d, ix = %d, rtx = %d", mlPending.piBackToList, mlPending.piQIdx, mlPending.piQueue[mlPending.piQIdx]);	
+			 		bytes2Send += sendQGCDebugMessage (vr_message, 0, dataOut, bytes2Send+1);
+						
+				
+					if (!mlPending.piBackToList){ // if this is just a single pm read, i.e. not a retransmission
+							mavlink_msg_param_value_pack (SLUGS_SYSTEMID, 
+																						SLUGS_COMPID, 
+																						&msg,
+																						mlParamInterface.param_name[mlPending.piCurrentParamInTransaction],
+																						mlParamInterface.param[mlPending.piCurrentParamInTransaction],
+																						PAR_PARAM_COUNT,
+																						mlPending.piCurrentParamInTransaction);
+							
+						  // Copy the message to the send buffer
+				      bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);
+				      
+				      
+				     	mlPending.piCurrentParamInTransaction = PAR_PARAM_COUNT;
+				      mlPending.piProtState = PI_IDLE;
+							mlPending.piTransaction = 0;
+						} else  { // you will need to go back to send all
+							
+							if (mlPending.piQIdx < 0){ // if you've sent all the requests, then go back to list
+								mlPending.piProtState = PI_SEND_ALL_PARAM;
+								mlPending.piBackToList = 0;
+								
+							} else { // send the requests
+								mavlink_msg_param_value_pack (SLUGS_SYSTEMID, 
+															SLUGS_COMPID, 
+															&msg,
+															mlParamInterface.param_name[mlPending.piQueue[mlPending.piQIdx]],
+															mlParamInterface.param[mlPending.piQueue[mlPending.piQIdx]],
+															PAR_PARAM_COUNT,
+															mlPending.piQueue[mlPending.piQIdx]);
+							
+							
+						  	// Copy the message to the send buffer
+				      	bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);
+				      
+				      	// decrement the queue index
+				      	mlPending.piQIdx--;
+							} // QIdx < 0			      
+						}// !backToList
+						
+				break;
+				
+			}// switch PI state machine
 			
-			mavlink_msg_raw_pressure_encode( SLUGS_SYSTEMID, 
-																 			 SLUGS_COMPID, 
-																			 &msg, 
-																			 &mlRawPressureData);
-			// Copy the message to the send buffer
-			bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);	
 			
 		break; // case 5
 		
@@ -362,35 +434,33 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 																
 		break; // case 7
 		
-		case 8:// Wp Protocol state machine
-			 if (sw_debug == 1){
-			 			 	bytes2Send += sendQGCDebugMessage ("Cuenta", 0, dataOut, bytes2Send+1);	
-			 			 	sw_debug = 0;		
-			 			 }
-
-			 // if (sw_debug == 2){
-			 // 			 	memset(vr_message,0,sizeof(vr_message));
-			 // 				sprintf(vr_message, "r: %x %x %x %x %x %x %x %x %x %x", sw_temp[0],
-			 // 																																sw_temp[1],
-			 // 																																sw_temp[2],
-			 // 																																sw_temp[3],
-			 // 																																sw_temp[4],
-			 // 																																sw_temp[5],
-			 // 																																sw_temp[6],
-			 // 																																sw_temp[7],
-			 // 																																sw_temp[8],
-			 // 																																sw_temp[9]);	
+		case 8:// Wp Protocol state machine, raw Pressure
+			 // if (sw_debug == 1){
+			 // 			 			 	bytes2Send += sendQGCDebugMessage ("Cuenta Paso", 0, dataOut, bytes2Send+1);	
+			 // 			 			 	sw_debug = 0;		
+			 // 			 			 }
 			 // 
-			 // 			 	bytes2Send += sendQGCDebugMessage (vr_message, 0, dataOut, bytes2Send+1);	
-			 // 			 	sw_debug = 0;		
-			 // 			 }
-						
-			if (sw_debug == 3){
-				memset(vr_message,0,sizeof(vr_message));
-				sprintf(vr_message, "Mode = %d", mlSystemStatus.mode);	
-				bytes2Send += sendQGCDebugMessage (vr_message, 0, dataOut, bytes2Send+1);	
-				sw_debug = 0;		
-			}
+			 // 			 if (sw_debug == 2){
+			 // 				 			 	
+			 // 				 			 	bytes2Send += sendQGCDebugMessage ("Pidio WP 0", 0, dataOut, bytes2Send+1);	
+			 // 				 			 	sw_debug = 0;		
+			 // 				 			 }
+			 // 						
+			 // 			if (sw_debug == 3){
+			 // 				memset(vr_message,0,sizeof(vr_message));
+			 // 				sprintf(vr_message, "Mode = %d", mlSystemStatus.mode);	
+			 // 				bytes2Send += sendQGCDebugMessage (vr_message, 0, dataOut, bytes2Send+1);	
+			 // 				sw_debug = 0;		
+			 // 			}
+					
+			mavlink_msg_raw_pressure_encode( SLUGS_SYSTEMID, 
+																 			 SLUGS_COMPID, 
+																			 &msg, 
+																			 &mlRawPressureData);
+			// Copy the message to the send buffer
+			bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);	
+			
+			if (!mlPending.wpTransaction) break;
 
 			switch (mlPending.wpProtState){
 				
@@ -433,6 +503,7 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 						
 						// Change the state machine state
 						mlPending.wpProtState = WP_PROT_RX_WP;	
+						sw_debug = 2;
 						
 					} else {
 						// clear the msg
@@ -758,6 +829,8 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 					sw_debug = 1;					
 					if (!mlPending.wpTransaction && (mlPending.wpProtState == WP_PROT_IDLE)){
 						
+						sw_debug = 1;	
+						
 						mavlink_msg_waypoint_count_decode(&msg, &mlWpCount);
 						
 						// Start the transaction
@@ -939,14 +1012,40 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 						break;						
 					}// switch
 				break;
+				
+				case MAVLINK_MSG_ID_PARAM_REQUEST_LIST:
+					mlPending.piTransaction = 1;
+					mlPending.piProtState = PI_SEND_ALL_PARAM;
+					mlPending.piCurrentParamInTransaction = 0;
+				break; 
+				
+				case MAVLINK_MSG_ID_PARAM_REQUEST_READ:	
+					// If it was in the middle of a list transmission or there is already a param enqueued
+					if (mlPending.piProtState != PI_IDLE) {
+						mlPending.piBackToList = 1; // mark to go back
+						mlPending.piQIdx++; // done like this because when empty index = -1
+						mlPending.piQueue[mlPending.piQIdx] = mavlink_msg_param_request_read_get_param_index(&msg); // put in in queue
+					} else{ // you where not in the middle of a transaction
+						mlPending.piBackToList = 0; // no need to go back
+						mlPending.piQIdx = -1; // no Index
+						mlPending.piCurrentParamInTransaction = mavlink_msg_param_request_read_get_param_index(&msg); // assign directly
+					}
+									  	
+						mlPending.piProtState = PI_SEND_ONE_PARAM;				  	
+									
+				break;
 			}	// switch	
 		} // if
 		
 		// Update global packet drops counter
-		mlSystemStatus.packet_drop += status.packet_rx_drop_count;
+			if (commChannel == 1){
+				mlSystemStatus.packet_drop += status.packet_rx_drop_count;
+			}
+		
 		
 	}// for  
 }
+
 
 
 void copyBufferToDMA1 (unsigned char size){

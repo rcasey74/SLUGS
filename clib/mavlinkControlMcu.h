@@ -8,17 +8,43 @@
   #include "mavlink.h"
   #include "apDefinitions.h"
   
-  // Comments Nomenclature
-  // // In init method
-  //
-  // .. Already in Decoder (thus we can receive messages of this type)
-  // -- Does not need Decoder (messages are only outgoing)
-	//	
-  // == Scheduled for regular transmision
-  // ** It does not need to be scheduled
-	//	
-  // ^^ Temporary value does not require decode nor encode
- 
+  // ======== PARAMETER INTERFACE DATA ========
+
+	enum SLUGS_PARAM_INTERFACE_IDX {
+		PAR_PID_AIRSPEED_P,
+	  PAR_PID_AIRSPEED_I,
+		PAR_PID_AIRSPEED_D,
+		
+		PAR_PID_PITCH_FO_P,
+		PAR_PID_PITCH_FO_I,
+		PAR_PID_PITCH_FO_D,
+	    
+		PAR_PID_ROLL_CON_P,
+		PAR_PID_ROLL_CON_I,
+		PAR_PID_ROLL_CON_D,
+	    
+		PAR_PID_HE_TO_PI_P,
+		PAR_PID_HE_TO_PI_I,
+	    
+		PAR_PID_HEI_ERR_FF,
+	    
+		PAR_PID_YAW_DAMP_P,
+		PAR_PID_YAW_DAMP_I,
+		PAR_PID_YAW_DAMP_D,
+	    
+		PAR_PID_PITC_DT_FF,
+		
+		PAR_PARAM_COUNT
+	};
+
+
+	#define SLUGS_PARAM_NAME_LENGTH	14
+
+	struct pi_struct {
+		float param[PAR_PARAM_COUNT];
+		char param_name[PAR_PARAM_COUNT][SLUGS_PARAM_NAME_LENGTH];
+	};
+
   typedef struct mavlink_pid_values_t {
 		float P[MAX_NUM_PIDS];
 		float I[MAX_NUM_PIDS];
@@ -57,7 +83,29 @@
 		uint8_t		wpsIdx;
 		
 		//uint8_t 	requestCount;
-	}mavlink_pending_requests_t;
+		
+		// Parameter Interface
+		uint8_t		piTransaction;
+		uint8_t		piProtState;
+		uint8_t		piCurrentParamInTransaction;
+		uint8_t		piBackToList;
+		uint8_t		piQueue[5];
+		int8_t		piQIdx;
+			
+	}mavlink_pending_requests_t;       	
+       	
+
+  // Comments Nomenclature
+  // // In init method
+  //
+  // .. Already in Decoder (thus we can receive messages of this type)
+  // -- Does not need Decoder (messages are only outgoing)
+	//	
+  // == Scheduled for regular transmision
+  // ** It does not need to be scheduled
+	//	
+  // ^^ Temporary value does not require decode nor encode
+ 
 	
 	extern mavlink_raw_imu_t 					mlRawImuData;					// 	..	==
 	extern mavlink_gps_raw_t					mlGpsData;						// 	..	==
@@ -92,9 +140,11 @@
 	extern mavlink_waypoint_ack_t			mlWpAck; 							// 	..	**
 	extern mavlink_waypoint_count_t		mlWpCount; 						// 	..	**
 	extern mavlink_sys_status_t				mlSystemStatus;				//	--	==
+	extern struct pi_struct 					mlParamInterface;
 
 
 	void mavlinkInit (void);
+	void populateParameterInterface (void);
   	
        	
 #ifdef __cplusplus
