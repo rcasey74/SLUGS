@@ -90,6 +90,39 @@ void loadEEPData(void){
 }
 
 
+uint8_t storeWaypointInEeprom (mavlink_waypoint_t* mlSingleWp){
+	
+	uint8_t indexOffset = 0, indx= 0, writeSuccess = 0;
+	tFloatToChar tempFloat;
+	
+	
+	// get the WP index
+	indx = (uint8_t)mlSingleWp->seq;
+					
+	// Compute the adecuate index offset
+	indexOffset = indx*WP_SIZE_IN_EEPROM;
+	
+	// Save the data to the EEPROM
+	tempFloat.flData = mlSingleWp->y;
+	writeSuccess += DataEEWrite(tempFloat.shData[0], WPS_OFFSET+indexOffset);   
+	writeSuccess += DataEEWrite(tempFloat.shData[1], WPS_OFFSET+indexOffset+1);
+	
+	tempFloat.flData = mlSingleWp->x; 
+	writeSuccess += DataEEWrite(tempFloat.shData[0], WPS_OFFSET+indexOffset+2);      
+	writeSuccess += DataEEWrite(tempFloat.shData[1], WPS_OFFSET+indexOffset+3);
+	
+	tempFloat.flData = mlSingleWp->z;       
+	writeSuccess += DataEEWrite(tempFloat.shData[0], WPS_OFFSET+indexOffset+4);      
+	writeSuccess += DataEEWrite(tempFloat.shData[1], WPS_OFFSET+indexOffset+5);
+	
+	writeSuccess += DataEEWrite((unsigned short)mlSingleWp->command, WPS_OFFSET+indexOffset+6);
+	
+	writeSuccess += DataEEWrite((unsigned short)mlSingleWp->param3, WPS_OFFSET+indexOffset+7);          
+		
+	return writeSuccess;
+}
+
+
 
 
 

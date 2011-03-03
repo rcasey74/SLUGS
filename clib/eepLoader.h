@@ -39,9 +39,17 @@ THE SOFTWARE.
 #include "DEE.h"
 
 
+// EEPROM Emulation Values
+// =======================
+#define PID_OFFSET					0
+#define WPS_OFFSET					80
+#define WP_SIZE_IN_EEPROM 	8
+
 
 unsigned char EEPInit (void);
 void loadEEPData (void);
+uint8_t storeWaypointInEeprom (mavlink_waypoint_t* mlSingleWp);
+
 
 
 #ifdef __cplusplus

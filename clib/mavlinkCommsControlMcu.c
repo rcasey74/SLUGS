@@ -917,27 +917,9 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 					mlWpValues.type[indx] 	= mlSingleWp.command;
 					mlWpValues.orbit[indx]	= (uint16_t)mlSingleWp.param3;
 					
-					// Compute the adecuate index offset
-					indexOffset = indx*8;
-					
-					// Save the data to the EEPROM
-					tempFloat.flData = mlSingleWp.y;
-					writeSuccess += DataEEWrite(tempFloat.shData[0], WPS_OFFSET+indexOffset);   
-					writeSuccess += DataEEWrite(tempFloat.shData[1], WPS_OFFSET+indexOffset+1);
-					
-					tempFloat.flData = mlSingleWp.x; 
-					writeSuccess += DataEEWrite(tempFloat.shData[0], WPS_OFFSET+indexOffset+2);      
-					writeSuccess += DataEEWrite(tempFloat.shData[1], WPS_OFFSET+indexOffset+3);
-					
-					tempFloat.flData = mlSingleWp.z;       
-					writeSuccess += DataEEWrite(tempFloat.shData[0], WPS_OFFSET+indexOffset+4);      
-					writeSuccess += DataEEWrite(tempFloat.shData[1], WPS_OFFSET+indexOffset+5);
-					
-					
-					writeSuccess += DataEEWrite((unsigned short)mlSingleWp.command, WPS_OFFSET+indexOffset+6);
-					
-					writeSuccess += DataEEWrite((unsigned short)mlSingleWp.param3, WPS_OFFSET+indexOffset+7);          
-					
+					// Record the data in EEPROM
+					writeSuccess = storeWaypointInEeprom (&mlSingleWp);
+					         
 					// Set the flag of Aknowledge for the AKN Message
 					// if the write was not successful
 					if (writeSuccess!=0){
@@ -1082,12 +1064,6 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 										// Only write and emit changes if there is actually a difference
 										// AND only write if new value is NOT "not-a-number"
 										// AND is NOT infinity
-											sw_intTemp = isFinite(set.param_value);
-											fl_temp1 = mlParamInterface.param[i];
-											fl_temp2 = set.param_value;
-										
-										// if ((mlParamInterface.param[i] != set.param_value)
-										// 												&& (isFinite(set.param_value))){
 
 										if (isFinite(set.param_value)){												
 													sw_debug = 2;

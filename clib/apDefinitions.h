@@ -126,19 +126,6 @@ enum PARAM_INTERFACE {
 };
 
 
-  
-
-// WP EEPROM Error Messages
-#define WPSEEP_WRITE_FAIL	21
-#define WPSEEP_PAGE_EXP		22
-#define WPSEEP_MEMORY_CORR	23
-
-// EEPROM Emulation Address Offsets
-// ================================
-#define PID_OFFSET		0
-#define WPS_OFFSET		60
-
-
 // Standard characters used in the parsing of messages
 // ===================================================
 #define DOLLAR		36

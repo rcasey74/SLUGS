@@ -29,11 +29,6 @@ THE SOFTWARE.
 #ifdef __cplusplus
        extern "C"{
 #endif
-#ifdef __BORLANDC__ 
-       #include "gsDefinitions.h"
-#else
-       #include "DEE.h"
-#endif
 
 #include <math.h>
 #include <string.h>
