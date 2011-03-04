@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.764"
+    ComputedModelVersion    "1.767"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Thu Mar 03 17:25:24 2011"
-  ModelVersionFormat	  "1.%<AutoIncrement:764>"
+  LastModifiedDate	  "Fri Mar 04 17:30:16 2011"
+  ModelVersionFormat	  "1.%<AutoIncrement:767>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -971,7 +971,7 @@ Model {
   }
   System {
     Name		    "controlMCUSlugsMKII"
-    Location		    [1682, 228, 3564, 1330]
+    Location		    [1766, 286, 3648, 1388]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    188
@@ -1907,7 +1907,7 @@ Model {
 	Block {
 	  BlockType		  Inport
 	  Name			  "omega"
-	  Position		  [990, 623, 1020, 637]
+	  Position		  [990, 628, 1020, 642]
 	  BackgroundColor	  "darkGreen"
 	  Port			  "28"
 	  IconDisplay		  "Port number"
@@ -1915,7 +1915,7 @@ Model {
 	Block {
 	  BlockType		  Inport
 	  Name			  "m"
-	  Position		  [995, 578, 1025, 592]
+	  Position		  [995, 583, 1025, 597]
 	  BackgroundColor	  "darkGreen"
 	  Port			  "29"
 	  IconDisplay		  "Port number"
@@ -2511,7 +2511,7 @@ Model {
 	  BlockType		  Reference
 	  Name			  "Counter\nFree-Running"
 	  Ports			  [0, 1]
-	  Position		  [890, 260, 920, 290]
+	  Position		  [850, 250, 880, 280]
 	  SourceBlock		  "simulink/Sources/Counter\nFree-Running"
 	  SourceType		  "Counter Free-Running"
 	  ShowPortLabels	  "FromPortIcon"
@@ -2703,7 +2703,7 @@ Model {
 	Block {
 	  BlockType		  Goto
 	  Name			  "Goto1"
-	  Position		  [805, 381, 855, 399]
+	  Position		  [815, 391, 865, 409]
 	  BackgroundColor	  "lightBlue"
 	  ShowName		  off
 	  GotoTag		  "U_m"
@@ -2721,7 +2721,7 @@ Model {
 	Block {
 	  BlockType		  Goto
 	  Name			  "Goto12"
-	  Position		  [965, 276, 1015, 294]
+	  Position		  [920, 256, 970, 274]
 	  BackgroundColor	  "lightBlue"
 	  ShowName		  off
 	  GotoTag		  "DShort2"
@@ -2730,7 +2730,8 @@ Model {
 	Block {
 	  BlockType		  Goto
 	  Name			  "Goto13"
-	  Position		  [965, 301, 1015, 319]
+	  Position		  [345, 696, 395, 714]
+	  Orientation		  "left"
 	  BackgroundColor	  "lightBlue"
 	  ShowName		  off
 	  GotoTag		  "DShort3"
@@ -2739,7 +2740,8 @@ Model {
 	Block {
 	  BlockType		  Goto
 	  Name			  "Goto5"
-	  Position		  [235, 736, 285, 754]
+	  Position		  [65, 271, 115, 289]
+	  Orientation		  "left"
 	  BackgroundColor	  "lightBlue"
 	  ShowName		  off
 	  GotoTag		  "DShort1"
@@ -29756,8 +29758,16 @@ Model {
 	Line {
 	  SrcBlock		  "dRTrim (rad)"
 	  SrcPort		  1
-	  DstBlock		  "Lateral Channel"
-	  DstPort		  4
+	  Points		  [30, 0]
+	  Branch {
+	    DstBlock		    "Lateral Channel"
+	    DstPort		    4
+	  }
+	  Branch {
+	    Points		    [0, 190]
+	    DstBlock		    "Goto13"
+	    DstPort		    1
+	  }
 	}
 	Line {
 	  SrcBlock		  "Lateral Channel"
@@ -29804,7 +29814,7 @@ Model {
 	    DstPort		    1
 	  }
 	  Branch {
-	    Points		    [0, 40]
+	    Points		    [0, 50]
 	    DstBlock		    "Goto1"
 	    DstPort		    1
 	  }
@@ -29828,7 +29838,7 @@ Model {
 	  SrcPort		  1
 	  Points		  [10, 0]
 	  Branch {
-	    Points		    [0, 440]
+	    Points		    [0, -25]
 	    DstBlock		    "Goto5"
 	    DstPort		    1
 	  }
@@ -29889,7 +29899,6 @@ Model {
 	Line {
 	  SrcBlock		  "m"
 	  SrcPort		  1
-	  Points		  [15, 0]
 	  DstBlock		  "L1 Output Feedback\nController\nWith \nProj"
 "ection Operator"
 	  DstPort		  2
@@ -29897,7 +29906,6 @@ Model {
 	Line {
 	  SrcBlock		  "omega"
 	  SrcPort		  1
-	  Points		  [20, 0]
 	  DstBlock		  "L1 Output Feedback\nController\nWith \nProj"
 "ection Operator"
 	  DstPort		  3
@@ -30110,7 +30118,6 @@ Model {
 	Line {
 	  SrcBlock		  "Counter\nFree-Running"
 	  SrcPort		  1
-	  Points		  [10, 0; 0, 10]
 	  DstBlock		  "Goto12"
 	  DstPort		  1
 	}

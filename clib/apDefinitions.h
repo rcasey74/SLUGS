@@ -69,7 +69,7 @@ and data types.
 
 
 // Maximun Number of WPs and PIDs
-#define MAX_NUM_WPS		11
+#define MAX_NUM_WPS		17
 #define MAX_NUM_PIDS	10
 
 // Define log raw data at 100 hz. Comment out to have

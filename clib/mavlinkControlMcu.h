@@ -37,7 +37,7 @@
 	    
 		PAR_PID_PITC_DT_FF = 15,
 		
-		PAR_PARAM_COUNT
+		PAR_PARAM_COUNT // Always at the end, do not assign value
 	};
 
 
@@ -63,16 +63,21 @@
 		uint16_t	orbit[MAX_NUM_WPS];
 		uint8_t		wpCount;
 	}mavlink_waypoint_values_t;
+	
+	
 
 
 	typedef struct mavlink_pending_requests_t{
 		// requests
 		uint8_t		ping;
-		uint8_t		pid;
-		uint8_t		wp;
 		uint8_t		midLvlCmds;
 		uint8_t		pt;
-		uint8_t		mode;
+		
+		// QGC Action ACK
+		uint8_t		actionAck;
+		
+		// slugs Acknowledge
+		uint8_t		slugsAction;
 		
 		// WP Protocol states
 		uint8_t		wpTransaction;
