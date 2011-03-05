@@ -52,6 +52,10 @@ and data types.
 #define GS_SYSTEMID				127
 #define GS_COMPID					0
 
+// Cube Model Used
+// ===============
+#define USE_CUBE_16405	0
+
 // GPS Header IDs
 // ==============
 #define GGAID			1
@@ -65,7 +69,7 @@ and data types.
 
 
 // Maximun Number of WPs and PIDs
-#define MAX_NUM_WPS		11
+#define MAX_NUM_WPS		17
 #define MAX_NUM_PIDS	10
 
 // Define log raw data at 100 hz. Comment out to have
@@ -74,36 +78,7 @@ and data types.
 
 // Define diagnostic data at 100 hz. Comment out to have
 // XYZ data come at 100 Hz instead. COMMENT not Change to 0 (using #ifdef)
-#define DIAG100		1
-
-
-// Identifier values for messages that have a type ID
-// ==================================================
-
-// Calibration and Query type IDs
-#define PIDTYPE_ID		1
-#define WPSTYPE_ID		2
-#define PASTYPE_ID		3
-#define COMTYPE_ID		4
-
-// Control Types
-#define CTRL_TYPE_MANUAL	1		// Pilot in full control of aircraft
-#define CTRL_TYPE_AP_COMM	2		// Low level commands: airspeed, height and turnrate
-#define CTRL_TYPE_AP_WP		3		// Waypoint following
-#define CTRL_TYPE_PASS		4		// Passthrough the commands from the pilot console
-#define CTRL_TYPE_SEL_PIL	5		// Pass some from the pilot and some from the AP
-#define CTRL_TYPE_SEL_AP	6
-
-#define PIL_FAILSAFE		6000	// IC direct reading from the pilot console when failsafe is
-									// is turned ON i.e. the pilot is in control. 
-
-// Commands to AP ids
-#define COMM_TYPE_HEIGHT	1
-#define	COMM_TYPE_TURNRATE	2
-#define	COMM_TYPE_AIRSPEED	3
-#define COMM_TYPE_GOTO_WP	4
-
-
+//#define DIAG100		1
 
 // ERROR MESSAGES
 // ==============
@@ -144,22 +119,11 @@ enum WP_PROTOCOL {
 	WP_PROT_GETTING_WP_IDLE
 };
 
-
-
-// WP EEPROM Error Messages
-#define WPSEEP_WRITE_FAIL	21
-#define WPSEEP_PAGE_EXP		22
-#define WPSEEP_MEMORY_CORR	23
-
-// EEPROM Emulation Address Offsets
-// ================================
-#define PID_OFFSET		0
-#define WPS_OFFSET		60
-
-// Communication Protocol Merging Offsets
-// ======================================
-#define GSMSG_IDX		99
-#define AKMSG_IDX		202
+enum PARAM_INTERFACE {
+	PI_IDLE,
+	PI_SEND_ALL_PARAM,
+	PI_SEND_ONE_PARAM
+};
 
 
 // Standard characters used in the parsing of messages
@@ -170,18 +134,11 @@ enum WP_PROTOCOL {
 #define LF				10
 #define AT				64
 
-// Interprocessor Communication
-// ============================
-#define BEGINSPI		0xFFFF
-#define ENDSPI			0xBEEF
-#define SPIBUFSIZE		46
 
 // Standard Units
 // ==============
 #define KTS2MPS 		0.514444444
 #define PI          3.141592653589793
-#define DEG2RAD			0.017453292519943
-#define RAD2DEG			57.29577951308232
 
 // Periphereal Configurations
 // ==========================
@@ -195,9 +152,6 @@ enum WP_PROTOCOL {
 
 #define LOGBAUD			115200
 #define LOG_UBRG		21
-
-#define LOGMAT_BAUD		57600
-#define LOGOMAT_UBRG	42
 
 
 // ifdef switches for debugging and conditional inclusion

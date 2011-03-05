@@ -35,6 +35,8 @@ mavlink_waypoint_ack_t			mlWpAck;
 mavlink_waypoint_count_t		mlWpCount;
 mavlink_sys_status_t				mlSystemStatus;
 
+struct pi_struct 						mlParamInterface;
+
 void mavlinkInit (void){
 	
 	// clear all the variables
@@ -72,6 +74,7 @@ void mavlinkInit (void){
 	memset(&mlWpCount ,0, sizeof(mavlink_waypoint_count_t));	
 	memset(&mlSystemStatus ,0, sizeof(mavlink_sys_status_t));	
 	
+	memset(&mlParamInterface ,0, sizeof(struct pi_struct));	
 	
 
 	mlActionAck.action = SLUGS_ACTION_NONE;
@@ -88,7 +91,34 @@ void mavlinkInit (void){
 	mlSystemStatus.status		= MAV_STATE_BOOT;
 	mlSystemStatus.load			= 500;
 	mlSystemStatus.vbat			= 12000;
-	mlSystemStatus.motor_block = 0;
+
 	
+	populateParameterInterface();
+}
+
+void populateParameterInterface (void){
+	memcpy(mlParamInterface.param_name[PAR_PID_AIRSPEED_P], "PID_AIRSPD_P", SLUGS_PARAM_NAME_LENGTH );
+	memcpy(mlParamInterface.param_name[PAR_PID_AIRSPEED_I], "PID_AIRSPD_I", SLUGS_PARAM_NAME_LENGTH );
+	memcpy(mlParamInterface.param_name[PAR_PID_AIRSPEED_D], "PID_AIRSPD_D", SLUGS_PARAM_NAME_LENGTH );
+	
+	memcpy(mlParamInterface.param_name[PAR_PID_PITCH_FO_P], "PID_PIT_FO_P", SLUGS_PARAM_NAME_LENGTH );
+	memcpy(mlParamInterface.param_name[PAR_PID_PITCH_FO_I], "PID_PIT_FO_I", SLUGS_PARAM_NAME_LENGTH );
+	memcpy(mlParamInterface.param_name[PAR_PID_PITCH_FO_D], "PID_PIT_FO_D", SLUGS_PARAM_NAME_LENGTH );
+	
+	memcpy(mlParamInterface.param_name[PAR_PID_ROLL_CON_P], "PID_ROLL_CO_P", SLUGS_PARAM_NAME_LENGTH );
+	memcpy(mlParamInterface.param_name[PAR_PID_ROLL_CON_I], "PID_ROLL_CO_I", SLUGS_PARAM_NAME_LENGTH );
+	memcpy(mlParamInterface.param_name[PAR_PID_ROLL_CON_D], "PID_ROLL_CO_D", SLUGS_PARAM_NAME_LENGTH );
+	
+	memcpy(mlParamInterface.param_name[PAR_PID_HE_TO_PI_P], "PID_HE2PITC_P", SLUGS_PARAM_NAME_LENGTH );
+	memcpy(mlParamInterface.param_name[PAR_PID_HE_TO_PI_I], "PID_HE2PITC_I", SLUGS_PARAM_NAME_LENGTH );
+	
+	memcpy(mlParamInterface.param_name[PAR_PID_HEI_ERR_FF], "PID_HERR_FF", SLUGS_PARAM_NAME_LENGTH );
+	
+	memcpy(mlParamInterface.param_name[PAR_PID_YAW_DAMP_P], "PID_YAW_DA_P", SLUGS_PARAM_NAME_LENGTH );
+	memcpy(mlParamInterface.param_name[PAR_PID_YAW_DAMP_I], "PID_YAW_DA_I", SLUGS_PARAM_NAME_LENGTH );
+	memcpy(mlParamInterface.param_name[PAR_PID_YAW_DAMP_D], "PID_YAW_DA_D", SLUGS_PARAM_NAME_LENGTH );
+
+	memcpy(mlParamInterface.param_name[PAR_PID_PITC_DT_FF], "PID_PIT_DT_FF", SLUGS_PARAM_NAME_LENGTH );
+		
 }
 

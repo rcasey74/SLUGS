@@ -26,6 +26,8 @@
 #include <p33fxxxx.h>
 #include <uart.h>
 
+// Expose this buffer so the HIL can read it when it needs to
+extern CBRef uartBufferIn;
  
 void copyBufferToDMA (unsigned char size);
 void scheduleData (unsigned char hilOn, unsigned char* data4SPI);

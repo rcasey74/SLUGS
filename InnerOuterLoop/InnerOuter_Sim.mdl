@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.1191"
+    ComputedModelVersion    "1.1213"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -47,8 +47,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Fri Apr 23 14:25:09 2010"
-  ModelVersionFormat	  "1.%<AutoIncrement:1191>"
+  LastModifiedDate	  "Mon Feb 28 14:53:00 2011"
+  ModelVersionFormat	  "1.%<AutoIncrement:1213>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -1014,7 +1014,7 @@ Model {
   }
   System {
     Name		    "InnerOuter_Sim"
-    Location		    [2, 78, 1387, 802]
+    Location		    [2, 78, 1538, 1064]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -18851,7 +18851,7 @@ Model {
     Block {
       BlockType		      From
       Name		      "From53"
-      Position		      [750, 526, 800, 544]
+      Position		      [750, 521, 800, 539]
       BackgroundColor	      "cyan"
       ShowName		      off
       CloseFcn		      "tagdialog Close"
@@ -18860,7 +18860,7 @@ Model {
     Block {
       BlockType		      From
       Name		      "From54"
-      Position		      [750, 556, 800, 574]
+      Position		      [750, 546, 800, 564]
       BackgroundColor	      "cyan"
       ShowName		      off
       CloseFcn		      "tagdialog Close"
@@ -18869,7 +18869,7 @@ Model {
     Block {
       BlockType		      From
       Name		      "From55"
-      Position		      [750, 616, 800, 634]
+      Position		      [750, 596, 800, 614]
       BackgroundColor	      "cyan"
       ShowName		      off
       CloseFcn		      "tagdialog Close"
@@ -18981,7 +18981,7 @@ Model {
     Block {
       BlockType		      From
       Name		      "From66"
-      Position		      [750, 586, 800, 604]
+      Position		      [750, 571, 800, 589]
       BackgroundColor	      "cyan"
       ShowName		      off
       CloseFcn		      "tagdialog Close"
@@ -18999,7 +18999,7 @@ Model {
     Block {
       BlockType		      From
       Name		      "From68"
-      Position		      [750, 646, 800, 664]
+      Position		      [750, 621, 800, 639]
       BackgroundColor	      "cyan"
       ShowName		      off
       CloseFcn		      "tagdialog Close"
@@ -19125,7 +19125,7 @@ Model {
     Block {
       BlockType		      From
       Name		      "From80"
-      Position		      [750, 676, 800, 694]
+      Position		      [750, 646, 800, 664]
       BackgroundColor	      "cyan"
       ShowName		      off
       CloseFcn		      "tagdialog Close"
@@ -19139,6 +19139,15 @@ Model {
       ShowName		      off
       CloseFcn		      "tagdialog Close"
       GotoTag		      "CompensatorOn"
+    }
+    Block {
+      BlockType		      From
+      Name		      "From82"
+      Position		      [750, 671, 800, 689]
+      BackgroundColor	      "cyan"
+      ShowName		      off
+      CloseFcn		      "tagdialog Close"
+      GotoTag		      "U_m"
     }
     Block {
       BlockType		      From
@@ -29095,8 +29104,8 @@ Model {
     Block {
       BlockType		      SubSystem
       Name		      "Navigation"
-      Ports		      [9, 2]
-      Position		      [900, 432, 1075, 698]
+      Ports		      [10, 2]
+      Position		      [900, 434, 1075, 701]
       TreatAsAtomicUnit	      on
       MinAlgLoopOccurrences   off
       RTWSystemCode	      "Auto"
@@ -29136,7 +29145,7 @@ Model {
 	Block {
 	  BlockType		  Inport
 	  Name			  "Vxyz"
-	  Position		  [555, 603, 585, 617]
+	  Position		  [555, 608, 585, 622]
 	  BackgroundColor	  "darkGreen"
 	  Port			  "3"
 	  IconDisplay		  "Port number"
@@ -29187,6 +29196,14 @@ Model {
 	  Position		  [740, 668, 770, 682]
 	  BackgroundColor	  "darkGreen"
 	  Port			  "9"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "U_m"
+	  Position		  [675, 693, 705, 707]
+	  BackgroundColor	  "darkGreen"
+	  Port			  "10"
 	  IconDisplay		  "Port number"
 	}
 	Block {
@@ -29800,8 +29817,8 @@ Model {
 	Block {
 	  BlockType		  SubSystem
 	  Name			  "Leg Run Computation"
-	  Ports			  [8, 5, 1]
-	  Position		  [805, 528, 970, 682]
+	  Ports			  [9, 5, 1]
+	  Position		  [805, 530, 970, 700]
 	  MinAlgLoopOccurrences	  off
 	  RTWSystemCode		  "Auto"
 	  FunctionWithSeparateData off
@@ -29871,7 +29888,7 @@ Model {
 	    Block {
 	      BlockType		      Inport
 	      Name		      "Tot Run"
-	      Position		      [255, 553, 285, 567]
+	      Position		      [255, 538, 285, 552]
 	      BackgroundColor	      "darkGreen"
 	      Port		      "7"
 	      IconDisplay	      "Port number"
@@ -29882,6 +29899,14 @@ Model {
 	      Position		      [580, 413, 610, 427]
 	      BackgroundColor	      "darkGreen"
 	      Port		      "8"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "U_m"
+	      Position		      [260, 628, 290, 642]
+	      BackgroundColor	      "darkGreen"
+	      Port		      "9"
 	      IconDisplay	      "Port number"
 	    }
 	    Block {
@@ -30017,7 +30042,7 @@ Model {
 	    Block {
 	      BlockType		      Constant
 	      Name		      "Constant"
-	      Position		      [255, 475, 285, 505]
+	      Position		      [260, 470, 290, 500]
 	      ShowName		      off
 	      Value		      "0.2"
 	      OutDataTypeMode	      "single"
@@ -31192,13 +31217,6 @@ Model {
 		    ShowName		    off
 		    }
 		    Block {
-		    BlockType		    Saturate
-		    Name		    "[-1,1]"
-		    Position		    [85, 25, 115, 55]
-		    UpperLimit		    "0.9999"
-		    LowerLimit		    "-0.999"
-		    }
-		    Block {
 		    BlockType		    Outport
 		    Name		    "sin(x)"
 		    Position		    [405, 58, 435, 72]
@@ -31208,8 +31226,15 @@ Model {
 		    Line {
 		    SrcBlock		    "x"
 		    SrcPort		    1
-		    DstBlock		    "[-1,1]"
+		    Points		    [95, 0]
+		    Branch {
+		    DstBlock		    "C Function Call"
 		    DstPort		    1
+		    }
+		    Branch {
+		    DstBlock		    "Trigonometric\nFunction"
+		    DstPort		    1
+		    }
 		    }
 		    Line {
 		    SrcBlock		    "Trigonometric\nFunction"
@@ -31230,19 +31255,6 @@ Model {
 		    SrcPort		    1
 		    DstBlock		    "sin(x)"
 		    DstPort		    1
-		    }
-		    Line {
-		    SrcBlock		    "[-1,1]"
-		    SrcPort		    1
-		    Points		    [35, 0]
-		    Branch {
-		    DstBlock		    "C Function Call"
-		    DstPort		    1
-		    }
-		    Branch {
-		    DstBlock		    "Trigonometric\nFunction"
-		    DstPort		    1
-		    }
 		    }
 		    }
 		    }
@@ -31480,308 +31492,6 @@ Model {
 		    InputPortWidth	    "3"
 		    }
 		    Block {
-		    BlockType		    SubSystem
-		    Name		    "Subsystem6"
-		    Ports		    [1, 1]
-		    Position		    [550, 369, 610, 411]
-		    ShowName		    off
-		    AncestorBlock	    "SLUGS_Library/Subsystem6"
-		    MinAlgLoopOccurrences   off
-		    RTWSystemCode	    "Auto"
-		    FunctionWithSeparateData off
-		    MaskHideContents	    off
-		    Port {
-		    PortNumber		    1
-		    Name		    "eta"
-		    RTWStorageClass	    "Auto"
-		    DataLoggingNameMode	    "SignalName"
-		    }
-		    System {
-		    Name		    "Subsystem6"
-		    Location		    [2, 78, 1404, 880]
-		    Open		    off
-		    ModelBrowserVisibility  off
-		    ModelBrowserWidth	    200
-		    ScreenColor		    "white"
-		    PaperOrientation	    "landscape"
-		    PaperPositionMode	    "auto"
-		    PaperType		    "usletter"
-		    PaperUnits		    "inches"
-		    TiledPaperMargins	    "[0.500000, 0.500000, 0.500000, 0."
-"500000]"
-		    TiledPageScale	    1
-		    ShowPageBoundaries	    off
-		    ZoomFactor		    "100"
-		    Block {
-		    BlockType		    Inport
-		    Name		    "x"
-		    Position		    [15, 33, 45, 47]
-		    IconDisplay		    "Port number"
-		    }
-		    Block {
-		    BlockType		    Reference
-		    Name		    "C Function Call"
-		    Tag			    "dsPIC_dsPIC_CFunctionCall"
-		    Ports		    [1, 1]
-		    Position		    [115, 79, 215, 121]
-		    ShowName		    off
-		    List {
-		    ListType		    RTWdata
-		    FctDeclaration	    "extern real32_T myAsin(real32_T u"
-"1);"
-		    FctCall		    "%y1 = myAsin(%u1);"
-		    fctName		    "myAsin"
-		    INPUT_SIZE		    "1"
-		    OUTPUT_SIZE		    "1"
-		    NBR_INPUT		    "1"
-		    NBR_OUTPUT		    "1"
-		    }
-		    SourceBlock		    "dsPICdrivers/OTHERS/C Function Ca"
-"ll"
-		    SourceType		    "C Function Call"
-		    fctName		    "'myAsin'"
-		    INPUT_SIZE		    "1"
-		    INPUT1		    "real32"
-		    INPUT2		    "--"
-		    INPUT3		    "--"
-		    OUTPUT_SIZE		    "1"
-		    OUTPUT1		    "real32"
-		    SampleTime		    "-1"
-		    InputType		    "[ 7 ]"
-		    OutputType		    "[ 7 ]"
-		    FctDeclaration	    "extern real32_T myAsin(real32_T u"
-"1);"
-		    FctCall		    "%y1 = myAsin(%u1);"
-		    OrderingInOutPopup	    "None"
-		    }
-		    Block {
-		    BlockType		    Reference
-		    Name		    "Environment\nController"
-		    Ports		    [2, 1]
-		    Position		    [260, 46, 300, 84]
-		    ShowName		    off
-		    SourceBlock		    "simulink/Signal\nRouting/Environm"
-"ent\nController"
-		    SourceType		    "Environment Controller"
-		    ShowPortLabels	    "FromPortIcon"
-		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData off
-		    RTWMemSecFuncInitTerm   "Inherit from model"
-		    RTWMemSecFuncExecute    "Inherit from model"
-		    RTWMemSecDataConstants  "Inherit from model"
-		    RTWMemSecDataInternal   "Inherit from model"
-		    RTWMemSecDataParameters "Inherit from model"
-		    }
-		    Block {
-		    BlockType		    Trigonometry
-		    Name		    "Trigonometric\nFunction"
-		    Ports		    [1, 1]
-		    Position		    [155, 25, 185, 55]
-		    ShowName		    off
-		    Operator		    "asin"
-		    }
-		    Block {
-		    BlockType		    Saturate
-		    Name		    "[-1,1]"
-		    Position		    [65, 25, 95, 55]
-		    UpperLimit		    "0.9999"
-		    LowerLimit		    "-0.999"
-		    }
-		    Block {
-		    BlockType		    Outport
-		    Name		    "asin(x)"
-		    Position		    [335, 58, 365, 72]
-		    IconDisplay		    "Port number"
-		    BusOutputAsStruct	    off
-		    }
-		    Line {
-		    SrcBlock		    "[-1,1]"
-		    SrcPort		    1
-		    Points		    [0, 0]
-		    Branch {
-		    DstBlock		    "C Function Call"
-		    DstPort		    1
-		    }
-		    Branch {
-		    DstBlock		    "Trigonometric\nFunction"
-		    DstPort		    1
-		    }
-		    }
-		    Line {
-		    SrcBlock		    "x"
-		    SrcPort		    1
-		    DstBlock		    "[-1,1]"
-		    DstPort		    1
-		    }
-		    Line {
-		    SrcBlock		    "Trigonometric\nFunction"
-		    SrcPort		    1
-		    Points		    [55, 0]
-		    DstBlock		    "Environment\nController"
-		    DstPort		    1
-		    }
-		    Line {
-		    SrcBlock		    "C Function Call"
-		    SrcPort		    1
-		    Points		    [5, 0; 0, -25]
-		    DstBlock		    "Environment\nController"
-		    DstPort		    2
-		    }
-		    Line {
-		    SrcBlock		    "Environment\nController"
-		    SrcPort		    1
-		    DstBlock		    "asin(x)"
-		    DstPort		    1
-		    }
-		    }
-		    }
-		    Block {
-		    BlockType		    SubSystem
-		    Name		    "Subsystem7"
-		    Ports		    [1, 1]
-		    Position		    [700, 369, 760, 411]
-		    ShowName		    off
-		    AncestorBlock	    "SLUGS_Library/Subsystem7"
-		    MinAlgLoopOccurrences   off
-		    RTWSystemCode	    "Auto"
-		    FunctionWithSeparateData off
-		    MaskHideContents	    off
-		    System {
-		    Name		    "Subsystem7"
-		    Location		    [2, 78, 1404, 880]
-		    Open		    off
-		    ModelBrowserVisibility  off
-		    ModelBrowserWidth	    200
-		    ScreenColor		    "white"
-		    PaperOrientation	    "landscape"
-		    PaperPositionMode	    "auto"
-		    PaperType		    "usletter"
-		    PaperUnits		    "inches"
-		    TiledPaperMargins	    "[0.500000, 0.500000, 0.500000, 0."
-"500000]"
-		    TiledPageScale	    1
-		    ShowPageBoundaries	    off
-		    ZoomFactor		    "100"
-		    Block {
-		    BlockType		    Inport
-		    Name		    "x"
-		    Position		    [25, 33, 55, 47]
-		    IconDisplay		    "Port number"
-		    }
-		    Block {
-		    BlockType		    Reference
-		    Name		    "C Function Call"
-		    Tag			    "dsPIC_dsPIC_CFunctionCall"
-		    Ports		    [1, 1]
-		    Position		    [90, 80, 215, 120]
-		    ShowName		    off
-		    List {
-		    ListType		    RTWdata
-		    FctDeclaration	    "extern real32_T mySin(real32_T u1"
-");"
-		    FctCall		    "%y1 = mySin(%u1);"
-		    fctName		    "mySin"
-		    INPUT_SIZE		    "1"
-		    OUTPUT_SIZE		    "1"
-		    NBR_INPUT		    "1"
-		    NBR_OUTPUT		    "1"
-		    }
-		    SourceBlock		    "dsPICdrivers/OTHERS/C Function Ca"
-"ll"
-		    SourceType		    "C Function Call"
-		    fctName		    "'mySin'"
-		    INPUT_SIZE		    "1"
-		    INPUT1		    "real32"
-		    INPUT2		    "--"
-		    INPUT3		    "--"
-		    OUTPUT_SIZE		    "1"
-		    OUTPUT1		    "real32"
-		    SampleTime		    "-1"
-		    InputType		    "[ 7 ]"
-		    OutputType		    "[ 7 ]"
-		    FctDeclaration	    "extern real32_T mySin(real32_T u1"
-");"
-		    FctCall		    "%y1 = mySin(%u1);"
-		    OrderingInOutPopup	    "None"
-		    }
-		    Block {
-		    BlockType		    Reference
-		    Name		    "Environment\nController"
-		    Ports		    [2, 1]
-		    Position		    [260, 46, 300, 84]
-		    ShowName		    off
-		    SourceBlock		    "simulink/Signal\nRouting/Environm"
-"ent\nController"
-		    SourceType		    "Environment Controller"
-		    ShowPortLabels	    "FromPortIcon"
-		    SystemSampleTime	    "-1"
-		    FunctionWithSeparateData off
-		    RTWMemSecFuncInitTerm   "Inherit from model"
-		    RTWMemSecFuncExecute    "Inherit from model"
-		    RTWMemSecDataConstants  "Inherit from model"
-		    RTWMemSecDataInternal   "Inherit from model"
-		    RTWMemSecDataParameters "Inherit from model"
-		    }
-		    Block {
-		    BlockType		    Trigonometry
-		    Name		    "Trigonometric\nFunction"
-		    Ports		    [1, 1]
-		    Position		    [130, 25, 160, 55]
-		    ShowName		    off
-		    }
-		    Block {
-		    BlockType		    Outport
-		    Name		    "sin(x)"
-		    Position		    [325, 58, 355, 72]
-		    IconDisplay		    "Port number"
-		    BusOutputAsStruct	    off
-		    }
-		    Line {
-		    SrcBlock		    "x"
-		    SrcPort		    1
-		    Points		    [15, 0]
-		    Branch {
-		    DstBlock		    "C Function Call"
-		    DstPort		    1
-		    }
-		    Branch {
-		    DstBlock		    "Trigonometric\nFunction"
-		    DstPort		    1
-		    }
-		    }
-		    Line {
-		    SrcBlock		    "Trigonometric\nFunction"
-		    SrcPort		    1
-		    Points		    [80, 0]
-		    DstBlock		    "Environment\nController"
-		    DstPort		    1
-		    }
-		    Line {
-		    SrcBlock		    "C Function Call"
-		    SrcPort		    1
-		    Points		    [5, 0; 0, -25]
-		    DstBlock		    "Environment\nController"
-		    DstPort		    2
-		    }
-		    Line {
-		    SrcBlock		    "Environment\nController"
-		    SrcPort		    1
-		    DstBlock		    "sin(x)"
-		    DstPort		    1
-		    }
-		    }
-		    }
-		    Block {
-		    BlockType		    ToWorkspace
-		    Name		    "To Workspace2"
-		    Position		    [545, 430, 605, 460]
-		    Orientation		    "left"
-		    VariableName	    "eta"
-		    MaxDataPoints	    "inf"
-		    SampleTime		    "-1"
-		    SaveFormat		    "Array"
-		    }
-		    Block {
 		    BlockType		    InportShadow
 		    Name		    "|L2|1"
 		    Position		    [790, 353, 820, 367]
@@ -31834,25 +31544,8 @@ Model {
 		    Line {
 		    SrcBlock		    "Selector"
 		    SrcPort		    1
-		    DstBlock		    "Subsystem6"
-		    DstPort		    1
-		    }
-		    Line {
-		    Name		    "eta"
-		    Labels		    [0, 0]
-		    SrcBlock		    "Subsystem6"
-		    SrcPort		    1
-		    Points		    [20, 0]
-		    Branch {
-		    Points		    [0, 55]
-		    DstBlock		    "To Workspace2"
-		    DstPort		    1
-		    }
-		    Branch {
-		    Labels		    [1, 0]
-		    DstBlock		    "Subsystem7"
-		    DstPort		    1
-		    }
+		    DstBlock		    "Product"
+		    DstPort		    5
 		    }
 		    Line {
 		    SrcBlock		    "|L2|"
@@ -31865,12 +31558,6 @@ Model {
 		    SrcPort		    1
 		    DstBlock		    "a_s_c"
 		    DstPort		    1
-		    }
-		    Line {
-		    SrcBlock		    "Subsystem7"
-		    SrcPort		    1
-		    DstBlock		    "Product"
-		    DstPort		    5
 		    }
 		    Line {
 		    SrcBlock		    "|L2|1"
@@ -32270,8 +31957,8 @@ Model {
 	    Block {
 	      BlockType		      SubSystem
 	      Name		      "Pey > |L2|\n(Marius')"
-	      Ports		      [6, 1, 1]
-	      Position		      [360, 443, 460, 642]
+	      Ports		      [7, 1, 1]
+	      Position		      [360, 445, 460, 645]
 	      MinAlgLoopOccurrences   off
 	      RTWSystemCode	      "Auto"
 	      FunctionWithSeparateData off
@@ -32346,6 +32033,14 @@ Model {
 		  IconDisplay		  "Port number"
 		}
 		Block {
+		  BlockType		  Inport
+		  Name			  "U_m"
+		  Position		  [930, 433, 960, 447]
+		  BackgroundColor	  "darkGreen"
+		  Port			  "7"
+		  IconDisplay		  "Port number"
+		}
+		Block {
 		  BlockType		  EnablePort
 		  Name			  "Enable"
 		  Ports			  []
@@ -32395,15 +32090,6 @@ Model {
 		  OutDataTypeMode	  "Inherit via internal rule"
 		  OutScaling		  "2^-10"
 		  SaturateOnIntegerOverflow off
-		}
-		Block {
-		  BlockType		  Constant
-		  Name			  "Constant"
-		  Position		  [915, 425, 965, 455]
-		  ShowName		  off
-		  Value			  "U_comm"
-		  OutDataTypeMode	  "single"
-		  SampleTime		  "T"
 		}
 		Block {
 		  BlockType		  Constant
@@ -33299,9 +32985,9 @@ Model {
 		  DstPort		  2
 		}
 		Line {
-		  SrcBlock		  "Constant"
+		  SrcBlock		  "U_m"
 		  SrcPort		  1
-		  Points		  [30, 0; 0, -15]
+		  Points		  [35, 0; 0, -15]
 		  DstBlock		  "psi_dot to Bank"
 		  DstPort		  2
 		}
@@ -33392,14 +33078,14 @@ Model {
 		Block {
 		  BlockType		  Inport
 		  Name			  "L2Vec "
-		  Position		  [75, 40, 105, 54]
+		  Position		  [75, 38, 105, 52]
 		  Port			  "2"
 		  IconDisplay		  "Port number"
 		}
 		Block {
 		  BlockType		  Inport
 		  Name			  "as_c"
-		  Position		  [80, 205, 110, 219]
+		  Position		  [80, 203, 110, 217]
 		  Port			  "3"
 		  IconDisplay		  "Port number"
 		}
@@ -33543,7 +33229,7 @@ Model {
 	    Block {
 	      BlockType		      InportShadow
 	      Name		      "T1 "
-	      Position		      [260, 518, 290, 532]
+	      Position		      [260, 508, 290, 522]
 	      BackgroundColor	      "darkGreen"
 	      Port		      "1"
 	      IconDisplay	      "Port number"
@@ -33572,7 +33258,7 @@ Model {
 	    Block {
 	      BlockType		      InportShadow
 	      Name		      "WP0 "
-	      Position		      [265, 623, 295, 637]
+	      Position		      [260, 598, 290, 612]
 	      BackgroundColor	      "darkGreen"
 	      Port		      "3"
 	      IconDisplay	      "Port number"
@@ -33712,7 +33398,7 @@ Model {
 		  DstPort		  6
 		}
 		Branch {
-		  Points		  [0, 275]
+		  Points		  [0, 255]
 		  DstBlock		  "Pey > |L2|\n(Marius')"
 		  DstPort		  5
 		}
@@ -33890,6 +33576,12 @@ Model {
 	      SrcPort		      1
 	      DstBlock		      "Product"
 	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "U_m"
+	      SrcPort		      1
+	      DstBlock		      "Pey > |L2|\n(Marius')"
+	      DstPort		      7
 	    }
 	  }
 	}
@@ -34538,7 +34230,7 @@ Model {
 	Block {
 	  BlockType		  ToWorkspace
 	  Name			  "To Workspace"
-	  Position		  [1185, 560, 1245, 590]
+	  Position		  [1185, 565, 1245, 595]
 	  ShowName		  off
 	  VariableName		  "L2Enabled"
 	  MaxDataPoints		  "inf"
@@ -34587,7 +34279,7 @@ Model {
 	Block {
 	  BlockType		  ToWorkspace
 	  Name			  "To Workspace4"
-	  Position		  [1040, 590, 1100, 620]
+	  Position		  [1040, 600, 1100, 630]
 	  ShowName		  off
 	  VariableName		  "L1"
 	  MaxDataPoints		  "inf"
@@ -34597,7 +34289,7 @@ Model {
 	Block {
 	  BlockType		  ToWorkspace
 	  Name			  "To Workspace5"
-	  Position		  [1110, 620, 1170, 650]
+	  Position		  [1110, 635, 1170, 665]
 	  VariableName		  "as_c"
 	  MaxDataPoints		  "inf"
 	  SampleTime		  "-1"
@@ -36787,7 +36479,7 @@ Model {
 	      BlockType		      Display
 	      Name		      "Display2"
 	      Ports		      [1]
-	      Position		      [115, 392, 200, 468]
+	      Position		      [115, 372, 200, 448]
 	      Orientation	      "left"
 	      Decimation	      "1"
 	      Lockdown		      off
@@ -39250,7 +38942,6 @@ Model {
 	    Line {
 	      SrcBlock		      "Mux"
 	      SrcPort		      1
-	      Points		      [0, 20]
 	      DstBlock		      "Display2"
 	      DstPort		      1
 	    }
@@ -39301,14 +38992,14 @@ Model {
 	Line {
 	  SrcBlock		  "Mode Determination"
 	  SrcPort		  2
-	  Points		  [110, 0; 0, 55; 20, 0]
+	  Points		  [110, 0; 0, 40]
 	  DstBlock		  "Waypoint Transition Computation"
 	  DstPort		  1
 	}
 	Line {
 	  SrcBlock		  "Mode Determination"
 	  SrcPort		  3
-	  Points		  [95, 0; 0, 60; 35, 0]
+	  Points		  [95, 0; 0, 40]
 	  DstBlock		  "Waypoint Transition Computation"
 	  DstPort		  2
 	}
@@ -39361,12 +39052,11 @@ Model {
 	  SrcPort		  1
 	  Points		  [35, 0]
 	  Branch {
-	    Points		    [165, 0]
 	    DstBlock		    "Leg Run Computation"
 	    DstPort		    5
 	  }
 	  Branch {
-	    Points		    [0, -25]
+	    Points		    [0, -30]
 	    DstBlock		    "To Workspace10"
 	    DstPort		    1
 	  }
@@ -39545,7 +39235,7 @@ Model {
 	Line {
 	  SrcBlock		  "Leg Run Computation"
 	  SrcPort		  5
-	  Points		  [40, 0; 0, 65]
+	  Points		  [40, 0; 0, 45]
 	  DstBlock		  "Integer Delay"
 	  DstPort		  1
 	}
@@ -39561,6 +39251,13 @@ Model {
 	  SrcPort		  1
 	  DstBlock		  "Leg Run Computation"
 	  DstPort		  8
+	}
+	Line {
+	  SrcBlock		  "U_m"
+	  SrcPort		  1
+	  Points		  [80, 0]
+	  DstBlock		  "Leg Run Computation"
+	  DstPort		  9
 	}
       }
     }
@@ -41302,6 +40999,7 @@ Model {
     Line {
       SrcBlock		      "Rate Transition9"
       SrcPort		      1
+      Points		      [15, 0]
       DstBlock		      "Navigation"
       DstPort		      1
     }
@@ -41956,6 +41654,7 @@ Model {
     Line {
       SrcBlock		      "From51"
       SrcPort		      1
+      Points		      [80, 0]
       DstBlock		      "Navigation"
       DstPort		      2
     }
@@ -41988,6 +41687,12 @@ Model {
       SrcPort		      1
       DstBlock		      "Navigation"
       DstPort		      9
+    }
+    Line {
+      SrcBlock		      "From82"
+      SrcPort		      1
+      DstBlock		      "Navigation"
+      DstPort		      10
     }
     Annotation {
       Name		      "Mid Level Commands"
@@ -45716,8 +45421,6 @@ Stateflow {
 		firstJunction                             		184
 		viewObj                                   		182
 		machine                                   		1
-		subviewS {
-		}
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		186
@@ -45913,8 +45616,6 @@ Stateflow {
 		firstJunction                             		193
 		viewObj                                   		191
 		machine                                   		1
-		subviewS {
-		}
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		195
@@ -46111,8 +45812,6 @@ Stateflow {
 		firstJunction                             		202
 		viewObj                                   		200
 		machine                                   		1
-		subviewS {
-		}
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		204

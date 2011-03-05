@@ -4,6 +4,10 @@
 cubeGyroGain = .07326*pi/180;
 cubeAccelGain = (2.522e-3)*9.815;
 
+cubeGyroGain16405 = .05*pi/180;
+cubeAccelGain16405 = (3.33e-3)*9.815;
+cubeMagGain16405 = 0.5e-3;
+
 
 % Temp Coefficients
 % =================
@@ -113,19 +117,19 @@ param_mag.one_over_c = 1/param_mag.c;
 
   % Ellipse Compensation for Accelerometers
 % =========================
-param_acc.xo =  0.570077407545699;
-param_acc.yo =  -0.037320719350785;
-param_acc.zo = -0.155871603576177;
-param_acc.a =   1.021447629870704;
-param_acc.c =   0.965852814030698;
-param_acc.b =   1.012956660540617;
-param_acc.phi= -0.587227044344071;
-param_acc.rho = 0.768452775068802;
-param_acc.lambda = 0.179663683262263;
-param_acc.R = 9.810000000000001;
-param_acc.one_over_a = 1/param_acc.a;
-param_acc.one_over_b = 1/param_acc.b;
-param_acc.one_over_c = 1/param_acc.c;  
+param_acc_16355.xo =  0.570077407545699;
+param_acc_16355.yo =  -0.037320719350785;
+param_acc_16355.zo = -0.155871603576177;
+param_acc_16355.a =   1.021447629870704;
+param_acc_16355.c =   0.965852814030698;
+param_acc_16355.b =   1.012956660540617;
+param_acc_16355.phi= -0.587227044344071;
+param_acc_16355.rho = 0.768452775068802;
+param_acc_16355.lambda = 0.179663683262263;
+param_acc_16355.R = 9.810000000000001;
+param_acc_16355.one_over_a = 1/param_acc.a;
+param_acc_16355.one_over_b = 1/param_acc.b;
+param_acc_16355.one_over_c = 1/param_acc.c;  
 
 %% Sensor Lowpass filter cutoff filters and other limits
 mainSensorCutoff = 10;

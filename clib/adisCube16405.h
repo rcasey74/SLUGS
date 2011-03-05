@@ -23,17 +23,21 @@ THE SOFTWARE.
 
 */
 
-#ifndef _ADISCUBE_H_
-#define _ADISCUBE_H_
+#ifndef _ADISCUBE16405_H_
+#define _ADISCUBE16405_H_
 #ifdef __cplusplus
     extern "C"{
 #endif
+    	
 #include <p33fxxxx.h>
 #include <spi.h>
     	
 #include "apDefinitions.h"
 #include "apUtils.h"
 #include "mavlinkSensorMcu.h"
+
+#if (USE_CUBE_16405 == 1)
+
 
 #define selectCube()		LATGbits.LATG9 = 0
 #define deselectCube()		LATGbits.LATG9 = 1
@@ -56,17 +60,18 @@ THE SOFTWARE.
 // ==================
 // Note that FOR READING register addresses are in the MSB, assigning dont cares
 // to the LSB
-#define R_ADISPWR   	(unsigned short)0x0300		// ADIS Power Supply 
-#define R_GYROX     	(unsigned short)0x0500		// X-CHANNEL GYRO 
-#define R_GYROY     	(unsigned short)0x0700		// Y-CHANNEL GYRO 
-#define R_GYROZ     	(unsigned short)0x0900		// Z-CHANNEL GYRO 
-#define R_ACCELX    	(unsigned short)0X0B00		// X-CHANNEL ACCEL
+#define R_ADISPWR   	(unsigned short)0x0200		// ADIS Power Supply 
+#define R_GYROX     	(unsigned short)0x0400		// X-CHANNEL GYRO 
+#define R_GYROY     	(unsigned short)0x0600		// Y-CHANNEL GYRO 
+#define R_GYROZ     	(unsigned short)0x0800		// Z-CHANNEL GYRO 
+#define R_ACCELX    	(unsigned short)0X0A00		// X-CHANNEL ACCEL
 #define R_ACCELY    	(unsigned short)0x0C00		// Y-CHANNEL ACCEL 
-#define R_ACCELZ    	(unsigned short)0x0F00		// Z-CHANNEL ACCEL
-#define R_TEMPX     	(unsigned short)0x1100		// X-CHANNEL TEMP
-#define R_TEMPY     	(unsigned short)0x1300		// Y-CHANNEL TEMP
-#define R_TEMPZ     	(unsigned short)0x1500		// Z-CHANNEL TEMP
-#define R_STATUS    	(unsigned short)0x3D00		// STATUS REGISTER
+#define R_ACCELZ    	(unsigned short)0x0E00		// Z-CHANNEL ACCEL
+#define R_MAGNX    		(unsigned short)0x1000		// X-CHANNEL MAGNE
+#define R_MAGNY    		(unsigned short)0x1200		// Y-CHANNEL MAGNE
+#define R_MAGNZ    		(unsigned short)0x1400		// Z-CHANNEL MAGNE
+#define R_TEMP				(unsigned short)0x1600		// SENSOR TEMP
+#define R_STATUS    	(unsigned short)0x3C00		// STATUS REGISTER
 
 // Note that FOR WRITING register addresses are in the MSB and the actual data
 // to write is in the LSB
@@ -76,26 +81,26 @@ THE SOFTWARE.
 /*
 Calibration
 We will use the precission bias null calibration. That requires the unit to be static for 30 seconds.
-Address = 0x3E
+Address = 0x3E			//GLOB_CMD
 Value   = 0x10
 bits [6:7] of Address must be [1 0] since this will be a write
-=> [1 0 1 1][1 1 1 0][0 0 0 1][0 0 0 0]
+=> [1 0 1 1][1 1 1 0][0 0 0 1][0 0 0 0] X 
 => 0xBE10
 
 we will also use the acceleration bias compensation and use the
 DIO pin in the cube to let us know when data is ready
 
-Address = 0x34
+Address = 0x34		//MSC_CTRL
 Value   = 0x86
 bits [6:7] of Address must be [1 0] since this will be a write
-=> [1 0 1 1][1 1 1 0][1 0 0 0] [0 1 1 0]
+=> [1 0 1 1][0 1 0 0][1 0 0 0] [0 1 1 0]
 => 0xB486
 
 */
 
-#define W_COMMAND_FULLCAL	(unsigned short)0xBE10		//Start full calibration
-#define W_COMMAND_QUICKCAL	(unsigned short)0xBE01		//Start Quick calibration
-#define W_MSC_CTRL			(unsigned short)0xB486		// Set DIO1 as data ready pin
+#define W_COMMAND_FULLCAL	(unsigned short)0xBE10		//Start full calibration (GLOB_CMD)
+#define W_COMMAND_QUICKCAL	(unsigned short)0xBE01		//Start Quick calibration (GLOB_CMD)
+#define W_MSC_CTRL			(unsigned short)0xB486		// Set DIO1 as data ready pin (MSC_CTRL)
 
 /*
 Definition of the Internal Sample Rate
@@ -114,9 +119,9 @@ Address = 0x36
 Value   = 0x01
 bits [6:7] of Address must be [1 0] since this will be a write
 => [1 0 1 1][0 1 1 0][0 0 0 0][0 0 0 1]
-=> 0xB603
+=> 0xB601
 */
-#define W_SMPL_PRD  	(unsigned short)0xB601		// INTERNAL SAMPLE RATE
+#define W_SMPL_PRD  	(unsigned short)0xB601		// INTERNAL SAMPLE RATE (SMPL_PRD)
 
 /*
 Digital Filtering and Dynamic Range
@@ -136,11 +141,11 @@ they are powers of 2)
 Address	= 0x38
 Value	= 0x04
 bits [6:7] of Address must be [1 0] since this will be a write
-=> [1 0 1 1][1 0 0 0][0 0 0 0][0 1 0 0]
-=> 0xB804
+=> [1 0 1 1][1 0 0 0][0 0 0 0][0 1 0 0]   // [0 0 0 0][0 1 0 0][0 0 0 0][0 1 0 0]
+=> 0xB804 //0x0404
 
 */
-#define W_SENS_AVG_H  	(unsigned short)0xB904		// DYNAMIC RANGE
+#define W_SENS_AVG_H  	(unsigned short)0xB904	//	// DYNAMIC RANGE
 #define W_SENS_AVG_L  	(unsigned short)0xB804		// DIGITAL FILTERING
 
 #define W_MSC_CTRL_SELFTEST (unsigned short)0xB504
@@ -179,11 +184,11 @@ bits [6:7] of Address must be [1 0] since this will be a write
 => 0xA402
 
 */
-#define W_XACC_OFFSET_LO	(unsigned short)0xA0F6
-#define W_XACC_OFFSET_HI	(unsigned short)0xA11F
-#define W_YACC_OFFSET_LO	(unsigned short)0xA220
+#define W_XACC_OFFSET_LO	(unsigned short)0xA000
+#define W_XACC_OFFSET_HI	(unsigned short)0xA100
+#define W_YACC_OFFSET_LO	(unsigned short)0xA200
 #define W_YACC_OFFSET_HI	(unsigned short)0xA300
-#define W_ZACC_OFFSET_LO	(unsigned short)0xA407
+#define W_ZACC_OFFSET_LO	(unsigned short)0xA400
 #define W_ZACC_OFFSET_HI	(unsigned short)0xA500
 
 
@@ -194,6 +199,9 @@ typedef struct tCubeBuffer {
   int16_t  gx[4];
   int16_t  gy[4];
   int16_t  gz[4];
+  int16_t  mx[4];
+  int16_t  my[4];
+  int16_t  mz[4];
   uint8_t sampleCount;
 }tCubeBuffer;
 
@@ -206,7 +214,11 @@ int16_t averageData (int16_t* theData, uint8_t count);
 short convert12BitToShort (short wordData);
 short convert14BitToShort (short wordData);
 	
+unsigned char isCube16405 (void);
+
+#endif // USE_CUBE_16405
+
 #ifdef __cplusplus
     }
 #endif
-#endif /* _ADISCUBE_H_ */
+#endif /* _ADISCUBE16405_H_ */

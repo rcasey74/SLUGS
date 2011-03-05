@@ -9,8 +9,12 @@
 #include "apDefinitions.h"
 #include "mavlinkControlMcu.h"
 #include "apUtils.h"
+#include "eepLoader.h"
+       	       	
 #include <p33fxxxx.h>   
-#include <string.h>    	
+#include <string.h>    
+#include <stdio.h>	
+
        	
 #define PROTOCOL_TIMEOUT_TICKS 20    ///< maximum time to wait for pending messages until timeout
 

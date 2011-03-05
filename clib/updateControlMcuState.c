@@ -65,3 +65,7 @@ void updatePilotCommands (unsigned short*  pilCom){
 	pilCom[4] = mlPilotConsoleData.de;
 }
 
+unsigned char getHilOnOff (void){
+	return (mlSystemStatus.mode == (uint8_t)MAV_MODE_TEST3);
+}
+

@@ -302,6 +302,15 @@ void scheduleData (unsigned char hilOn, unsigned char* dataOut){
 		
 		break;
 		
+		case 9: // Raw Pressure
+					mavlink_msg_raw_pressure_encode( SLUGS_SYSTEMID, 
+																 					SLUGS_COMPID, 
+																 					&msg, 
+																	 				&mlRawPressureData);
+			// Copy the message to the send buffer
+			bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);	
+		
+		break;
 		default:
 			*dataOut = 0;
 		
@@ -352,39 +361,38 @@ void scheduleData (unsigned char hilOn, unsigned char* dataOut){
 	samplePeriod = (samplePeriod >= 10)? 1: samplePeriod + 1;
 	
 	// Send the data via the debug serial port
-	send2DebugPort(dataOut, hilOn);
-
+	
+	if (hilOn == 0){	
+		send2DebugPort(dataOut, hilOn);
+	}
 }
 
 void send2DebugPort(unsigned char* protData, unsigned char hilOn){
 	unsigned int bufLen,i;
-		
+				
 	// add the data to the circular buffer
 	for(i = 1; i <= protData[0]; i += 1 )
 	{
 		writeBack(logBuffer, protData[i] );
 	}
-	
+
 	// get the Length of the logBuffer
 	bufLen = getLength(logBuffer);
-	
 
-	if (hilOn!= 1){		
-		// if the interrupt catched up with the circularBuffer
-		//  then turn on the DMA
-		if(!(DMA0CONbits.CHEN) && bufLen> 0){
-			// Configure the bytes to send
-			DMA0CNT =  bufLen<= (MAXSEND-1)? bufLen-1: MAXSEND-1;		
-			// copy the buffer to the DMA channel outgoing buffer	
-			copyBufferToDMA((unsigned char) DMA0CNT+1);
-			// Enable the DMA
-			DMA0CONbits.CHEN = 1;
-			// Init the transmission
-			DMA0REQbits.FORCE = 1;
-		}
+
+
+	// if the interrupt catched up with the circularBuffer
+	//  then turn on the DMA
+	if(!(DMA0CONbits.CHEN) && bufLen> 0){
+		// Configure the bytes to send
+		DMA0CNT =  bufLen<= (MAXSEND-1)? bufLen-1: MAXSEND-1;		
+		// copy the buffer to the DMA channel outgoing buffer	
+		copyBufferToDMA((unsigned char) DMA0CNT+1);
+		// Enable the DMA
+		DMA0CONbits.CHEN = 1;
+		// Init the transmission
+		DMA0REQbits.FORCE = 1;
 	}
-
-	
 }
 
 

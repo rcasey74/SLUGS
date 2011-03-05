@@ -46,39 +46,25 @@ void loadEEPData(void){
 	unsigned char i;
 	tFloatToChar tempShData;
 	
-	for(  i = 0; i < MAX_NUM_PIDS; i++ ){
-		// PID Gains
-		
-		tempShData.shData[0]= DataEERead(PID_OFFSET+i*6);
-		tempShData.shData[1]= DataEERead(PID_OFFSET+i*6+1);
-		mlPidValues.P[i]	= tempShData.flData;
-		
-		tempShData.shData[0]= DataEERead(PID_OFFSET+i*6+2);
-		tempShData.shData[1]= DataEERead(PID_OFFSET+i*6+3);
-		mlPidValues.I[i] = tempShData.flData;
-		
-		tempShData.shData[0]= DataEERead(PID_OFFSET+i*6+4);
-		tempShData.shData[1]= DataEERead(PID_OFFSET+i*6+5);
-		mlPidValues.D[i] = tempShData.flData;
-	}
+	readParamsInEeprom();
 	
 	for(i = 0; i < MAX_NUM_WPS; i++ ){		
 		// Way Points
-		tempShData.shData[0]= DataEERead(WPS_OFFSET+i*8);   
-		tempShData.shData[1]= DataEERead(WPS_OFFSET+i*8+1);      
+		tempShData.shData[0]= DataEERead(WPS_OFFSET+i*WP_SIZE_IN_EEPROM);   
+		tempShData.shData[1]= DataEERead(WPS_OFFSET+i*WP_SIZE_IN_EEPROM+1);      
 		mlWpValues.lat[i] = tempShData.flData;      
 		
-		tempShData.shData[0]= DataEERead(WPS_OFFSET+i*8+2);      
-		tempShData.shData[1]= DataEERead(WPS_OFFSET+i*8+3);      
+		tempShData.shData[0]= DataEERead(WPS_OFFSET+i*WP_SIZE_IN_EEPROM+2);      
+		tempShData.shData[1]= DataEERead(WPS_OFFSET+i*WP_SIZE_IN_EEPROM+3);      
 		mlWpValues.lon[i] = tempShData.flData;      
 		
-		tempShData.shData[0]= DataEERead(WPS_OFFSET+i*8+4);      
-		tempShData.shData[1]= DataEERead(WPS_OFFSET+i*8+5);      
+		tempShData.shData[0]= DataEERead(WPS_OFFSET+i*WP_SIZE_IN_EEPROM+4);      
+		tempShData.shData[1]= DataEERead(WPS_OFFSET+i*WP_SIZE_IN_EEPROM+5);      
 		mlWpValues.alt[i] = tempShData.flData;      
 		
-		mlWpValues.type[i]	= (uint8_t)DataEERead(WPS_OFFSET+i*8+6);
+		mlWpValues.type[i]	= (uint8_t)DataEERead(WPS_OFFSET+i*WP_SIZE_IN_EEPROM+6);
 		
-		mlWpValues.orbit[i]   = DataEERead(WPS_OFFSET+i*8+7);         	
+		mlWpValues.orbit[i]   = DataEERead(WPS_OFFSET+i*WP_SIZE_IN_EEPROM +7);         	
 		         	
 	}
 
@@ -90,11 +76,70 @@ void loadEEPData(void){
 }
 
 
+uint8_t storeWaypointInEeprom (mavlink_waypoint_t* mlSingleWp){
+	
+	uint8_t indexOffset = 0, indx= 0, writeSuccess = 0;
+	tFloatToChar tempFloat;
+	
+	// get the WP index
+	indx = (uint8_t)mlSingleWp->seq;
+					
+	// Compute the adecuate index offset
+	indexOffset = indx*WP_SIZE_IN_EEPROM;
+	
+	// Save the data to the EEPROM
+	tempFloat.flData = mlSingleWp->y;
+	writeSuccess += DataEEWrite(tempFloat.shData[0], WPS_OFFSET+indexOffset);   
+	writeSuccess += DataEEWrite(tempFloat.shData[1], WPS_OFFSET+indexOffset+1);
+	
+	tempFloat.flData = mlSingleWp->x; 
+	writeSuccess += DataEEWrite(tempFloat.shData[0], WPS_OFFSET+indexOffset+2);      
+	writeSuccess += DataEEWrite(tempFloat.shData[1], WPS_OFFSET+indexOffset+3);
+	
+	tempFloat.flData = mlSingleWp->z;       
+	writeSuccess += DataEEWrite(tempFloat.shData[0], WPS_OFFSET+indexOffset+4);      
+	writeSuccess += DataEEWrite(tempFloat.shData[1], WPS_OFFSET+indexOffset+5);
+	
+	writeSuccess += DataEEWrite((unsigned short)mlSingleWp->command, WPS_OFFSET+indexOffset+6);
+	
+	writeSuccess += DataEEWrite((unsigned short)mlSingleWp->param3, WPS_OFFSET+indexOffset+7);          
+		
+	return writeSuccess;
+}
 
 
+uint8_t storeParameterInEeprom (float parameter, uint8_t pmIndex){
+	uint8_t indexOffset = 0, indx= 0, writeSuccess = 0;
+	tFloatToChar tempFloat;
+		
+	// Save the data to the EEPROM
+	indexOffset = pmIndex*2;
+	
+	tempFloat.flData = parameter;
+	writeSuccess += DataEEWrite(tempFloat.shData[0], PARAM_OFFSET+indexOffset);
+	writeSuccess += DataEEWrite(tempFloat.shData[1], PARAM_OFFSET+indexOffset+1);
+	
+	
+	return writeSuccess;
+}
 
+uint8_t storeAllParamsInEeprom(void){
+	uint8_t indexOffset = 0, indx= 0, writeSuccess = 0;
+	
+	for (indx = 0; indx < PAR_PARAM_COUNT; indx ++){
+		writeSuccess += storeParameterInEeprom(mlParamInterface.param[indx], indx);
+	}
+	
+	return writeSuccess;
+}
 
-
-
-
-
+void readParamsInEeprom (void){
+	uint8_t indx= 0, i=0;
+	tFloatToChar tempFloat;
+		
+	for(indx = 0; indx < (PAR_PARAM_COUNT*2); indx+=2 ){
+		tempFloat.shData[0]= DataEERead(PARAM_OFFSET+indx);
+		tempFloat.shData[1]= DataEERead(PARAM_OFFSET+indx+1);
+		mlParamInterface.param[i++]	= tempFloat.flData;
+	}
+}

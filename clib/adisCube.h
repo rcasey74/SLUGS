@@ -35,6 +35,8 @@ THE SOFTWARE.
 #include "apUtils.h"
 #include "mavlinkSensorMcu.h"
 
+#if (USE_CUBE_16405 == 0)
+
 #define selectCube()		LATGbits.LATG9 = 0
 #define deselectCube()		LATGbits.LATG9 = 1
 #define cubeDataReady()		PORTCbits.RC3
@@ -205,7 +207,11 @@ int16_t averageData (int16_t* theData, uint8_t count);
 
 short convert12BitToShort (short wordData);
 short convert14BitToShort (short wordData);
-	
+
+unsigned char isCube16405 (void);
+
+#endif //(USE_CUBE_16405 == 0)
+
 #ifdef __cplusplus
     }
 #endif
