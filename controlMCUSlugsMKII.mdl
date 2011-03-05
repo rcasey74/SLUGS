@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.767"
+    ComputedModelVersion    "1.768"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Fri Mar 04 17:30:16 2011"
-  ModelVersionFormat	  "1.%<AutoIncrement:767>"
+  LastModifiedDate	  "Fri Mar 04 18:00:38 2011"
+  ModelVersionFormat	  "1.%<AutoIncrement:768>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"

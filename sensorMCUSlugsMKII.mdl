@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.922"
+    ComputedModelVersion    "1.923"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Tue Mar 01 13:51:19 2011"
-  ModelVersionFormat	  "1.%<AutoIncrement:922>"
+  LastModifiedDate	  "Sat Mar 05 13:25:55 2011"
+  ModelVersionFormat	  "1.%<AutoIncrement:923>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -981,7 +981,7 @@ Model {
   }
   System {
     Name		    "sensorMCUSlugsMKII"
-    Location		    [1698, 258, 3134, 1060]
+    Location		    [32, 140, 1468, 942]
     Open		    off
     ModelBrowserVisibility  off
     ModelBrowserWidth	    212
@@ -1646,7 +1646,7 @@ Model {
       System {
 	Name			"Position and Attitude Filter"
 	Location		[577, 611, 1157, 960]
-	Open			off
+	Open			on
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -1688,6 +1688,16 @@ Model {
 	  BackgroundColor	  "darkGreen"
 	  Port			  "4"
 	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  InportShadow
+	  Name			  "A_sens(m/s^2) "
+	  Position		  [635, 603, 665, 617]
+	  BackgroundColor	  "darkGreen"
+	  Port			  "1"
+	  IconDisplay		  "Port number"
+	  LatchByDelayingOutsideSignal off
+	  LatchByCopyingInsideSignal off
 	}
 	Block {
 	  BlockType		  SubSystem
@@ -11950,8 +11960,8 @@ Model {
 	Block {
 	  BlockType		  SubSystem
 	  Name			  "Position Filter"
-	  Ports			  [7, 3]
-	  Position		  [695, 277, 870, 553]
+	  Ports			  [8, 3]
+	  Position		  [720, 278, 870, 557]
 	  MinAlgLoopOccurrences	  off
 	  RTWSystemCode		  "Auto"
 	  FunctionWithSeparateData off
@@ -11974,14 +11984,14 @@ Model {
 	    Block {
 	      BlockType		      Inport
 	      Name		      "NewGPS"
-	      Position		      [85, 228, 115, 242]
+	      Position		      [85, 203, 115, 217]
 	      BackgroundColor	      "green"
 	      IconDisplay	      "Port number"
 	    }
 	    Block {
 	      BlockType		      Inport
 	      Name		      "Baro Alt"
-	      Position		      [85, 158, 115, 172]
+	      Position		      [85, 143, 115, 157]
 	      BackgroundColor	      "green"
 	      Port		      "2"
 	      IconDisplay	      "Port number"
@@ -11989,7 +11999,7 @@ Model {
 	    Block {
 	      BlockType		      Inport
 	      Name		      "RLT2B"
-	      Position		      [85, 193, 115, 207]
+	      Position		      [85, 173, 115, 187]
 	      BackgroundColor	      "green"
 	      Port		      "3"
 	      IconDisplay	      "Port number"
@@ -12005,7 +12015,7 @@ Model {
 	    Block {
 	      BlockType		      Inport
 	      Name		      "Vnorth"
-	      Position		      [85, 88, 115, 102]
+	      Position		      [85, 83, 115, 97]
 	      BackgroundColor	      "green"
 	      Port		      "5"
 	      IconDisplay	      "Port number"
@@ -12013,7 +12023,7 @@ Model {
 	    Block {
 	      BlockType		      Inport
 	      Name		      "Veast"
-	      Position		      [85, 123, 115, 137]
+	      Position		      [85, 113, 115, 127]
 	      BackgroundColor	      "green"
 	      Port		      "6"
 	      IconDisplay	      "Port number"
@@ -12021,15 +12031,23 @@ Model {
 	    Block {
 	      BlockType		      Inport
 	      Name		      "SOG"
-	      Position		      [85, 263, 115, 277]
+	      Position		      [85, 233, 115, 247]
 	      BackgroundColor	      "green"
 	      Port		      "7"
 	      IconDisplay	      "Port number"
 	    }
 	    Block {
+	      BlockType		      Inport
+	      Name		      "A_sens(m/s^2)"
+	      Position		      [85, 263, 115, 277]
+	      BackgroundColor	      "green"
+	      Port		      "8"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
 	      BlockType		      SubSystem
 	      Name		      "BlendPosVel"
-	      Ports		      [7, 3]
+	      Ports		      [8, 3]
 	      Position		      [145, 46, 300, 284]
 	      MinAlgLoopOccurrences   off
 	      RTWSystemCode	      "Auto"
@@ -12085,7 +12103,7 @@ Model {
 		Block {
 		  BlockType		  Inport
 		  Name			  "RLT2B"
-		  Position		  [410, 473, 440, 487]
+		  Position		  [240, 478, 270, 492]
 		  BackgroundColor	  "green"
 		  Port			  "5"
 		  IconDisplay		  "Port number"
@@ -12108,203 +12126,12 @@ Model {
 		  IconDisplay		  "Port number"
 		}
 		Block {
-		  BlockType		  SubSystem
-		  Name			  "1D Filter"
-		  Ports			  [1, 1]
-		  Position		  [140, 552, 200, 598]
-		  AncestorBlock		  "SLUGS_Library/Singnal Routing\n& Co"
-"nditioning/3D Filter"
-		  MinAlgLoopOccurrences	  off
-		  RTWSystemCode		  "Reusable function"
-		  RTWFcnNameOpts	  "User specified"
-		  RTWFcnName		  "TustinFilter3D"
-		  RTWFileNameOpts	  "Use function name"
-		  FunctionWithSeparateData off
-		  MaskHideContents	  off
-		  MaskPromptString	  "Zeros|Poles|Gains|Sample Time"
-		  MaskStyleString	  "edit,edit,edit,edit"
-		  MaskTunableValueString  "on,on,on,on"
-		  MaskCallbackString	  "|||"
-		  MaskEnableString	  "on,on,on,on"
-		  MaskVisibilityString	  "on,on,on,on"
-		  MaskToolTipString	  "on,on,on,on"
-		  MaskVarAliasString	  ",,,"
-		  MaskVariables		  "zval=@1;pval=@2;kval=@3;TSample=@4;"
-		  MaskDisplay		  "droots(zval,pval,kval)\nport_label("
-"'input',1,'1D')\n"
-		  MaskIconFrame		  on
-		  MaskIconOpaque	  on
-		  MaskIconRotate	  "none"
-		  MaskIconUnits		  "autoscale"
-		  MaskValueString	  "[0]|-50|1|apSampleTime"
-		  MaskTabNameString	  ",,,"
-		  System {
-		    Name		    "1D Filter"
-		    Location		    [2, 79, 1244, 1005]
-		    Open		    off
-		    ModelBrowserVisibility  off
-		    ModelBrowserWidth	    200
-		    ScreenColor		    "white"
-		    PaperOrientation	    "landscape"
-		    PaperPositionMode	    "auto"
-		    PaperType		    "usletter"
-		    PaperUnits		    "inches"
-		    TiledPaperMargins	    "[0.500000, 0.500000, 0.500000, 0."
-"500000]"
-		    TiledPageScale	    1
-		    ShowPageBoundaries	    off
-		    ZoomFactor		    "100"
-		    Block {
-		    BlockType		    Inport
-		    Name		    "In1"
-		    Position		    [95, 123, 125, 137]
-		    IconDisplay		    "Port number"
-		    }
-		    Block {
-		    BlockType		    DataTypeConversion
-		    Name		    "Data Type Conversion1"
-		    Position		    [360, 116, 410, 144]
-		    ShowName		    off
-		    OutDataTypeMode	    "single"
-		    RndMeth		    "Floor"
-		    SaturateOnIntegerOverflow off
-		    }
-		    Block {
-		    BlockType		    DataTypeConversion
-		    Name		    "Data Type Conversion2"
-		    Position		    [160, 118, 210, 142]
-		    ShowName		    off
-		    OutDataTypeMode	    "double"
-		    RndMeth		    "Floor"
-		    SaturateOnIntegerOverflow off
-		    }
-		    Block {
-		    BlockType		    SubSystem
-		    Name		    "Filter2"
-		    Ports		    [1, 1]
-		    Position		    [250, 102, 310, 158]
-		    ShowName		    off
-		    MinAlgLoopOccurrences   off
-		    RTWSystemCode	    "Auto"
-		    FunctionWithSeparateData off
-		    MaskHideContents	    off
-		    MaskType		    "DiscretizedZeroPole"
-		    MaskDescription	    "Continuous mask uses c2d to trans"
-"form parameters onto the Discrete Zero-Pole block inside."
-		    MaskPromptString	    "Zeros (enter in s-main:)|Poles (e"
-"nter in s-domain:)|Gain (enter in s-domain:)|Absolute tolerance:|Sample time:"
-"|Method:|Critical Frequency (Hz):"
-		    MaskStyleString	    "edit,edit,edit,edit,edit,popup(zo"
-"h|foh|tustin|prewarp|matched),edit"
-		    MaskTunableValueString  "on,on,on,on,on,on,on"
-		    MaskCallbackString	    "|||||hidecrit|"
-		    MaskEnableString	    "on,on,on,on,on,on,on"
-		    MaskVisibilityString    "on,on,on,on,on,on,off"
-		    MaskToolTipString	    "on,on,on,on,on,on,on"
-		    MaskVarAliasString	    ",,,,,,"
-		    MaskVariables	    "Zeros=@1;Poles=@2;Gain=@3;AbsTol="
-"&4;SampleTime=@5;method=&6;Wc=@7;"
-		    MaskInitialization	    "st=SampleTime;\nif length(st)>1\n"
-"    st=SampleTime(1);\nend\nif(st>0)\n    [zerosd,polesd,gaind] = sldiscutil("
-"'disczpk', {st,method,Wc,Zeros,Poles,Gain});\nend	\ns = get_param(gcb,"
-"'maskvalues');\nzeross = s{1};\npoless = s{2};\ngainss = s{3};\n%zerosc = eva"
-"l(zeross);\n%polesc = eval(poless);\n%gainsc = eval(gainss);\nsldiscutil('ini"
-"tzpkmask', st);\nif(st==0)\nset_param([gcb '/Zero Pole'], 'AbsoluteTolerance'"
-", AbsTol);\nend"
-		    MaskDisplay		    "droots(zeross,poless,gainss)\ntex"
-"t( 0.5, 1.0, method, 'verticalAlignment','top')"
-		    MaskSelfModifiable	    on
-		    MaskIconFrame	    on
-		    MaskIconOpaque	    on
-		    MaskIconRotate	    "port"
-		    MaskIconUnits	    "normalized"
-		    MaskValueString	    "zval|pval|kval|auto|TSample|tusti"
-"n|1"
-		    MaskTabNameString	    ",,,,,,"
-		    System {
-		    Name		    "Filter2"
-		    Location		    [499, 349, 791, 606]
-		    Open		    off
-		    ModelBrowserVisibility  off
-		    ModelBrowserWidth	    200
-		    ScreenColor		    "white"
-		    PaperOrientation	    "landscape"
-		    PaperPositionMode	    "auto"
-		    PaperType		    "usletter"
-		    PaperUnits		    "inches"
-		    TiledPaperMargins	    "[0.500000, 0.500000, 0.500000, 0."
-"500000]"
-		    TiledPageScale	    1
-		    ShowPageBoundaries	    off
-		    ZoomFactor		    "100"
-		    Block {
-		    BlockType		    Inport
-		    Name		    "In1"
-		    Position		    [60, 103, 90, 117]
-		    IconDisplay		    "Port number"
-		    }
-		    Block {
-		    BlockType		    DiscreteZeroPole
-		    Name		    "Discrete\nZero-Pole"
-		    Position		    [115, 92, 200, 128]
-		    Zeros		    "zerosd"
-		    Poles		    "polesd"
-		    Gain		    "gaind"
-		    SampleTime		    "SampleTime"
-		    }
-		    Block {
-		    BlockType		    Outport
-		    Name		    "Out1"
-		    Position		    [235, 103, 265, 117]
-		    IconDisplay		    "Port number"
-		    BusOutputAsStruct	    off
-		    }
-		    Line {
-		    SrcBlock		    "In1"
-		    SrcPort		    1
-		    DstBlock		    "Discrete\nZero-Pole"
-		    DstPort		    1
-		    }
-		    Line {
-		    SrcBlock		    "Discrete\nZero-Pole"
-		    SrcPort		    1
-		    DstBlock		    "Out1"
-		    DstPort		    1
-		    }
-		    }
-		    }
-		    Block {
-		    BlockType		    Outport
-		    Name		    "Out1"
-		    Position		    [485, 123, 515, 137]
-		    IconDisplay		    "Port number"
-		    BusOutputAsStruct	    off
-		    }
-		    Line {
-		    SrcBlock		    "Filter2"
-		    SrcPort		    1
-		    DstBlock		    "Data Type Conversion1"
-		    DstPort		    1
-		    }
-		    Line {
-		    SrcBlock		    "In1"
-		    SrcPort		    1
-		    DstBlock		    "Data Type Conversion2"
-		    DstPort		    1
-		    }
-		    Line {
-		    SrcBlock		    "Data Type Conversion2"
-		    SrcPort		    1
-		    DstBlock		    "Filter2"
-		    DstPort		    1
-		    }
-		    Line {
-		    SrcBlock		    "Data Type Conversion1"
-		    SrcPort		    1
-		    DstBlock		    "Out1"
-		    DstPort		    1
-		    }
-		  }
+		  BlockType		  Inport
+		  Name			  "A_sens(m/s^2)"
+		  Position		  [235, 543, 265, 557]
+		  BackgroundColor	  "green"
+		  Port			  "8"
+		  IconDisplay		  "Port number"
 		}
 		Block {
 		  BlockType		  SubSystem
@@ -13004,7 +12831,7 @@ Model {
 		  BlockType		  SubSystem
 		  Name			  "3D Filter"
 		  Ports			  [1, 1]
-		  Position		  [700, 481, 755, 539]
+		  Position		  [605, 495, 700, 555]
 		  AncestorBlock		  "SLUGS_Library/Singnal Routing\n& Co"
 "nditioning/3D Filter"
 		  MinAlgLoopOccurrences	  off
@@ -13029,11 +12856,11 @@ Model {
 		  MaskIconOpaque	  on
 		  MaskIconRotate	  "none"
 		  MaskIconUnits		  "autoscale"
-		  MaskValueString	  "[]|[0]|1|0.01"
+		  MaskValueString	  "[]|-1/accBiasRateLimit|1|0.01"
 		  MaskTabNameString	  ",,,"
 		  System {
 		    Name		    "3D Filter"
-		    Location		    [2, 78, 1244, 1004]
+		    Location		    [274, 124, 1516, 1050]
 		    Open		    off
 		    ModelBrowserVisibility  off
 		    ModelBrowserWidth	    200
@@ -13126,7 +12953,7 @@ Model {
 		    MaskTabNameString	    ",,,,,,"
 		    System {
 		    Name		    "Filter1"
-		    Location		    [499, 349, 791, 606]
+		    Location		    [552, 361, 844, 618]
 		    Open		    off
 		    ModelBrowserVisibility  off
 		    ModelBrowserWidth	    200
@@ -13163,15 +12990,15 @@ Model {
 		    BusOutputAsStruct	    off
 		    }
 		    Line {
-		    SrcBlock		    "Discrete\nZero-Pole"
-		    SrcPort		    1
-		    DstBlock		    "Out1"
-		    DstPort		    1
-		    }
-		    Line {
 		    SrcBlock		    "In1"
 		    SrcPort		    1
 		    DstBlock		    "Discrete\nZero-Pole"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "Discrete\nZero-Pole"
+		    SrcPort		    1
+		    DstBlock		    "Out1"
 		    DstPort		    1
 		    }
 		    }
@@ -13258,15 +13085,15 @@ Model {
 		    BusOutputAsStruct	    off
 		    }
 		    Line {
-		    SrcBlock		    "In1"
-		    SrcPort		    1
-		    DstBlock		    "Discrete\nZero-Pole"
-		    DstPort		    1
-		    }
-		    Line {
 		    SrcBlock		    "Discrete\nZero-Pole"
 		    SrcPort		    1
 		    DstBlock		    "Out1"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "In1"
+		    SrcPort		    1
+		    DstBlock		    "Discrete\nZero-Pole"
 		    DstPort		    1
 		    }
 		    }
@@ -13353,15 +13180,15 @@ Model {
 		    BusOutputAsStruct	    off
 		    }
 		    Line {
-		    SrcBlock		    "Discrete\nZero-Pole"
-		    SrcPort		    1
-		    DstBlock		    "Out1"
-		    DstPort		    1
-		    }
-		    Line {
 		    SrcBlock		    "In1"
 		    SrcPort		    1
 		    DstBlock		    "Discrete\nZero-Pole"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "Discrete\nZero-Pole"
+		    SrcPort		    1
+		    DstBlock		    "Out1"
 		    DstPort		    1
 		    }
 		    }
@@ -13373,6 +13200,8 @@ Model {
 		    Position		    [370, 106, 375, 154]
 		    BackgroundColor	    "black"
 		    ShowName		    off
+		    PermitHierarchicalResolution "ExplicitOnly"
+		    TreatAsAtomicUnit	    on
 		    MinAlgLoopOccurrences   off
 		    RTWSystemCode	    "Auto"
 		    FunctionWithSeparateData off
@@ -13457,30 +13286,18 @@ Model {
 		    BusOutputAsStruct	    off
 		    }
 		    Line {
-		    SrcBlock		    " SFunction "
-		    SrcPort		    1
-		    Points		    [20, 0]
-		    DstBlock		    " Demux "
-		    DstPort		    1
-		    }
-		    Line {
 		    SrcBlock		    " Demux "
 		    SrcPort		    1
 		    DstBlock		    " Terminator "
 		    DstPort		    1
 		    }
 		    Line {
-		    SrcBlock		    "u1"
-		    SrcPort		    1
-		    DstBlock		    " SFunction "
+		    Name		    "y"
+		    Labels		    [0, 0]
+		    SrcBlock		    " SFunction "
+		    SrcPort		    2
+		    DstBlock		    "y"
 		    DstPort		    1
-		    }
-		    Line {
-		    SrcBlock		    "u2"
-		    SrcPort		    1
-		    Points		    [120, 0]
-		    DstBlock		    " SFunction "
-		    DstPort		    2
 		    }
 		    Line {
 		    SrcBlock		    "u3"
@@ -13489,11 +13306,21 @@ Model {
 		    DstPort		    3
 		    }
 		    Line {
-		    Name		    "y"
-		    Labels		    [0, 0]
+		    SrcBlock		    "u2"
+		    SrcPort		    1
+		    DstBlock		    " SFunction "
+		    DstPort		    2
+		    }
+		    Line {
+		    SrcBlock		    "u1"
+		    SrcPort		    1
+		    DstBlock		    " SFunction "
+		    DstPort		    1
+		    }
+		    Line {
 		    SrcBlock		    " SFunction "
-		    SrcPort		    2
-		    DstBlock		    "y"
+		    SrcPort		    1
+		    DstBlock		    " Demux "
 		    DstPort		    1
 		    }
 		    }
@@ -13506,48 +13333,15 @@ Model {
 		    BusOutputAsStruct	    off
 		    }
 		    Line {
-		    SrcBlock		    "myMux Fun1"
+		    SrcBlock		    "Data Type Conversion1"
 		    SrcPort		    1
-		    DstBlock		    "Data Type Conversion1"
+		    DstBlock		    "Out1"
 		    DstPort		    1
 		    }
 		    Line {
-		    SrcBlock		    "In1"
+		    SrcBlock		    "Data Type Conversion2"
 		    SrcPort		    1
-		    DstBlock		    "Data Type Conversion2"
-		    DstPort		    1
-		    }
-		    Line {
-		    SrcBlock		    "Filter3"
-		    SrcPort		    1
-		    Points		    [10, 0; 0, -50]
-		    DstBlock		    "myMux Fun1"
-		    DstPort		    3
-		    }
-		    Line {
-		    SrcBlock		    "Filter2"
-		    SrcPort		    1
-		    DstBlock		    "myMux Fun1"
-		    DstPort		    2
-		    }
-		    Line {
-		    SrcBlock		    "Filter1"
-		    SrcPort		    1
-		    Points		    [5, 0; 0, 50]
-		    DstBlock		    "myMux Fun1"
-		    DstPort		    1
-		    }
-		    Line {
-		    SrcBlock		    "Demux"
-		    SrcPort		    3
-		    Points		    [5, 0; 0, 55]
-		    DstBlock		    "Filter3"
-		    DstPort		    1
-		    }
-		    Line {
-		    SrcBlock		    "Demux"
-		    SrcPort		    2
-		    DstBlock		    "Filter2"
+		    DstBlock		    "Demux"
 		    DstPort		    1
 		    }
 		    Line {
@@ -13558,15 +13352,48 @@ Model {
 		    DstPort		    1
 		    }
 		    Line {
-		    SrcBlock		    "Data Type Conversion2"
-		    SrcPort		    1
-		    DstBlock		    "Demux"
+		    SrcBlock		    "Demux"
+		    SrcPort		    2
+		    DstBlock		    "Filter2"
 		    DstPort		    1
 		    }
 		    Line {
-		    SrcBlock		    "Data Type Conversion1"
+		    SrcBlock		    "Demux"
+		    SrcPort		    3
+		    Points		    [5, 0; 0, 55]
+		    DstBlock		    "Filter3"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "Filter1"
 		    SrcPort		    1
-		    DstBlock		    "Out1"
+		    Points		    [5, 0; 0, 50]
+		    DstBlock		    "myMux Fun1"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "Filter2"
+		    SrcPort		    1
+		    DstBlock		    "myMux Fun1"
+		    DstPort		    2
+		    }
+		    Line {
+		    SrcBlock		    "Filter3"
+		    SrcPort		    1
+		    Points		    [10, 0; 0, -50]
+		    DstBlock		    "myMux Fun1"
+		    DstPort		    3
+		    }
+		    Line {
+		    SrcBlock		    "In1"
+		    SrcPort		    1
+		    DstBlock		    "Data Type Conversion2"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "myMux Fun1"
+		    SrcPort		    1
+		    DstBlock		    "Data Type Conversion1"
 		    DstPort		    1
 		    }
 		  }
@@ -14640,6 +14467,114 @@ Model {
 		  DisplayOption		  "bar"
 		}
 		Block {
+		  BlockType		  SubSystem
+		  Name			  "Deriv "
+		  Ports			  [1, 1]
+		  Position		  [380, 485, 445, 515]
+		  MinAlgLoopOccurrences	  off
+		  RTWSystemCode		  "Auto"
+		  FunctionWithSeparateData off
+		  MaskHideContents	  off
+		  System {
+		    Name		    "Deriv "
+		    Location		    [2, 82, 1244, 1008]
+		    Open		    off
+		    ModelBrowserVisibility  off
+		    ModelBrowserWidth	    200
+		    ScreenColor		    "white"
+		    PaperOrientation	    "landscape"
+		    PaperPositionMode	    "auto"
+		    PaperType		    "usletter"
+		    PaperUnits		    "inches"
+		    TiledPaperMargins	    "[0.500000, 0.500000, 0.500000, 0."
+"500000]"
+		    TiledPageScale	    1
+		    ShowPageBoundaries	    off
+		    ZoomFactor		    "100"
+		    Block {
+		    BlockType		    Inport
+		    Name		    "y"
+		    Position		    [25, 93, 55, 107]
+		    IconDisplay		    "Port number"
+		    }
+		    Block {
+		    BlockType		    Gain
+		    Name		    "Gain2"
+		    Position		    [215, 100, 245, 130]
+		    ShowName		    off
+		    Gain		    "[ 1/(5*apSampleTime) ]"
+		    ParameterDataTypeMode   "Inherit via internal rule"
+		    OutDataTypeMode	    "Inherit via internal rule"
+		    SaturateOnIntegerOverflow off
+		    }
+		    Block {
+		    BlockType		    Reference
+		    Name		    "Integer Delay1"
+		    Ports		    [1, 1]
+		    Position		    [115, 28, 150, 62]
+		    SourceBlock		    "simulink/Discrete/Integer Delay"
+		    SourceType		    "Integer Delay"
+		    vinit		    "Vb_0(1)"
+		    samptime		    "apSampleTime"
+		    NumDelays		    "5"
+		    }
+		    Block {
+		    BlockType		    Sum
+		    Name		    "Sum5"
+		    Ports		    [2, 1]
+		    Position		    [165, 105, 185, 125]
+		    ShowName		    off
+		    IconShape		    "round"
+		    Inputs		    "-+|"
+		    CollapseMode	    "All dimensions"
+		    InputSameDT		    off
+		    OutDataTypeMode	    "Inherit via internal rule"
+		    SaturateOnIntegerOverflow off
+		    }
+		    Block {
+		    BlockType		    Outport
+		    Name		    "ydot"
+		    Position		    [270, 108, 300, 122]
+		    IconDisplay		    "Port number"
+		    BusOutputAsStruct	    off
+		    }
+		    Line {
+		    SrcBlock		    "Gain2"
+		    SrcPort		    1
+		    DstBlock		    "ydot"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "y"
+		    SrcPort		    1
+		    Points		    [15, 0]
+		    Branch {
+		    Points		    [0, -55]
+		    DstBlock		    "Integer Delay1"
+		    DstPort		    1
+		    }
+		    Branch {
+		    Points		    [20, 0; 0, 15]
+		    DstBlock		    "Sum5"
+		    DstPort		    2
+		    }
+		    }
+		    Line {
+		    SrcBlock		    "Integer Delay1"
+		    SrcPort		    1
+		    Points		    [20, 0]
+		    DstBlock		    "Sum5"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "Sum5"
+		    SrcPort		    1
+		    DstBlock		    "Gain2"
+		    DstPort		    1
+		    }
+		  }
+		}
+		Block {
 		  BlockType		  Gain
 		  Name			  "Gain"
 		  Position		  [80, 195, 110, 225]
@@ -14672,7 +14607,7 @@ Model {
 		  BlockType		  Product
 		  Name			  "Product1"
 		  Ports			  [2, 1]
-		  Position		  [505, 478, 560, 542]
+		  Position		  [300, 468, 355, 532]
 		  ShowName		  off
 		  Multiplication	  "Matrix(*)"
 		  CollapseMode		  "All dimensions"
@@ -14683,7 +14618,7 @@ Model {
 		Block {
 		  BlockType		  RateLimiter
 		  Name			  "Rate Limiter"
-		  Position		  [605, 495, 635, 525]
+		  Position		  [545, 510, 575, 540]
 		  RisingSlewLimit	  "accBiasRateLimit"
 		  FallingSlewLimit	  "-accBiasRateLimit"
 		  SampleTimeMode	  "inherited"
@@ -15044,7 +14979,7 @@ Model {
 		  BlockType		  Sum
 		  Name			  "Sum"
 		  Ports			  [2, 1]
-		  Position		  [380, 513, 405, 562]
+		  Position		  [490, 476, 515, 574]
 		  ShowName		  off
 		  Inputs		  "-+"
 		  CollapseMode		  "All dimensions"
@@ -15319,139 +15254,6 @@ Model {
 		  }
 		}
 		Block {
-		  BlockType		  SubSystem
-		  Name			  "myMux Fun3"
-		  Ports			  [3, 1]
-		  Position		  [305, 514, 310, 586]
-		  BackgroundColor	  "black"
-		  ShowName		  off
-		  MinAlgLoopOccurrences	  off
-		  RTWSystemCode		  "Auto"
-		  FunctionWithSeparateData off
-		  MaskHideContents	  off
-		  MaskType		  "Stateflow"
-		  MaskDescription	  "Embedded MATLAB block"
-		  MaskDisplay		  "disp('myMux3');"
-		  MaskSelfModifiable	  on
-		  MaskIconFrame		  on
-		  MaskIconOpaque	  off
-		  MaskIconRotate	  "none"
-		  MaskIconUnits		  "autoscale"
-		  System {
-		    Name		    "myMux Fun3"
-		    Location		    [257, 457, 812, 717]
-		    Open		    off
-		    ModelBrowserVisibility  off
-		    ModelBrowserWidth	    200
-		    ScreenColor		    "white"
-		    PaperOrientation	    "landscape"
-		    PaperPositionMode	    "auto"
-		    PaperType		    "usletter"
-		    PaperUnits		    "inches"
-		    TiledPaperMargins	    "[0.500000, 0.500000, 0.500000, 0."
-"500000]"
-		    TiledPageScale	    1
-		    ShowPageBoundaries	    off
-		    ZoomFactor		    "100"
-		    Block {
-		    BlockType		    Inport
-		    Name		    "u1"
-		    Position		    [20, 101, 40, 119]
-		    IconDisplay		    "Port number"
-		    }
-		    Block {
-		    BlockType		    Inport
-		    Name		    "u2"
-		    Position		    [20, 136, 40, 154]
-		    Port		    "2"
-		    IconDisplay		    "Port number"
-		    }
-		    Block {
-		    BlockType		    Inport
-		    Name		    "u3"
-		    Position		    [20, 171, 40, 189]
-		    Port		    "3"
-		    IconDisplay		    "Port number"
-		    }
-		    Block {
-		    BlockType		    Demux
-		    Name		    " Demux "
-		    Ports		    [1, 1]
-		    Position		    [270, 220, 320, 260]
-		    Outputs		    "1"
-		    }
-		    Block {
-		    BlockType		    "S-Function"
-		    Name		    " SFunction "
-		    Tag			    "Stateflow S-Function sensorMCUSlu"
-"gsMKII 41"
-		    Ports		    [3, 2]
-		    Position		    [180, 100, 230, 220]
-		    FunctionName	    "sf_sfun"
-		    PortCounts		    "[3 2]"
-		    Port {
-		    PortNumber		    2
-		    Name		    "y"
-		    RTWStorageClass	    "Auto"
-		    DataLoggingNameMode	    "SignalName"
-		    }
-		    }
-		    Block {
-		    BlockType		    Terminator
-		    Name		    " Terminator "
-		    Position		    [460, 231, 480, 249]
-		    }
-		    Block {
-		    BlockType		    Outport
-		    Name		    "y"
-		    Position		    [460, 101, 480, 119]
-		    IconDisplay		    "Port number"
-		    BusOutputAsStruct	    off
-		    }
-		    Line {
-		    SrcBlock		    " SFunction "
-		    SrcPort		    1
-		    Points		    [0, 110]
-		    DstBlock		    " Demux "
-		    DstPort		    1
-		    }
-		    Line {
-		    SrcBlock		    " Demux "
-		    SrcPort		    1
-		    DstBlock		    " Terminator "
-		    DstPort		    1
-		    }
-		    Line {
-		    SrcBlock		    "u1"
-		    SrcPort		    1
-		    Points		    [120, 0]
-		    DstBlock		    " SFunction "
-		    DstPort		    1
-		    }
-		    Line {
-		    Name		    "y"
-		    Labels		    [0, 0]
-		    SrcBlock		    " SFunction "
-		    SrcPort		    2
-		    DstBlock		    "y"
-		    DstPort		    1
-		    }
-		    Line {
-		    SrcBlock		    "u2"
-		    SrcPort		    1
-		    Points		    [120, 0]
-		    DstBlock		    " SFunction "
-		    DstPort		    2
-		    }
-		    Line {
-		    SrcBlock		    "u3"
-		    SrcPort		    1
-		    DstBlock		    " SFunction "
-		    DstPort		    3
-		    }
-		  }
-		}
-		Block {
 		  BlockType		  Outport
 		  Name			  "Vxyd_hat"
 		  Position		  [635, 323, 665, 337]
@@ -15471,55 +15273,11 @@ Model {
 		Block {
 		  BlockType		  Outport
 		  Name			  "acc_bias"
-		  Position		  [825, 503, 855, 517]
+		  Position		  [765, 518, 795, 532]
 		  BackgroundColor	  "yellow"
 		  Port			  "3"
 		  IconDisplay		  "Port number"
 		  BusOutputAsStruct	  off
-		}
-		Line {
-		  SrcBlock		  "Rate Limiter"
-		  SrcPort		  1
-		  DstBlock		  "3D Filter"
-		  DstPort		  1
-		}
-		Line {
-		  SrcBlock		  "3D Filter"
-		  SrcPort		  1
-		  DstBlock		  "acc_bias"
-		  DstPort		  1
-		}
-		Line {
-		  SrcBlock		  "Sum"
-		  SrcPort		  1
-		  Points		  [60, 0; 0, -15]
-		  DstBlock		  "Product1"
-		  DstPort		  2
-		}
-		Line {
-		  SrcBlock		  "myMux Fun3"
-		  SrcPort		  1
-		  DstBlock		  "Sum"
-		  DstPort		  2
-		}
-		Line {
-		  SrcBlock		  "1D Filter"
-		  SrcPort		  1
-		  DstBlock		  "myMux Fun3"
-		  DstPort		  3
-		}
-		Line {
-		  SrcBlock		  "Product1"
-		  SrcPort		  1
-		  DstBlock		  "Rate Limiter"
-		  DstPort		  1
-		}
-		Line {
-		  SrcBlock		  "RLT2B"
-		  SrcPort		  1
-		  Points		  [20, 0; 0, 15]
-		  DstBlock		  "Product1"
-		  DstPort		  1
 		}
 		Line {
 		  SrcBlock		  "CompRateOnly"
@@ -15557,20 +15315,12 @@ Model {
 		  SrcPort		  1
 		  Points		  [15, 0]
 		  Branch {
-		    Points		    [0, 130]
-		    Branch {
-		    Points		    [-270, 0; 0, 235]
-		    DstBlock		    "1D Filter"
+		    DstBlock		    "Gain1"
 		    DstPort		    1
-		    }
-		    Branch {
-		    Points		    [0, 60]
-		    DstBlock		    "CompRateOnly"
-		    DstPort		    1
-		    }
 		  }
 		  Branch {
-		    DstBlock		    "Gain1"
+		    Points		    [0, 190]
+		    DstBlock		    "CompRateOnly"
 		    DstPort		    1
 		  }
 		}
@@ -15619,22 +15369,14 @@ Model {
 		  SrcPort		  1
 		  Points		  [95, 0; 0, -20; 15, 0]
 		  Branch {
-		    Points		    [0, 180; 60, 0]
-		    Branch {
-		    Points		    [0, 235]
-		    DstBlock		    "myMux Fun3"
-		    DstPort		    2
-		    }
-		    Branch {
-		    Labels		    [0, 0]
-		    DstBlock		    "Subsystem"
-		    DstPort		    2
-		    }
-		  }
-		  Branch {
 		    Points		    [110, 0]
 		    DstBlock		    "CompFiltRate1"
 		    DstPort		    1
+		  }
+		  Branch {
+		    Points		    [0, 180]
+		    DstBlock		    "Subsystem"
+		    DstPort		    2
 		  }
 		}
 		Line {
@@ -15642,21 +15384,14 @@ Model {
 		  SrcPort		  1
 		  Points		  [130, 0]
 		  Branch {
-		    Points		    [20, 0; 0, -80; 40, 0]
-		    Branch {
-		    DstBlock		    "CompFiltRate"
-		    DstPort		    1
-		    }
-		    Branch {
-		    Points		    [0, 485]
-		    DstBlock		    "myMux Fun3"
-		    DstPort		    1
-		    }
-		  }
-		  Branch {
 		    Labels		    [0, 0]
 		    Points		    [0, 175]
 		    DstBlock		    "Subsystem"
+		    DstPort		    1
+		  }
+		  Branch {
+		    Points		    [20, 0; 0, -80]
+		    DstBlock		    "CompFiltRate"
 		    DstPort		    1
 		  }
 		}
@@ -15675,15 +15410,15 @@ Model {
 		Line {
 		  SrcBlock		  "myMux Fun2"
 		  SrcPort		  1
-		  Points		  [25, 0]
+		  Points		  [20, 0]
 		  Branch {
 		    DstBlock		    "Vxyd_hat"
 		    DstPort		    1
 		  }
 		  Branch {
-		    Points		    [0, 130; -240, 0]
-		    DstBlock		    "Sum"
-		    DstPort		    1
+		    Points		    [0, 115; -385, 0; 0, 70]
+		    DstBlock		    "Product1"
+		    DstPort		    2
 		  }
 		}
 		Line {
@@ -15713,6 +15448,48 @@ Model {
 		  Points		  [-40, 0; 0, -40]
 		  DstBlock		  "2 FIlter Blend"
 		  DstPort		  3
+		}
+		Line {
+		  SrcBlock		  "Rate Limiter"
+		  SrcPort		  1
+		  DstBlock		  "3D Filter"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "3D Filter"
+		  SrcPort		  1
+		  DstBlock		  "acc_bias"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Sum"
+		  SrcPort		  1
+		  DstBlock		  "Rate Limiter"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Product1"
+		  SrcPort		  1
+		  DstBlock		  "Deriv "
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Deriv "
+		  SrcPort		  1
+		  DstBlock		  "Sum"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "A_sens(m/s^2)"
+		  SrcPort		  1
+		  DstBlock		  "Sum"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "RLT2B"
+		  SrcPort		  1
+		  DstBlock		  "Product1"
+		  DstPort		  1
 		}
 	      }
 	    }
@@ -15802,6 +15579,12 @@ Model {
 	      DstBlock		      "BlendPosVel"
 	      DstPort		      7
 	    }
+	    Line {
+	      SrcBlock		      "A_sens(m/s^2)"
+	      SrcPort		      1
+	      DstBlock		      "BlendPosVel"
+	      DstPort		      8
+	    }
 	  }
 	}
 	Block {
@@ -15883,13 +15666,14 @@ Model {
 	Line {
 	  SrcBlock		  "Position Filter"
 	  SrcPort		  2
+	  Points		  [0, -5]
 	  DstBlock		  "Pxyz_hat\n(m)"
 	  DstPort		  1
 	}
 	Line {
 	  SrcBlock		  "Position Filter"
 	  SrcPort		  3
-	  Points		  [40, 0; 0, -5]
+	  Points		  [40, 0; 0, -15]
 	  Branch {
 	    Points		    [0, 5]
 	    DstBlock		    "Accel Bias\n(m/s)"
@@ -15986,6 +15770,7 @@ Model {
 	Line {
 	  SrcBlock		  "[1 1 -1]"
 	  SrcPort		  1
+	  Points		  [70, 0]
 	  DstBlock		  "Position Filter"
 	  DstPort		  4
 	}
@@ -15998,20 +15783,21 @@ Model {
 	Line {
 	  SrcBlock		  "Baro Alt (m)"
 	  SrcPort		  1
+	  Points		  [45, 0]
 	  DstBlock		  "Position Filter"
 	  DstPort		  2
 	}
 	Line {
 	  SrcBlock		  "COG.SOG2V"
 	  SrcPort		  1
-	  Points		  [20, 0]
+	  Points		  [15, 0; 0, -30]
 	  DstBlock		  "Position Filter"
 	  DstPort		  5
 	}
 	Line {
 	  SrcBlock		  "COG.SOG2V"
 	  SrcPort		  2
-	  Points		  [20, 0]
+	  Points		  [20, 0; 0, -20]
 	  DstBlock		  "Position Filter"
 	  DstPort		  6
 	}
@@ -16037,6 +15823,7 @@ Model {
 	Line {
 	  SrcBlock		  "From1"
 	  SrcPort		  1
+	  Points		  [35, 0]
 	  DstBlock		  "Position Filter"
 	  DstPort		  3
 	}
@@ -16098,10 +15885,17 @@ Model {
 	    DstPort		    2
 	  }
 	  Branch {
-	    Points		    [0, 75; 150, 0]
+	    Points		    [0, 75; 150, 0; 0, -80]
 	    DstBlock		    "Position Filter"
 	    DstPort		    7
 	  }
+	}
+	Line {
+	  SrcBlock		  "A_sens(m/s^2) "
+	  SrcPort		  1
+	  Points		  [25, 0; 0, -70]
+	  DstBlock		  "Position Filter"
+	  DstPort		  8
 	}
       }
     }
@@ -16750,7 +16544,7 @@ Model {
       MaskHideContents	      off
       System {
 	Name			"Sensor Data"
-	Location		[2, 78, 1244, 1004]
+	Location		[125, 88, 1155, 952]
 	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -16959,7 +16753,7 @@ Model {
 	  System {
 	    Name		    "Sensor Suite"
 	    Location		    [125, 88, 1155, 935]
-	    Open		    on
+	    Open		    off
 	    ModelBrowserVisibility  off
 	    ModelBrowserWidth	    200
 	    ScreenColor		    "white"
@@ -33774,7 +33568,7 @@ Stateflow {
 		name                 		"sensorMCUSlugsMKII"
 		created              		"31-Aug-2008 19:55:28"
 		isLibrary            		0
-		firstTarget          		596
+		firstTarget          		587
 		sfVersion            		66014000
 	}
 
@@ -35968,8 +35762,6 @@ Stateflow {
 		firstJunction                             		112
 		viewObj                                   		110
 		machine                                   		1
-		subviewS {
-		}
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		114
@@ -36481,8 +36273,6 @@ Stateflow {
 		firstJunction                             		137
 		viewObj                                   		135
 		machine                                   		1
-		subviewS {
-		}
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		139
@@ -36670,15 +36460,17 @@ Stateflow {
 		id                                        		144
 		name                                      		"Position and Attitude Filter/Position Filter/BlendPosVel/3D Filte"
 					"r/myMux Fun1"
-		windowPosition                            		[491.813 161.94 200.25 189.75]
+		windowPosition                            		[443.461 236.104 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
-		screen                                    		[1 1 1920 1200 1.333333333333333]
+		screen                                    		[1 1 1680 1050 1.333333333333333]
 		treeNode                                  		[0 145 0 0]
 		firstTransition                           		147
 		firstJunction                             		146
 		viewObj                                   		144
 		machine                                   		1
 		toolbarMode                               		LIBRARY_TOOLBAR
+		subviewS {
+		}
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		148
@@ -36756,15 +36548,10 @@ Stateflow {
 			}
 			type {
 				method    		SF_INHERITED_TYPE
+				primitive 		SF_DOUBLE_TYPE
 			}
-			complexity           		SF_COMPLEX_INHERITED
 		}
-		dataType                      		"inherited"
-		fixptType {
-			slope   		1
-			baseType		SF_INT16_TYPE
-		}
-		complexity                    		SF_COMPLEX_INHERITED
+		dataType                      		"Inherit: Same as Simulink"
 	}
 
 	data {
@@ -36779,16 +36566,11 @@ Stateflow {
 			}
 			type {
 				method    		SF_INHERITED_TYPE
+				primitive 		SF_DOUBLE_TYPE
 			}
-			complexity           		SF_COMPLEX_INHERITED
 			frame                		SF_FRAME_NO
 		}
-		dataType                      		"inherited"
-		fixptType {
-			slope   		1
-			baseType		SF_INT16_TYPE
-		}
-		complexity                    		SF_COMPLEX_INHERITED
+		dataType                      		"Inherit: Same as Simulink"
 	}
 
 	data {
@@ -36807,11 +36589,9 @@ Stateflow {
 				isSigned  		1
 				wordLength		"16"
 			}
-			complexity           		SF_COMPLEX_INHERITED
 			frame                		SF_FRAME_INHERITED
 		}
-		dataType                      		"inherited"
-		complexity                    		SF_COMPLEX_INHERITED
+		dataType                      		"Inherit: Same as Simulink"
 	}
 
 	data {
@@ -36830,11 +36610,9 @@ Stateflow {
 				isSigned  		1
 				wordLength		"16"
 			}
-			complexity           		SF_COMPLEX_INHERITED
 			frame                		SF_FRAME_INHERITED
 		}
-		dataType                      		"inherited"
-		complexity                    		SF_COMPLEX_INHERITED
+		dataType                      		"Inherit: Same as Simulink"
 	}
 
 	instance {
@@ -37920,8 +37698,6 @@ Stateflow {
 		firstJunction                             		205
 		viewObj                                   		203
 		machine                                   		1
-		subviewS {
-		}
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		207
@@ -38315,8 +38091,6 @@ Stateflow {
 		firstJunction                             		223
 		viewObj                                   		221
 		machine                                   		1
-		subviewS {
-		}
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		225
@@ -39086,8 +38860,6 @@ Stateflow {
 		firstJunction                             		261
 		viewObj                                   		259
 		machine                                   		1
-		subviewS {
-		}
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		263
@@ -39284,8 +39056,6 @@ Stateflow {
 		firstJunction                             		270
 		viewObj                                   		268
 		machine                                   		1
-		subviewS {
-		}
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		272
@@ -41129,11 +40899,12 @@ Stateflow {
 
 	chart {
 		id                                        		359
-		name                                      		"Position and Attitude Filter/Position Filter/BlendPosVel/myMux Fu"
-					"n3"
-		windowPosition                            		[431.813 254.768 200.25 189.75]
+		name                                      		"Sensor Data/Sensor Suite/Low Pass Filtering,Temperature\n"
+					"Compensation and Calibration/3D Tustin Lowpass, Auto Initial Cond"
+					"ition/myMux Fun"
+		windowPosition                            		[287.343 210.458 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
-		screen                                    		[1 1 1920 1200 1.333333333333333]
+		screen                                    		[1 1 1280 1024 1.333333333333333]
 		treeNode                                  		[0 360 0 0]
 		firstTransition                           		362
 		firstJunction                             		361
@@ -41142,11 +40913,10 @@ Stateflow {
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		363
-		chartFileNumber                           		41
+		chartFileNumber                           		42
 		disableImplicitCasting                    		1
 		eml {
 			name       		"myMux3"
-			noDebugging		1
 		}
 	}
 
@@ -41169,7 +40939,7 @@ Stateflow {
 						"% See the help menu for details. \n"
 						"\n"
 						"y = [u1(1); u2(1); u3(1)];"
-			editorLayout             		"100 M4x1[222 263 720 640]"
+			editorLayout             		"100 M4x1[677 261 671 364]"
 			treatIntsAsFixpt         		0
 		}
 	}
@@ -41299,18 +41069,19 @@ Stateflow {
 
 	instance {
 		id     		367
-		name   		"Position and Attitude Filter/Position Filter/BlendPosVel/myMux Fu"
-					"n3"
+		name   		"Sensor Data/Sensor Suite/Low Pass Filtering,Temperature\n"
+					"Compensation and Calibration/3D Tustin Lowpass, Auto Initial Cond"
+					"ition/myMux Fun"
 		machine		1
 		chart  		359
 	}
 
 	chart {
 		id                                        		368
-		name                                      		"Sensor Data/Sensor Suite/Low Pass Filtering,Temperature\n"
-					"Compensation and Calibration/3D Tustin Lowpass, Auto Initial Cond"
-					"ition/myMux Fun"
-		windowPosition                            		[287.343 210.458 200.25 189.75]
+		name                                      		"Sensor Data/Sensor Suite/ADIS16405\n"
+					"Signal Cond /3D Tustin Lowpass, Auto Initial Condition/Embedded\n"
+					"MATLAB Function"
+		windowPosition                            		[403.241 186.978 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
 		treeNode                                  		[0 369 0 0]
@@ -41321,10 +41092,10 @@ Stateflow {
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		372
-		chartFileNumber                           		42
+		chartFileNumber                           		43
 		disableImplicitCasting                    		1
 		eml {
-			name       		"myMux3"
+			name       		"fcn"
 		}
 	}
 
@@ -41341,13 +41112,30 @@ Stateflow {
 		decomposition                		CLUSTER_STATE
 		eml {
 			isEML                    		1
-			script                   		"function y = myMux3(u1, u2, u3)\n"
+			script                   		"function y = fcn(u,T,f)\n"
 						"% This block supports an embeddable subset of the MATLAB la"
 						"nguage.\n"
 						"% See the help menu for details. \n"
 						"\n"
-						"y = [u1(1); u2(1); u3(1)];"
-			editorLayout             		"100 M4x1[677 261 671 364]"
+						"persistent a\n"
+						"persistent b\n"
+						"persistent y_km1\n"
+						"persistent u_km1\n"
+						"if isempty(a)\n"
+						"    %tf = [T*omega/(2+T*omega) T*omega/(2+T*omega)],[1 (T*o"
+						"mega-2)/(T*omega+2)]\n"
+						"    %tf = [a a],[1 -b]\n"
+						"    omega = 2*pi*f;\n"
+						"    a=T*omega/(2+T*omega);\n"
+						"    b=-(T*omega-2)/(T*omega+2);\n"
+						"    y_km1=u;\n"
+						"    u_km1=u;\n"
+						"end\n"
+						"\n"
+						"y = a*(u+u_km1)+b*y_km1;\n"
+						"y_km1=y;\n"
+						"u_km1=u;"
+			editorLayout             		"100 M4x1[197 111 945 637]"
 			treatIntsAsFixpt         		0
 		}
 	}
@@ -41384,7 +41172,7 @@ Stateflow {
 
 	data {
 		id                            		372
-		name                          		"u1"
+		name                          		"u"
 		linkNode                      		[368 0 373]
 		scope                         		INPUT_DATA
 		machine                       		1
@@ -41431,7 +41219,7 @@ Stateflow {
 
 	data {
 		id                            		374
-		name                          		"u2"
+		name                          		"T"
 		linkNode                      		[368 373 375]
 		scope                         		INPUT_DATA
 		machine                       		1
@@ -41454,7 +41242,7 @@ Stateflow {
 
 	data {
 		id                            		375
-		name                          		"u3"
+		name                          		"f"
 		linkNode                      		[368 374 0]
 		scope                         		INPUT_DATA
 		machine                       		1
@@ -41477,9 +41265,9 @@ Stateflow {
 
 	instance {
 		id     		376
-		name   		"Sensor Data/Sensor Suite/Low Pass Filtering,Temperature\n"
-					"Compensation and Calibration/3D Tustin Lowpass, Auto Initial Cond"
-					"ition/myMux Fun"
+		name   		"Sensor Data/Sensor Suite/ADIS16405\n"
+					"Signal Cond /3D Tustin Lowpass, Auto Initial Condition/Embedded\n"
+					"MATLAB Function"
 		machine		1
 		chart  		368
 	}
@@ -41488,8 +41276,8 @@ Stateflow {
 		id                                        		377
 		name                                      		"Sensor Data/Sensor Suite/ADIS16405\n"
 					"Signal Cond /3D Tustin Lowpass, Auto Initial Condition/Embedded\n"
-					"MATLAB Function"
-		windowPosition                            		[403.241 186.978 200.25 189.75]
+					"MATLAB Function1"
+		windowPosition                            		[414.67 172.349 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
 		treeNode                                  		[0 378 0 0]
@@ -41500,7 +41288,7 @@ Stateflow {
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		381
-		chartFileNumber                           		43
+		chartFileNumber                           		44
 		disableImplicitCasting                    		1
 		eml {
 			name       		"fcn"
@@ -41675,7 +41463,7 @@ Stateflow {
 		id     		385
 		name   		"Sensor Data/Sensor Suite/ADIS16405\n"
 					"Signal Cond /3D Tustin Lowpass, Auto Initial Condition/Embedded\n"
-					"MATLAB Function"
+					"MATLAB Function1"
 		machine		1
 		chart  		377
 	}
@@ -41684,8 +41472,8 @@ Stateflow {
 		id                                        		386
 		name                                      		"Sensor Data/Sensor Suite/ADIS16405\n"
 					"Signal Cond /3D Tustin Lowpass, Auto Initial Condition/Embedded\n"
-					"MATLAB Function1"
-		windowPosition                            		[414.67 172.349 200.25 189.75]
+					"MATLAB Function2"
+		windowPosition                            		[426.098 157.721 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
 		treeNode                                  		[0 387 0 0]
@@ -41696,7 +41484,7 @@ Stateflow {
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		390
-		chartFileNumber                           		44
+		chartFileNumber                           		45
 		disableImplicitCasting                    		1
 		eml {
 			name       		"fcn"
@@ -41871,7 +41659,7 @@ Stateflow {
 		id     		394
 		name   		"Sensor Data/Sensor Suite/ADIS16405\n"
 					"Signal Cond /3D Tustin Lowpass, Auto Initial Condition/Embedded\n"
-					"MATLAB Function1"
+					"MATLAB Function2"
 		machine		1
 		chart  		386
 	}
@@ -41879,9 +41667,8 @@ Stateflow {
 	chart {
 		id                                        		395
 		name                                      		"Sensor Data/Sensor Suite/ADIS16405\n"
-					"Signal Cond /3D Tustin Lowpass, Auto Initial Condition/Embedded\n"
-					"MATLAB Function2"
-		windowPosition                            		[426.098 157.721 200.25 189.75]
+					"Signal Cond /3D Tustin Lowpass, Auto Initial Condition/myMux Fun"
+		windowPosition                            		[302.343 195.458 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
 		treeNode                                  		[0 396 0 0]
@@ -41892,10 +41679,10 @@ Stateflow {
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		399
-		chartFileNumber                           		45
+		chartFileNumber                           		46
 		disableImplicitCasting                    		1
 		eml {
-			name       		"fcn"
+			name       		"myMux3"
 		}
 	}
 
@@ -41912,30 +41699,13 @@ Stateflow {
 		decomposition                		CLUSTER_STATE
 		eml {
 			isEML                    		1
-			script                   		"function y = fcn(u,T,f)\n"
+			script                   		"function y = myMux3(u1, u2, u3)\n"
 						"% This block supports an embeddable subset of the MATLAB la"
 						"nguage.\n"
 						"% See the help menu for details. \n"
 						"\n"
-						"persistent a\n"
-						"persistent b\n"
-						"persistent y_km1\n"
-						"persistent u_km1\n"
-						"if isempty(a)\n"
-						"    %tf = [T*omega/(2+T*omega) T*omega/(2+T*omega)],[1 (T*o"
-						"mega-2)/(T*omega+2)]\n"
-						"    %tf = [a a],[1 -b]\n"
-						"    omega = 2*pi*f;\n"
-						"    a=T*omega/(2+T*omega);\n"
-						"    b=-(T*omega-2)/(T*omega+2);\n"
-						"    y_km1=u;\n"
-						"    u_km1=u;\n"
-						"end\n"
-						"\n"
-						"y = a*(u+u_km1)+b*y_km1;\n"
-						"y_km1=y;\n"
-						"u_km1=u;"
-			editorLayout             		"100 M4x1[197 111 945 637]"
+						"y = [u1(1); u2(1); u3(1)];"
+			editorLayout             		"100 M4x1[677 261 671 364]"
 			treatIntsAsFixpt         		0
 		}
 	}
@@ -41972,7 +41742,7 @@ Stateflow {
 
 	data {
 		id                            		399
-		name                          		"u"
+		name                          		"u1"
 		linkNode                      		[395 0 400]
 		scope                         		INPUT_DATA
 		machine                       		1
@@ -42019,7 +41789,7 @@ Stateflow {
 
 	data {
 		id                            		401
-		name                          		"T"
+		name                          		"u2"
 		linkNode                      		[395 400 402]
 		scope                         		INPUT_DATA
 		machine                       		1
@@ -42042,7 +41812,7 @@ Stateflow {
 
 	data {
 		id                            		402
-		name                          		"f"
+		name                          		"u3"
 		linkNode                      		[395 401 0]
 		scope                         		INPUT_DATA
 		machine                       		1
@@ -42066,8 +41836,7 @@ Stateflow {
 	instance {
 		id     		403
 		name   		"Sensor Data/Sensor Suite/ADIS16405\n"
-					"Signal Cond /3D Tustin Lowpass, Auto Initial Condition/Embedded\n"
-					"MATLAB Function2"
+					"Signal Cond /3D Tustin Lowpass, Auto Initial Condition/myMux Fun"
 		machine		1
 		chart  		395
 	}
@@ -42075,8 +41844,9 @@ Stateflow {
 	chart {
 		id                                        		404
 		name                                      		"Sensor Data/Sensor Suite/ADIS16405\n"
-					"Signal Cond /3D Tustin Lowpass, Auto Initial Condition/myMux Fun"
-		windowPosition                            		[302.343 195.458 200.25 189.75]
+					"Signal Cond /3D Tustin Lowpass, Auto Initial Condition1/Embedded\n"
+					"MATLAB Function"
+		windowPosition                            		[403.241 186.978 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
 		treeNode                                  		[0 405 0 0]
@@ -42087,10 +41857,10 @@ Stateflow {
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		408
-		chartFileNumber                           		46
+		chartFileNumber                           		47
 		disableImplicitCasting                    		1
 		eml {
-			name       		"myMux3"
+			name       		"fcn"
 		}
 	}
 
@@ -42107,13 +41877,30 @@ Stateflow {
 		decomposition                		CLUSTER_STATE
 		eml {
 			isEML                    		1
-			script                   		"function y = myMux3(u1, u2, u3)\n"
+			script                   		"function y = fcn(u,T,f)\n"
 						"% This block supports an embeddable subset of the MATLAB la"
 						"nguage.\n"
 						"% See the help menu for details. \n"
 						"\n"
-						"y = [u1(1); u2(1); u3(1)];"
-			editorLayout             		"100 M4x1[677 261 671 364]"
+						"persistent a\n"
+						"persistent b\n"
+						"persistent y_km1\n"
+						"persistent u_km1\n"
+						"if isempty(a)\n"
+						"    %tf = [T*omega/(2+T*omega) T*omega/(2+T*omega)],[1 (T*o"
+						"mega-2)/(T*omega+2)]\n"
+						"    %tf = [a a],[1 -b]\n"
+						"    omega = 2*pi*f;\n"
+						"    a=T*omega/(2+T*omega);\n"
+						"    b=-(T*omega-2)/(T*omega+2);\n"
+						"    y_km1=u;\n"
+						"    u_km1=u;\n"
+						"end\n"
+						"\n"
+						"y = a*(u+u_km1)+b*y_km1;\n"
+						"y_km1=y;\n"
+						"u_km1=u;"
+			editorLayout             		"100 M4x1[197 111 945 637]"
 			treatIntsAsFixpt         		0
 		}
 	}
@@ -42150,7 +41937,7 @@ Stateflow {
 
 	data {
 		id                            		408
-		name                          		"u1"
+		name                          		"u"
 		linkNode                      		[404 0 409]
 		scope                         		INPUT_DATA
 		machine                       		1
@@ -42197,7 +41984,7 @@ Stateflow {
 
 	data {
 		id                            		410
-		name                          		"u2"
+		name                          		"T"
 		linkNode                      		[404 409 411]
 		scope                         		INPUT_DATA
 		machine                       		1
@@ -42220,7 +42007,7 @@ Stateflow {
 
 	data {
 		id                            		411
-		name                          		"u3"
+		name                          		"f"
 		linkNode                      		[404 410 0]
 		scope                         		INPUT_DATA
 		machine                       		1
@@ -42244,7 +42031,8 @@ Stateflow {
 	instance {
 		id     		412
 		name   		"Sensor Data/Sensor Suite/ADIS16405\n"
-					"Signal Cond /3D Tustin Lowpass, Auto Initial Condition/myMux Fun"
+					"Signal Cond /3D Tustin Lowpass, Auto Initial Condition1/Embedded\n"
+					"MATLAB Function"
 		machine		1
 		chart  		404
 	}
@@ -42253,8 +42041,8 @@ Stateflow {
 		id                                        		413
 		name                                      		"Sensor Data/Sensor Suite/ADIS16405\n"
 					"Signal Cond /3D Tustin Lowpass, Auto Initial Condition1/Embedded\n"
-					"MATLAB Function"
-		windowPosition                            		[403.241 186.978 200.25 189.75]
+					"MATLAB Function1"
+		windowPosition                            		[414.67 172.349 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
 		treeNode                                  		[0 414 0 0]
@@ -42265,7 +42053,7 @@ Stateflow {
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		417
-		chartFileNumber                           		47
+		chartFileNumber                           		48
 		disableImplicitCasting                    		1
 		eml {
 			name       		"fcn"
@@ -42440,7 +42228,7 @@ Stateflow {
 		id     		421
 		name   		"Sensor Data/Sensor Suite/ADIS16405\n"
 					"Signal Cond /3D Tustin Lowpass, Auto Initial Condition1/Embedded\n"
-					"MATLAB Function"
+					"MATLAB Function1"
 		machine		1
 		chart  		413
 	}
@@ -42449,8 +42237,8 @@ Stateflow {
 		id                                        		422
 		name                                      		"Sensor Data/Sensor Suite/ADIS16405\n"
 					"Signal Cond /3D Tustin Lowpass, Auto Initial Condition1/Embedded\n"
-					"MATLAB Function1"
-		windowPosition                            		[414.67 172.349 200.25 189.75]
+					"MATLAB Function2"
+		windowPosition                            		[426.098 157.721 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
 		treeNode                                  		[0 423 0 0]
@@ -42461,7 +42249,7 @@ Stateflow {
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		426
-		chartFileNumber                           		48
+		chartFileNumber                           		49
 		disableImplicitCasting                    		1
 		eml {
 			name       		"fcn"
@@ -42636,7 +42424,7 @@ Stateflow {
 		id     		430
 		name   		"Sensor Data/Sensor Suite/ADIS16405\n"
 					"Signal Cond /3D Tustin Lowpass, Auto Initial Condition1/Embedded\n"
-					"MATLAB Function1"
+					"MATLAB Function2"
 		machine		1
 		chart  		422
 	}
@@ -42644,9 +42432,8 @@ Stateflow {
 	chart {
 		id                                        		431
 		name                                      		"Sensor Data/Sensor Suite/ADIS16405\n"
-					"Signal Cond /3D Tustin Lowpass, Auto Initial Condition1/Embedded\n"
-					"MATLAB Function2"
-		windowPosition                            		[426.098 157.721 200.25 189.75]
+					"Signal Cond /3D Tustin Lowpass, Auto Initial Condition1/myMux Fun"
+		windowPosition                            		[302.343 195.458 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
 		treeNode                                  		[0 432 0 0]
@@ -42657,10 +42444,10 @@ Stateflow {
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		435
-		chartFileNumber                           		49
+		chartFileNumber                           		50
 		disableImplicitCasting                    		1
 		eml {
-			name       		"fcn"
+			name       		"myMux3"
 		}
 	}
 
@@ -42677,30 +42464,13 @@ Stateflow {
 		decomposition                		CLUSTER_STATE
 		eml {
 			isEML                    		1
-			script                   		"function y = fcn(u,T,f)\n"
+			script                   		"function y = myMux3(u1, u2, u3)\n"
 						"% This block supports an embeddable subset of the MATLAB la"
 						"nguage.\n"
 						"% See the help menu for details. \n"
 						"\n"
-						"persistent a\n"
-						"persistent b\n"
-						"persistent y_km1\n"
-						"persistent u_km1\n"
-						"if isempty(a)\n"
-						"    %tf = [T*omega/(2+T*omega) T*omega/(2+T*omega)],[1 (T*o"
-						"mega-2)/(T*omega+2)]\n"
-						"    %tf = [a a],[1 -b]\n"
-						"    omega = 2*pi*f;\n"
-						"    a=T*omega/(2+T*omega);\n"
-						"    b=-(T*omega-2)/(T*omega+2);\n"
-						"    y_km1=u;\n"
-						"    u_km1=u;\n"
-						"end\n"
-						"\n"
-						"y = a*(u+u_km1)+b*y_km1;\n"
-						"y_km1=y;\n"
-						"u_km1=u;"
-			editorLayout             		"100 M4x1[197 111 945 637]"
+						"y = [u1(1); u2(1); u3(1)];"
+			editorLayout             		"100 M4x1[677 261 671 364]"
 			treatIntsAsFixpt         		0
 		}
 	}
@@ -42737,7 +42507,7 @@ Stateflow {
 
 	data {
 		id                            		435
-		name                          		"u"
+		name                          		"u1"
 		linkNode                      		[431 0 436]
 		scope                         		INPUT_DATA
 		machine                       		1
@@ -42784,7 +42554,7 @@ Stateflow {
 
 	data {
 		id                            		437
-		name                          		"T"
+		name                          		"u2"
 		linkNode                      		[431 436 438]
 		scope                         		INPUT_DATA
 		machine                       		1
@@ -42807,7 +42577,7 @@ Stateflow {
 
 	data {
 		id                            		438
-		name                          		"f"
+		name                          		"u3"
 		linkNode                      		[431 437 0]
 		scope                         		INPUT_DATA
 		machine                       		1
@@ -42831,17 +42601,18 @@ Stateflow {
 	instance {
 		id     		439
 		name   		"Sensor Data/Sensor Suite/ADIS16405\n"
-					"Signal Cond /3D Tustin Lowpass, Auto Initial Condition1/Embedded\n"
-					"MATLAB Function2"
+					"Signal Cond /3D Tustin Lowpass, Auto Initial Condition1/myMux Fun"
 		machine		1
 		chart  		431
 	}
 
 	chart {
 		id                                        		440
-		name                                      		"Sensor Data/Sensor Suite/ADIS16405\n"
-					"Signal Cond /3D Tustin Lowpass, Auto Initial Condition1/myMux Fun"
-		windowPosition                            		[302.343 195.458 200.25 189.75]
+		name                                      		"Sensor Data/Sensor Suite/Low Pass Filtering,Temperature\n"
+					"Compensation and Calibration/Baro Altimeter/Enables/Disables\n"
+					"the Computation of \n"
+					"initial Baro Bias"
+		windowPosition                            		[360.45 195 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
 		treeNode                                  		[0 441 0 0]
@@ -42852,10 +42623,10 @@ Stateflow {
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		444
-		chartFileNumber                           		50
+		chartFileNumber                           		54
 		disableImplicitCasting                    		1
 		eml {
-			name       		"myMux3"
+			name       		"getTIni"
 		}
 	}
 
@@ -42868,185 +42639,6 @@ Stateflow {
 		treeNode                     		[440 0 0 0]
 		superState                   		SUBCHART
 		subviewer                    		440
-		type                         		FUNC_STATE
-		decomposition                		CLUSTER_STATE
-		eml {
-			isEML                    		1
-			script                   		"function y = myMux3(u1, u2, u3)\n"
-						"% This block supports an embeddable subset of the MATLAB la"
-						"nguage.\n"
-						"% See the help menu for details. \n"
-						"\n"
-						"y = [u1(1); u2(1); u3(1)];"
-			editorLayout             		"100 M4x1[677 261 671 364]"
-			treatIntsAsFixpt         		0
-		}
-	}
-
-	junction {
-		id         		442
-		position   		[23.5747 49.5747 7]
-		chart      		440
-		linkNode   		[440 0 0]
-		subviewer  		440
-		type       		CONNECTIVE_JUNCTION
-	}
-
-	transition {
-		id             		443
-		labelString    		"{eML_blk_kernel();}"
-		labelPosition  		[32.125 19.875 102.544 14.964]
-		fontSize       		12
-		src {
-			intersection		[0 0 1 0 23.5747 14.625 0 0]
-		}
-		dst {
-			id          		442
-			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
-		}
-		midPoint       		[23.5747 24.9468]
-		chart          		440
-		linkNode       		[440 0 0]
-		dataLimits     		[23.575 23.575 14.625 34.575]
-		subviewer      		440
-		drawStyle      		SMART
-		executionOrder 		1
-	}
-
-	data {
-		id                            		444
-		name                          		"u1"
-		linkNode                      		[440 0 445]
-		scope                         		INPUT_DATA
-		machine                       		1
-		props {
-			array {
-				size      		"-1"
-			}
-			type {
-				method    		SF_INHERITED_TYPE
-			}
-			complexity           		SF_COMPLEX_INHERITED
-		}
-		dataType                      		"inherited"
-		fixptType {
-			slope   		1
-			baseType		SF_INT16_TYPE
-		}
-		complexity                    		SF_COMPLEX_INHERITED
-	}
-
-	data {
-		id                            		445
-		name                          		"y"
-		linkNode                      		[440 444 446]
-		scope                         		OUTPUT_DATA
-		machine                       		1
-		props {
-			array {
-				size      		"-1"
-			}
-			type {
-				method    		SF_INHERITED_TYPE
-			}
-			complexity           		SF_COMPLEX_INHERITED
-			frame                		SF_FRAME_NO
-		}
-		dataType                      		"inherited"
-		fixptType {
-			slope   		1
-			baseType		SF_INT16_TYPE
-		}
-		complexity                    		SF_COMPLEX_INHERITED
-	}
-
-	data {
-		id                            		446
-		name                          		"u2"
-		linkNode                      		[440 445 447]
-		scope                         		INPUT_DATA
-		machine                       		1
-		props {
-			array {
-				size      		"-1"
-			}
-			type {
-				method    		SF_INHERITED_TYPE
-				primitive 		SF_DOUBLE_TYPE
-				isSigned  		1
-				wordLength		"16"
-			}
-			complexity           		SF_COMPLEX_INHERITED
-			frame                		SF_FRAME_INHERITED
-		}
-		dataType                      		"inherited"
-		complexity                    		SF_COMPLEX_INHERITED
-	}
-
-	data {
-		id                            		447
-		name                          		"u3"
-		linkNode                      		[440 446 0]
-		scope                         		INPUT_DATA
-		machine                       		1
-		props {
-			array {
-				size      		"-1"
-			}
-			type {
-				method    		SF_INHERITED_TYPE
-				primitive 		SF_DOUBLE_TYPE
-				isSigned  		1
-				wordLength		"16"
-			}
-			complexity           		SF_COMPLEX_INHERITED
-			frame                		SF_FRAME_INHERITED
-		}
-		dataType                      		"inherited"
-		complexity                    		SF_COMPLEX_INHERITED
-	}
-
-	instance {
-		id     		448
-		name   		"Sensor Data/Sensor Suite/ADIS16405\n"
-					"Signal Cond /3D Tustin Lowpass, Auto Initial Condition1/myMux Fun"
-		machine		1
-		chart  		440
-	}
-
-	chart {
-		id                                        		449
-		name                                      		"Sensor Data/Sensor Suite/Low Pass Filtering,Temperature\n"
-					"Compensation and Calibration/Baro Altimeter/Enables/Disables\n"
-					"the Computation of \n"
-					"initial Baro Bias"
-		windowPosition                            		[360.45 195 200.25 189.75]
-		viewLimits                                		[0 156.75 0 153.75]
-		screen                                    		[1 1 1280 1024 1.333333333333333]
-		treeNode                                  		[0 450 0 0]
-		firstTransition                           		452
-		firstJunction                             		451
-		viewObj                                   		449
-		machine                                   		1
-		decomposition                             		CLUSTER_CHART
-		type                                      		EML_CHART
-		firstData                                 		453
-		chartFileNumber                           		54
-		disableImplicitCasting                    		1
-		eml {
-			name       		"getTIni"
-		}
-	}
-
-	state {
-		id                           		450
-		labelString                  		"eML_blk_kernel()"
-		position                     		[18 64.5 118 66]
-		fontSize                     		12
-		chart                        		449
-		treeNode                     		[449 0 0 0]
-		superState                   		SUBCHART
-		subviewer                    		449
 		type                         		FUNC_STATE
 		decomposition                		CLUSTER_STATE
 		eml {
@@ -43101,16 +42693,16 @@ Stateflow {
 	}
 
 	junction {
-		id         		451
+		id         		442
 		position   		[23.5747 49.5747 7]
-		chart      		449
-		linkNode   		[449 0 0]
-		subviewer  		449
+		chart      		440
+		linkNode   		[440 0 0]
+		subviewer  		440
 		type       		CONNECTIVE_JUNCTION
 	}
 
 	transition {
-		id             		452
+		id             		443
 		labelString    		"{eML_blk_kernel();}"
 		labelPosition  		[32.125 19.875 102.544 14.964]
 		fontSize       		12
@@ -43118,22 +42710,22 @@ Stateflow {
 			intersection		[0 0 1 0 23.5747 14.625 0 0]
 		}
 		dst {
-			id          		451
+			id          		442
 			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
 		}
 		midPoint       		[23.5747 24.9468]
-		chart          		449
-		linkNode       		[449 0 0]
+		chart          		440
+		linkNode       		[440 0 0]
 		dataLimits     		[23.575 23.575 14.625 34.575]
-		subviewer      		449
+		subviewer      		440
 		drawStyle      		SMART
 		executionOrder 		1
 	}
 
 	data {
-		id                            		453
+		id                            		444
 		name                          		"tOut"
-		linkNode                      		[449 0 0]
+		linkNode                      		[440 0 0]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -43155,20 +42747,200 @@ Stateflow {
 	}
 
 	instance {
-		id     		454
+		id     		445
 		name   		"Sensor Data/Sensor Suite/Low Pass Filtering,Temperature\n"
 					"Compensation and Calibration/Baro Altimeter/Enables//Disables\n"
 					"the Computation of \n"
 					"initial Baro Bias"
 		machine		1
-		chart  		449
+		chart  		440
+	}
+
+	chart {
+		id                                        		446
+		name                                      		"Sensor Data/Sensor Suite/Low Pass Filtering,Temperature\n"
+					"Compensation and Calibration/Ellipse Correction/myMux Fun3"
+		windowPosition                            		[431.813 132.216 200.25 189.75]
+		viewLimits                                		[0 156.75 0 153.75]
+		screen                                    		[1 1 1280 1024 1.333333333333333]
+		treeNode                                  		[0 447 0 0]
+		firstTransition                           		449
+		firstJunction                             		448
+		viewObj                                   		446
+		machine                                   		1
+		decomposition                             		CLUSTER_CHART
+		type                                      		EML_CHART
+		firstData                                 		450
+		chartFileNumber                           		55
+		disableImplicitCasting                    		1
+		eml {
+			name       		"myMux"
+			noDebugging		1
+		}
+	}
+
+	state {
+		id                           		447
+		labelString                  		"eML_blk_kernel()"
+		position                     		[18 64.5 118 66]
+		fontSize                     		12
+		chart                        		446
+		treeNode                     		[446 0 0 0]
+		superState                   		SUBCHART
+		subviewer                    		446
+		type                         		FUNC_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			isEML                    		1
+			script                   		"function y = myMux(u1, u2, u3)\n"
+						"% This block supports an embeddable subset of the MATLAB la"
+						"nguage.\n"
+						"% See the help menu for details. \n"
+						"\n"
+						"y = [u1(1); u2(1); u3(1)];"
+			editorLayout             		"100 M4x1[332 95 720 640]"
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	junction {
+		id         		448
+		position   		[23.5747 49.5747 7]
+		chart      		446
+		linkNode   		[446 0 0]
+		subviewer  		446
+		type       		CONNECTIVE_JUNCTION
+	}
+
+	transition {
+		id             		449
+		labelString    		"{eML_blk_kernel();}"
+		labelPosition  		[32.125 19.875 102.544 14.964]
+		fontSize       		12
+		src {
+			intersection		[0 0 1 0 23.5747 14.625 0 0]
+		}
+		dst {
+			id          		448
+			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
+		}
+		midPoint       		[23.5747 24.9468]
+		chart          		446
+		linkNode       		[446 0 0]
+		dataLimits     		[23.575 23.575 14.625 34.575]
+		subviewer      		446
+		drawStyle      		SMART
+		executionOrder 		1
+	}
+
+	data {
+		id                            		450
+		name                          		"u1"
+		linkNode                      		[446 0 451]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+			}
+			complexity           		SF_COMPLEX_INHERITED
+		}
+		dataType                      		"inherited"
+		fixptType {
+			slope   		1
+			baseType		SF_INT16_TYPE
+		}
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		451
+		name                          		"y"
+		linkNode                      		[446 450 452]
+		scope                         		OUTPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_NO
+		}
+		dataType                      		"inherited"
+		fixptType {
+			slope   		1
+			baseType		SF_INT16_TYPE
+		}
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		452
+		name                          		"u2"
+		linkNode                      		[446 451 453]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+				primitive 		SF_DOUBLE_TYPE
+				isSigned  		1
+				wordLength		"16"
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_INHERITED
+		}
+		dataType                      		"inherited"
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		453
+		name                          		"u3"
+		linkNode                      		[446 452 0]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+				primitive 		SF_DOUBLE_TYPE
+				isSigned  		1
+				wordLength		"16"
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_INHERITED
+		}
+		dataType                      		"inherited"
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	instance {
+		id     		454
+		name   		"Sensor Data/Sensor Suite/Low Pass Filtering,Temperature\n"
+					"Compensation and Calibration/Ellipse Correction/myMux Fun3"
+		machine		1
+		chart  		446
 	}
 
 	chart {
 		id                                        		455
 		name                                      		"Sensor Data/Sensor Suite/Low Pass Filtering,Temperature\n"
-					"Compensation and Calibration/Ellipse Correction/myMux Fun3"
-		windowPosition                            		[431.813 132.216 200.25 189.75]
+					"Compensation and Calibration/Tustin Lowpass, Auto Initial Conditi"
+					"on1/Embedded\n"
+					"MATLAB Function"
+		windowPosition                            		[376.813 216.606 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
 		treeNode                                  		[0 456 0 0]
@@ -43179,11 +42951,10 @@ Stateflow {
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		459
-		chartFileNumber                           		55
+		chartFileNumber                           		56
 		disableImplicitCasting                    		1
 		eml {
-			name       		"myMux"
-			noDebugging		1
+			name       		"fcn"
 		}
 	}
 
@@ -43200,13 +42971,30 @@ Stateflow {
 		decomposition                		CLUSTER_STATE
 		eml {
 			isEML                    		1
-			script                   		"function y = myMux(u1, u2, u3)\n"
+			script                   		"function y = fcn(u,T,f)\n"
 						"% This block supports an embeddable subset of the MATLAB la"
 						"nguage.\n"
 						"% See the help menu for details. \n"
 						"\n"
-						"y = [u1(1); u2(1); u3(1)];"
-			editorLayout             		"100 M4x1[332 95 720 640]"
+						"persistent a\n"
+						"persistent b\n"
+						"persistent y_km1\n"
+						"persistent u_km1\n"
+						"if isempty(a)\n"
+						"    %tf = [T*omega/(2+T*omega) T*omega/(2+T*omega)],[1 (T*o"
+						"mega-2)/(T*omega+2)]\n"
+						"    %tf = [a a],[1 -b]\n"
+						"    omega = 2*pi*f;\n"
+						"    a=T*omega/(2+T*omega);\n"
+						"    b=-(T*omega-2)/(T*omega+2);\n"
+						"    y_km1=u;\n"
+						"    u_km1=u;\n"
+						"end\n"
+						"\n"
+						"y = a*(u+u_km1)+b*y_km1;\n"
+						"y_km1=y;\n"
+						"u_km1=u;"
+			editorLayout             		"100 M4x1[273 123 945 637]"
 			treatIntsAsFixpt         		0
 		}
 	}
@@ -43243,7 +43031,7 @@ Stateflow {
 
 	data {
 		id                            		459
-		name                          		"u1"
+		name                          		"u"
 		linkNode                      		[455 0 460]
 		scope                         		INPUT_DATA
 		machine                       		1
@@ -43290,7 +43078,7 @@ Stateflow {
 
 	data {
 		id                            		461
-		name                          		"u2"
+		name                          		"T"
 		linkNode                      		[455 460 462]
 		scope                         		INPUT_DATA
 		machine                       		1
@@ -43313,7 +43101,7 @@ Stateflow {
 
 	data {
 		id                            		462
-		name                          		"u3"
+		name                          		"f"
 		linkNode                      		[455 461 0]
 		scope                         		INPUT_DATA
 		machine                       		1
@@ -43337,7 +43125,9 @@ Stateflow {
 	instance {
 		id     		463
 		name   		"Sensor Data/Sensor Suite/Low Pass Filtering,Temperature\n"
-					"Compensation and Calibration/Ellipse Correction/myMux Fun3"
+					"Compensation and Calibration/Tustin Lowpass, Auto Initial Conditi"
+					"on1/Embedded\n"
+					"MATLAB Function"
 		machine		1
 		chart  		455
 	}
@@ -43346,9 +43136,9 @@ Stateflow {
 		id                                        		464
 		name                                      		"Sensor Data/Sensor Suite/Low Pass Filtering,Temperature\n"
 					"Compensation and Calibration/Tustin Lowpass, Auto Initial Conditi"
-					"on1/Embedded\n"
+					"on2/Embedded\n"
 					"MATLAB Function"
-		windowPosition                            		[376.813 216.606 200.25 189.75]
+		windowPosition                            		[391.813 201.606 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
 		treeNode                                  		[0 465 0 0]
@@ -43359,7 +43149,7 @@ Stateflow {
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		468
-		chartFileNumber                           		56
+		chartFileNumber                           		57
 		disableImplicitCasting                    		1
 		eml {
 			name       		"fcn"
@@ -43534,7 +43324,7 @@ Stateflow {
 		id     		472
 		name   		"Sensor Data/Sensor Suite/Low Pass Filtering,Temperature\n"
 					"Compensation and Calibration/Tustin Lowpass, Auto Initial Conditi"
-					"on1/Embedded\n"
+					"on2/Embedded\n"
 					"MATLAB Function"
 		machine		1
 		chart  		464
@@ -43544,9 +43334,9 @@ Stateflow {
 		id                                        		473
 		name                                      		"Sensor Data/Sensor Suite/Low Pass Filtering,Temperature\n"
 					"Compensation and Calibration/Tustin Lowpass, Auto Initial Conditi"
-					"on2/Embedded\n"
+					"on3/Embedded\n"
 					"MATLAB Function"
-		windowPosition                            		[391.813 201.606 200.25 189.75]
+		windowPosition                            		[406.813 186.606 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
 		treeNode                                  		[0 474 0 0]
@@ -43557,7 +43347,7 @@ Stateflow {
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		477
-		chartFileNumber                           		57
+		chartFileNumber                           		58
 		disableImplicitCasting                    		1
 		eml {
 			name       		"fcn"
@@ -43732,7 +43522,7 @@ Stateflow {
 		id     		481
 		name   		"Sensor Data/Sensor Suite/Low Pass Filtering,Temperature\n"
 					"Compensation and Calibration/Tustin Lowpass, Auto Initial Conditi"
-					"on2/Embedded\n"
+					"on3/Embedded\n"
 					"MATLAB Function"
 		machine		1
 		chart  		473
@@ -43742,9 +43532,9 @@ Stateflow {
 		id                                        		482
 		name                                      		"Sensor Data/Sensor Suite/Low Pass Filtering,Temperature\n"
 					"Compensation and Calibration/Tustin Lowpass, Auto Initial Conditi"
-					"on3/Embedded\n"
+					"on4/Embedded\n"
 					"MATLAB Function"
-		windowPosition                            		[406.813 186.606 200.25 189.75]
+		windowPosition                            		[421.813 171.606 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
 		treeNode                                  		[0 483 0 0]
@@ -43755,7 +43545,7 @@ Stateflow {
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		486
-		chartFileNumber                           		58
+		chartFileNumber                           		59
 		disableImplicitCasting                    		1
 		eml {
 			name       		"fcn"
@@ -43930,7 +43720,7 @@ Stateflow {
 		id     		490
 		name   		"Sensor Data/Sensor Suite/Low Pass Filtering,Temperature\n"
 					"Compensation and Calibration/Tustin Lowpass, Auto Initial Conditi"
-					"on3/Embedded\n"
+					"on4/Embedded\n"
 					"MATLAB Function"
 		machine		1
 		chart  		482
@@ -43939,10 +43729,9 @@ Stateflow {
 	chart {
 		id                                        		491
 		name                                      		"Sensor Data/Sensor Suite/Low Pass Filtering,Temperature\n"
-					"Compensation and Calibration/Tustin Lowpass, Auto Initial Conditi"
-					"on4/Embedded\n"
-					"MATLAB Function"
-		windowPosition                            		[421.813 171.606 200.25 189.75]
+					"Compensation and Calibration/ValidateMags/Monitor Norm/Norm/Subsy"
+					"stem1/negprotect"
+		windowPosition                            		[282.588 296.703 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
 		treeNode                                  		[0 492 0 0]
@@ -43953,10 +43742,10 @@ Stateflow {
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		495
-		chartFileNumber                           		59
+		chartFileNumber                           		60
 		disableImplicitCasting                    		1
 		eml {
-			name       		"fcn"
+			name       		"negProt"
 		}
 	}
 
@@ -43973,30 +43762,17 @@ Stateflow {
 		decomposition                		CLUSTER_STATE
 		eml {
 			isEML                    		1
-			script                   		"function y = fcn(u,T,f)\n"
+			script                   		"function zpVal = negProt(val)\n"
 						"% This block supports an embeddable subset of the MATLAB la"
 						"nguage.\n"
 						"% See the help menu for details. \n"
 						"\n"
-						"persistent a\n"
-						"persistent b\n"
-						"persistent y_km1\n"
-						"persistent u_km1\n"
-						"if isempty(a)\n"
-						"    %tf = [T*omega/(2+T*omega) T*omega/(2+T*omega)],[1 (T*o"
-						"mega-2)/(T*omega+2)]\n"
-						"    %tf = [a a],[1 -b]\n"
-						"    omega = 2*pi*f;\n"
-						"    a=T*omega/(2+T*omega);\n"
-						"    b=-(T*omega-2)/(T*omega+2);\n"
-						"    y_km1=u;\n"
-						"    u_km1=u;\n"
-						"end\n"
-						"\n"
-						"y = a*(u+u_km1)+b*y_km1;\n"
-						"y_km1=y;\n"
-						"u_km1=u;"
-			editorLayout             		"100 M4x1[273 123 945 637]"
+						"if val >= single(0.001)\n"
+						"    zpVal = val;\n"
+						"else\n"
+						"    zpVal = single(0.001);\n"
+						"end"
+			editorLayout             		"100 M4x1[146 214 671 364]"
 			treatIntsAsFixpt         		0
 		}
 	}
@@ -44033,7 +43809,7 @@ Stateflow {
 
 	data {
 		id                            		495
-		name                          		"u"
+		name                          		"val"
 		linkNode                      		[491 0 496]
 		scope                         		INPUT_DATA
 		machine                       		1
@@ -44056,8 +43832,8 @@ Stateflow {
 
 	data {
 		id                            		496
-		name                          		"y"
-		linkNode                      		[491 495 497]
+		name                          		"zpVal"
+		linkNode                      		[491 495 0]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -44078,201 +43854,17 @@ Stateflow {
 		complexity                    		SF_COMPLEX_INHERITED
 	}
 
-	data {
-		id                            		497
-		name                          		"T"
-		linkNode                      		[491 496 498]
-		scope                         		INPUT_DATA
-		machine                       		1
-		props {
-			array {
-				size      		"-1"
-			}
-			type {
-				method    		SF_INHERITED_TYPE
-				primitive 		SF_DOUBLE_TYPE
-				isSigned  		1
-				wordLength		"16"
-			}
-			complexity           		SF_COMPLEX_INHERITED
-			frame                		SF_FRAME_INHERITED
-		}
-		dataType                      		"inherited"
-		complexity                    		SF_COMPLEX_INHERITED
-	}
-
-	data {
-		id                            		498
-		name                          		"f"
-		linkNode                      		[491 497 0]
-		scope                         		INPUT_DATA
-		machine                       		1
-		props {
-			array {
-				size      		"-1"
-			}
-			type {
-				method    		SF_INHERITED_TYPE
-				primitive 		SF_DOUBLE_TYPE
-				isSigned  		1
-				wordLength		"16"
-			}
-			complexity           		SF_COMPLEX_INHERITED
-			frame                		SF_FRAME_INHERITED
-		}
-		dataType                      		"inherited"
-		complexity                    		SF_COMPLEX_INHERITED
-	}
-
 	instance {
-		id     		499
+		id     		497
 		name   		"Sensor Data/Sensor Suite/Low Pass Filtering,Temperature\n"
-					"Compensation and Calibration/Tustin Lowpass, Auto Initial Conditi"
-					"on4/Embedded\n"
-					"MATLAB Function"
+					"Compensation and Calibration/ValidateMags/Monitor Norm/Norm/Subsy"
+					"stem1/negprotect"
 		machine		1
 		chart  		491
 	}
 
 	chart {
-		id                                        		500
-		name                                      		"Sensor Data/Sensor Suite/Low Pass Filtering,Temperature\n"
-					"Compensation and Calibration/ValidateMags/Monitor Norm/Norm/Subsy"
-					"stem1/negprotect"
-		windowPosition                            		[282.588 296.703 200.25 189.75]
-		viewLimits                                		[0 156.75 0 153.75]
-		screen                                    		[1 1 1280 1024 1.333333333333333]
-		treeNode                                  		[0 501 0 0]
-		firstTransition                           		503
-		firstJunction                             		502
-		viewObj                                   		500
-		machine                                   		1
-		decomposition                             		CLUSTER_CHART
-		type                                      		EML_CHART
-		firstData                                 		504
-		chartFileNumber                           		60
-		disableImplicitCasting                    		1
-		eml {
-			name       		"negProt"
-		}
-	}
-
-	state {
-		id                           		501
-		labelString                  		"eML_blk_kernel()"
-		position                     		[18 64.5 118 66]
-		fontSize                     		12
-		chart                        		500
-		treeNode                     		[500 0 0 0]
-		superState                   		SUBCHART
-		subviewer                    		500
-		type                         		FUNC_STATE
-		decomposition                		CLUSTER_STATE
-		eml {
-			isEML                    		1
-			script                   		"function zpVal = negProt(val)\n"
-						"% This block supports an embeddable subset of the MATLAB la"
-						"nguage.\n"
-						"% See the help menu for details. \n"
-						"\n"
-						"if val >= single(0.001)\n"
-						"    zpVal = val;\n"
-						"else\n"
-						"    zpVal = single(0.001);\n"
-						"end"
-			editorLayout             		"100 M4x1[146 214 671 364]"
-			treatIntsAsFixpt         		0
-		}
-	}
-
-	junction {
-		id         		502
-		position   		[23.5747 49.5747 7]
-		chart      		500
-		linkNode   		[500 0 0]
-		subviewer  		500
-		type       		CONNECTIVE_JUNCTION
-	}
-
-	transition {
-		id             		503
-		labelString    		"{eML_blk_kernel();}"
-		labelPosition  		[32.125 19.875 102.544 14.964]
-		fontSize       		12
-		src {
-			intersection		[0 0 1 0 23.5747 14.625 0 0]
-		}
-		dst {
-			id          		502
-			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
-		}
-		midPoint       		[23.5747 24.9468]
-		chart          		500
-		linkNode       		[500 0 0]
-		dataLimits     		[23.575 23.575 14.625 34.575]
-		subviewer      		500
-		drawStyle      		SMART
-		executionOrder 		1
-	}
-
-	data {
-		id                            		504
-		name                          		"val"
-		linkNode                      		[500 0 505]
-		scope                         		INPUT_DATA
-		machine                       		1
-		props {
-			array {
-				size      		"-1"
-			}
-			type {
-				method    		SF_INHERITED_TYPE
-			}
-			complexity           		SF_COMPLEX_INHERITED
-		}
-		dataType                      		"inherited"
-		fixptType {
-			slope   		1
-			baseType		SF_INT16_TYPE
-		}
-		complexity                    		SF_COMPLEX_INHERITED
-	}
-
-	data {
-		id                            		505
-		name                          		"zpVal"
-		linkNode                      		[500 504 0]
-		scope                         		OUTPUT_DATA
-		machine                       		1
-		props {
-			array {
-				size      		"-1"
-			}
-			type {
-				method    		SF_INHERITED_TYPE
-			}
-			complexity           		SF_COMPLEX_INHERITED
-			frame                		SF_FRAME_NO
-		}
-		dataType                      		"inherited"
-		fixptType {
-			slope   		1
-			baseType		SF_INT16_TYPE
-		}
-		complexity                    		SF_COMPLEX_INHERITED
-	}
-
-	instance {
-		id     		506
-		name   		"Sensor Data/Sensor Suite/Low Pass Filtering,Temperature\n"
-					"Compensation and Calibration/ValidateMags/Monitor Norm/Norm/Subsy"
-					"stem1/negprotect"
-		machine		1
-		chart  		500
-	}
-
-	chart {
-		id                                        		507
+		id                                        		498
 		name                                      		"Sensor Data/Sensor Suite/Low Pass Filtering,Temperature\n"
 					"Compensation and Calibration/ValidateMags/Monitor Norm/Norm/Subsy"
 					"stem3/Embedded\n"
@@ -44280,15 +43872,15 @@ Stateflow {
 		windowPosition                            		[341.813 177.525 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1280 1024 1.333333333333333]
-		treeNode                                  		[0 508 0 0]
-		firstTransition                           		510
-		firstJunction                             		509
-		viewObj                                   		507
+		treeNode                                  		[0 499 0 0]
+		firstTransition                           		501
+		firstJunction                             		500
+		viewObj                                   		498
 		machine                                   		1
 		toolbarMode                               		LIBRARY_TOOLBAR
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
-		firstData                                 		511
+		firstData                                 		502
 		chartFileNumber                           		61
 		disableImplicitCasting                    		1
 		eml {
@@ -44297,14 +43889,14 @@ Stateflow {
 	}
 
 	state {
-		id                           		508
+		id                           		499
 		labelString                  		"eML_blk_kernel()"
 		position                     		[18 64.5 118 66]
 		fontSize                     		12
-		chart                        		507
-		treeNode                     		[507 0 0 0]
+		chart                        		498
+		treeNode                     		[498 0 0 0]
 		superState                   		SUBCHART
-		subviewer                    		507
+		subviewer                    		498
 		type                         		FUNC_STATE
 		decomposition                		CLUSTER_STATE
 		eml {
@@ -44321,16 +43913,16 @@ Stateflow {
 	}
 
 	junction {
-		id         		509
+		id         		500
 		position   		[23.5747 49.5747 7]
-		chart      		507
-		linkNode   		[507 0 0]
-		subviewer  		507
+		chart      		498
+		linkNode   		[498 0 0]
+		subviewer  		498
 		type       		CONNECTIVE_JUNCTION
 	}
 
 	transition {
-		id             		510
+		id             		501
 		labelString    		"{eML_blk_kernel();}"
 		labelPosition  		[32.125 19.875 102.544 14.964]
 		fontSize       		12
@@ -44338,22 +43930,22 @@ Stateflow {
 			intersection		[0 0 1 0 23.5747 14.625 0 0]
 		}
 		dst {
-			id          		509
+			id          		500
 			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
 		}
 		midPoint       		[23.5747 24.9468]
-		chart          		507
-		linkNode       		[507 0 0]
+		chart          		498
+		linkNode       		[498 0 0]
 		dataLimits     		[23.575 23.575 14.625 34.575]
-		subviewer      		507
+		subviewer      		498
 		drawStyle      		SMART
 		executionOrder 		1
 	}
 
 	data {
-		id                            		511
+		id                            		502
 		name                          		"x"
-		linkNode                      		[507 0 512]
+		linkNode                      		[498 0 503]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -44374,9 +43966,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		512
+		id                            		503
 		name                          		"y"
-		linkNode                      		[507 511 513]
+		linkNode                      		[498 502 504]
 		scope                         		INPUT_DATA
 		machine                       		1
 		props {
@@ -44398,9 +43990,9 @@ Stateflow {
 	}
 
 	data {
-		id                            		513
+		id                            		504
 		name                          		"xDoty"
-		linkNode                      		[507 512 0]
+		linkNode                      		[498 503 0]
 		scope                         		OUTPUT_DATA
 		machine                       		1
 		props {
@@ -44421,33 +44013,31 @@ Stateflow {
 	}
 
 	instance {
-		id     		514
+		id     		505
 		name   		"Sensor Data/Sensor Suite/Low Pass Filtering,Temperature\n"
 					"Compensation and Calibration/ValidateMags/Monitor Norm/Norm/Subsy"
 					"stem3/Embedded\n"
 					"MATLAB Function"
 		machine		1
-		chart  		507
+		chart  		498
 	}
 
 	chart {
-		id                                        		515
+		id                                        		506
 		name                                      		"Sensor Data/Sensor Suite/ADIS16355\n"
 					"Signal Cond/3D Tustin Lowpass, Auto Initial Condition/Embedded\n"
 					"MATLAB Function2"
 		windowPosition                            		[441.098 142.721 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1680 980 1.333333333333333]
-		treeNode                                  		[0 516 0 0]
-		firstTransition                           		518
-		firstJunction                             		517
-		viewObj                                   		515
+		treeNode                                  		[0 507 0 0]
+		firstTransition                           		509
+		firstJunction                             		508
+		viewObj                                   		506
 		machine                                   		1
-		subviewS {
-		}
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
-		firstData                                 		519
+		firstData                                 		510
 		chartFileNumber                           		62
 		disableImplicitCasting                    		1
 		eml {
@@ -44456,14 +44046,14 @@ Stateflow {
 	}
 
 	state {
-		id                           		516
+		id                           		507
 		labelString                  		"eML_blk_kernel()"
 		position                     		[18 64.5 118 66]
 		fontSize                     		12
-		chart                        		515
-		treeNode                     		[515 0 0 0]
+		chart                        		506
+		treeNode                     		[506 0 0 0]
 		superState                   		SUBCHART
-		subviewer                    		515
+		subviewer                    		506
 		type                         		FUNC_STATE
 		decomposition                		CLUSTER_STATE
 		eml {
@@ -44492,6 +44082,184 @@ Stateflow {
 						"y_km1=y;\n"
 						"u_km1=u;"
 			editorLayout             		"100 M4x1[197 111 945 637]"
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	junction {
+		id         		508
+		position   		[23.5747 49.5747 7]
+		chart      		506
+		linkNode   		[506 0 0]
+		subviewer  		506
+		type       		CONNECTIVE_JUNCTION
+	}
+
+	transition {
+		id             		509
+		labelString    		"{eML_blk_kernel();}"
+		labelPosition  		[32.125 19.875 102.544 14.964]
+		fontSize       		12
+		src {
+			intersection		[0 0 1 0 23.5747 14.625 0 0]
+		}
+		dst {
+			id          		508
+			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
+		}
+		midPoint       		[23.5747 24.9468]
+		chart          		506
+		linkNode       		[506 0 0]
+		dataLimits     		[23.575 23.575 14.625 34.575]
+		subviewer      		506
+		drawStyle      		SMART
+		executionOrder 		1
+	}
+
+	data {
+		id                            		510
+		name                          		"u"
+		linkNode                      		[506 0 511]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+			}
+			complexity           		SF_COMPLEX_INHERITED
+		}
+		dataType                      		"inherited"
+		fixptType {
+			slope   		1
+			baseType		SF_INT16_TYPE
+		}
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		511
+		name                          		"y"
+		linkNode                      		[506 510 512]
+		scope                         		OUTPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_NO
+		}
+		dataType                      		"inherited"
+		fixptType {
+			slope   		1
+			baseType		SF_INT16_TYPE
+		}
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		512
+		name                          		"T"
+		linkNode                      		[506 511 513]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+				primitive 		SF_DOUBLE_TYPE
+				isSigned  		1
+				wordLength		"16"
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_INHERITED
+		}
+		dataType                      		"inherited"
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		513
+		name                          		"f"
+		linkNode                      		[506 512 0]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+				primitive 		SF_DOUBLE_TYPE
+				isSigned  		1
+				wordLength		"16"
+			}
+			complexity           		SF_COMPLEX_INHERITED
+			frame                		SF_FRAME_INHERITED
+		}
+		dataType                      		"inherited"
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	instance {
+		id     		514
+		name   		"Sensor Data/Sensor Suite/ADIS16355\n"
+					"Signal Cond/3D Tustin Lowpass, Auto Initial Condition/Embedded\n"
+					"MATLAB Function2"
+		machine		1
+		chart  		506
+	}
+
+	chart {
+		id                                        		515
+		name                                      		"Sensor Data/Sensor Suite/ADIS16355\n"
+					"Signal Cond/3D Tustin Lowpass, Auto Initial Condition/myMux Fun"
+		windowPosition                            		[317.343 180.458 200.25 189.75]
+		viewLimits                                		[0 156.75 0 153.75]
+		screen                                    		[1 1 1680 980 1.333333333333333]
+		treeNode                                  		[0 516 0 0]
+		firstTransition                           		518
+		firstJunction                             		517
+		viewObj                                   		515
+		machine                                   		1
+		decomposition                             		CLUSTER_CHART
+		type                                      		EML_CHART
+		firstData                                 		519
+		chartFileNumber                           		63
+		disableImplicitCasting                    		1
+		eml {
+			name       		"myMux3"
+		}
+	}
+
+	state {
+		id                           		516
+		labelString                  		"eML_blk_kernel()"
+		position                     		[18 64.5 118 66]
+		fontSize                     		12
+		chart                        		515
+		treeNode                     		[515 0 0 0]
+		superState                   		SUBCHART
+		subviewer                    		515
+		type                         		FUNC_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			isEML                    		1
+			script                   		"function y = myMux3(u1, u2, u3)\n"
+						"% This block supports an embeddable subset of the MATLAB la"
+						"nguage.\n"
+						"% See the help menu for details. \n"
+						"\n"
+						"y = [u1(1); u2(1); u3(1)];"
+			editorLayout             		"100 M4x1[677 261 671 364]"
 			treatIntsAsFixpt         		0
 		}
 	}
@@ -44528,7 +44296,7 @@ Stateflow {
 
 	data {
 		id                            		519
-		name                          		"u"
+		name                          		"u1"
 		linkNode                      		[515 0 520]
 		scope                         		INPUT_DATA
 		machine                       		1
@@ -44575,7 +44343,7 @@ Stateflow {
 
 	data {
 		id                            		521
-		name                          		"T"
+		name                          		"u2"
 		linkNode                      		[515 520 522]
 		scope                         		INPUT_DATA
 		machine                       		1
@@ -44598,7 +44366,7 @@ Stateflow {
 
 	data {
 		id                            		522
-		name                          		"f"
+		name                          		"u3"
 		linkNode                      		[515 521 0]
 		scope                         		INPUT_DATA
 		machine                       		1
@@ -44622,8 +44390,7 @@ Stateflow {
 	instance {
 		id     		523
 		name   		"Sensor Data/Sensor Suite/ADIS16355\n"
-					"Signal Cond/3D Tustin Lowpass, Auto Initial Condition/Embedded\n"
-					"MATLAB Function2"
+					"Signal Cond/3D Tustin Lowpass, Auto Initial Condition/myMux Fun"
 		machine		1
 		chart  		515
 	}
@@ -44631,8 +44398,9 @@ Stateflow {
 	chart {
 		id                                        		524
 		name                                      		"Sensor Data/Sensor Suite/ADIS16355\n"
-					"Signal Cond/3D Tustin Lowpass, Auto Initial Condition/myMux Fun"
-		windowPosition                            		[317.343 180.458 200.25 189.75]
+					"Signal Cond/3D Tustin Lowpass, Auto Initial Condition1/Embedded\n"
+					"MATLAB Function"
+		windowPosition                            		[418.241 171.978 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1680 980 1.333333333333333]
 		treeNode                                  		[0 525 0 0]
@@ -44640,15 +44408,13 @@ Stateflow {
 		firstJunction                             		526
 		viewObj                                   		524
 		machine                                   		1
-		subviewS {
-		}
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		528
-		chartFileNumber                           		63
+		chartFileNumber                           		64
 		disableImplicitCasting                    		1
 		eml {
-			name       		"myMux3"
+			name       		"fcn"
 		}
 	}
 
@@ -44665,13 +44431,30 @@ Stateflow {
 		decomposition                		CLUSTER_STATE
 		eml {
 			isEML                    		1
-			script                   		"function y = myMux3(u1, u2, u3)\n"
+			script                   		"function y = fcn(u,T,f)\n"
 						"% This block supports an embeddable subset of the MATLAB la"
 						"nguage.\n"
 						"% See the help menu for details. \n"
 						"\n"
-						"y = [u1(1); u2(1); u3(1)];"
-			editorLayout             		"100 M4x1[677 261 671 364]"
+						"persistent a\n"
+						"persistent b\n"
+						"persistent y_km1\n"
+						"persistent u_km1\n"
+						"if isempty(a)\n"
+						"    %tf = [T*omega/(2+T*omega) T*omega/(2+T*omega)],[1 (T*o"
+						"mega-2)/(T*omega+2)]\n"
+						"    %tf = [a a],[1 -b]\n"
+						"    omega = 2*pi*f;\n"
+						"    a=T*omega/(2+T*omega);\n"
+						"    b=-(T*omega-2)/(T*omega+2);\n"
+						"    y_km1=u;\n"
+						"    u_km1=u;\n"
+						"end\n"
+						"\n"
+						"y = a*(u+u_km1)+b*y_km1;\n"
+						"y_km1=y;\n"
+						"u_km1=u;"
+			editorLayout             		"100 M4x1[197 111 945 637]"
 			treatIntsAsFixpt         		0
 		}
 	}
@@ -44708,7 +44491,7 @@ Stateflow {
 
 	data {
 		id                            		528
-		name                          		"u1"
+		name                          		"u"
 		linkNode                      		[524 0 529]
 		scope                         		INPUT_DATA
 		machine                       		1
@@ -44755,7 +44538,7 @@ Stateflow {
 
 	data {
 		id                            		530
-		name                          		"u2"
+		name                          		"T"
 		linkNode                      		[524 529 531]
 		scope                         		INPUT_DATA
 		machine                       		1
@@ -44778,7 +44561,7 @@ Stateflow {
 
 	data {
 		id                            		531
-		name                          		"u3"
+		name                          		"f"
 		linkNode                      		[524 530 0]
 		scope                         		INPUT_DATA
 		machine                       		1
@@ -44802,7 +44585,8 @@ Stateflow {
 	instance {
 		id     		532
 		name   		"Sensor Data/Sensor Suite/ADIS16355\n"
-					"Signal Cond/3D Tustin Lowpass, Auto Initial Condition/myMux Fun"
+					"Signal Cond/3D Tustin Lowpass, Auto Initial Condition1/Embedded\n"
+					"MATLAB Function"
 		machine		1
 		chart  		524
 	}
@@ -44811,8 +44595,8 @@ Stateflow {
 		id                                        		533
 		name                                      		"Sensor Data/Sensor Suite/ADIS16355\n"
 					"Signal Cond/3D Tustin Lowpass, Auto Initial Condition1/Embedded\n"
-					"MATLAB Function"
-		windowPosition                            		[418.241 171.978 200.25 189.75]
+					"MATLAB Function1"
+		windowPosition                            		[429.67 157.349 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1680 980 1.333333333333333]
 		treeNode                                  		[0 534 0 0]
@@ -44820,12 +44604,10 @@ Stateflow {
 		firstJunction                             		535
 		viewObj                                   		533
 		machine                                   		1
-		subviewS {
-		}
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		537
-		chartFileNumber                           		64
+		chartFileNumber                           		65
 		disableImplicitCasting                    		1
 		eml {
 			name       		"fcn"
@@ -45000,7 +44782,7 @@ Stateflow {
 		id     		541
 		name   		"Sensor Data/Sensor Suite/ADIS16355\n"
 					"Signal Cond/3D Tustin Lowpass, Auto Initial Condition1/Embedded\n"
-					"MATLAB Function"
+					"MATLAB Function1"
 		machine		1
 		chart  		533
 	}
@@ -45009,8 +44791,8 @@ Stateflow {
 		id                                        		542
 		name                                      		"Sensor Data/Sensor Suite/ADIS16355\n"
 					"Signal Cond/3D Tustin Lowpass, Auto Initial Condition1/Embedded\n"
-					"MATLAB Function1"
-		windowPosition                            		[429.67 157.349 200.25 189.75]
+					"MATLAB Function2"
+		windowPosition                            		[441.098 142.721 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1680 980 1.333333333333333]
 		treeNode                                  		[0 543 0 0]
@@ -45018,12 +44800,10 @@ Stateflow {
 		firstJunction                             		544
 		viewObj                                   		542
 		machine                                   		1
-		subviewS {
-		}
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		546
-		chartFileNumber                           		65
+		chartFileNumber                           		66
 		disableImplicitCasting                    		1
 		eml {
 			name       		"fcn"
@@ -45198,7 +44978,7 @@ Stateflow {
 		id     		550
 		name   		"Sensor Data/Sensor Suite/ADIS16355\n"
 					"Signal Cond/3D Tustin Lowpass, Auto Initial Condition1/Embedded\n"
-					"MATLAB Function1"
+					"MATLAB Function2"
 		machine		1
 		chart  		542
 	}
@@ -45206,9 +44986,8 @@ Stateflow {
 	chart {
 		id                                        		551
 		name                                      		"Sensor Data/Sensor Suite/ADIS16355\n"
-					"Signal Cond/3D Tustin Lowpass, Auto Initial Condition1/Embedded\n"
-					"MATLAB Function2"
-		windowPosition                            		[441.098 142.721 200.25 189.75]
+					"Signal Cond/3D Tustin Lowpass, Auto Initial Condition1/myMux Fun"
+		windowPosition                            		[317.343 180.458 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1680 980 1.333333333333333]
 		treeNode                                  		[0 552 0 0]
@@ -45216,15 +44995,13 @@ Stateflow {
 		firstJunction                             		553
 		viewObj                                   		551
 		machine                                   		1
-		subviewS {
-		}
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		555
-		chartFileNumber                           		66
+		chartFileNumber                           		67
 		disableImplicitCasting                    		1
 		eml {
-			name       		"fcn"
+			name       		"myMux3"
 		}
 	}
 
@@ -45241,30 +45018,13 @@ Stateflow {
 		decomposition                		CLUSTER_STATE
 		eml {
 			isEML                    		1
-			script                   		"function y = fcn(u,T,f)\n"
+			script                   		"function y = myMux3(u1, u2, u3)\n"
 						"% This block supports an embeddable subset of the MATLAB la"
 						"nguage.\n"
 						"% See the help menu for details. \n"
 						"\n"
-						"persistent a\n"
-						"persistent b\n"
-						"persistent y_km1\n"
-						"persistent u_km1\n"
-						"if isempty(a)\n"
-						"    %tf = [T*omega/(2+T*omega) T*omega/(2+T*omega)],[1 (T*o"
-						"mega-2)/(T*omega+2)]\n"
-						"    %tf = [a a],[1 -b]\n"
-						"    omega = 2*pi*f;\n"
-						"    a=T*omega/(2+T*omega);\n"
-						"    b=-(T*omega-2)/(T*omega+2);\n"
-						"    y_km1=u;\n"
-						"    u_km1=u;\n"
-						"end\n"
-						"\n"
-						"y = a*(u+u_km1)+b*y_km1;\n"
-						"y_km1=y;\n"
-						"u_km1=u;"
-			editorLayout             		"100 M4x1[197 111 945 637]"
+						"y = [u1(1); u2(1); u3(1)];"
+			editorLayout             		"100 M4x1[677 261 671 364]"
 			treatIntsAsFixpt         		0
 		}
 	}
@@ -45301,7 +45061,7 @@ Stateflow {
 
 	data {
 		id                            		555
-		name                          		"u"
+		name                          		"u1"
 		linkNode                      		[551 0 556]
 		scope                         		INPUT_DATA
 		machine                       		1
@@ -45348,7 +45108,7 @@ Stateflow {
 
 	data {
 		id                            		557
-		name                          		"T"
+		name                          		"u2"
 		linkNode                      		[551 556 558]
 		scope                         		INPUT_DATA
 		machine                       		1
@@ -45371,7 +45131,7 @@ Stateflow {
 
 	data {
 		id                            		558
-		name                          		"f"
+		name                          		"u3"
 		linkNode                      		[551 557 0]
 		scope                         		INPUT_DATA
 		machine                       		1
@@ -45395,8 +45155,7 @@ Stateflow {
 	instance {
 		id     		559
 		name   		"Sensor Data/Sensor Suite/ADIS16355\n"
-					"Signal Cond/3D Tustin Lowpass, Auto Initial Condition1/Embedded\n"
-					"MATLAB Function2"
+					"Signal Cond/3D Tustin Lowpass, Auto Initial Condition1/myMux Fun"
 		machine		1
 		chart  		551
 	}
@@ -45404,8 +45163,8 @@ Stateflow {
 	chart {
 		id                                        		560
 		name                                      		"Sensor Data/Sensor Suite/ADIS16355\n"
-					"Signal Cond/3D Tustin Lowpass, Auto Initial Condition1/myMux Fun"
-		windowPosition                            		[317.343 180.458 200.25 189.75]
+					"Signal Cond/Ellipse Correction/myMux Fun3"
+		windowPosition                            		[431.813 132.216 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1680 980 1.333333333333333]
 		treeNode                                  		[0 561 0 0]
@@ -45413,15 +45172,14 @@ Stateflow {
 		firstJunction                             		562
 		viewObj                                   		560
 		machine                                   		1
-		subviewS {
-		}
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		564
-		chartFileNumber                           		67
+		chartFileNumber                           		72
 		disableImplicitCasting                    		1
 		eml {
-			name       		"myMux3"
+			name       		"myMux"
+			noDebugging		1
 		}
 	}
 
@@ -45438,13 +45196,13 @@ Stateflow {
 		decomposition                		CLUSTER_STATE
 		eml {
 			isEML                    		1
-			script                   		"function y = myMux3(u1, u2, u3)\n"
+			script                   		"function y = myMux(u1, u2, u3)\n"
 						"% This block supports an embeddable subset of the MATLAB la"
 						"nguage.\n"
 						"% See the help menu for details. \n"
 						"\n"
 						"y = [u1(1); u2(1); u3(1)];"
-			editorLayout             		"100 M4x1[677 261 671 364]"
+			editorLayout             		"100 M4x1[332 95 720 640]"
 			treatIntsAsFixpt         		0
 		}
 	}
@@ -45575,7 +45333,7 @@ Stateflow {
 	instance {
 		id     		568
 		name   		"Sensor Data/Sensor Suite/ADIS16355\n"
-					"Signal Cond/3D Tustin Lowpass, Auto Initial Condition1/myMux Fun"
+					"Signal Cond/Ellipse Correction/myMux Fun3"
 		machine		1
 		chart  		560
 	}
@@ -45583,8 +45341,10 @@ Stateflow {
 	chart {
 		id                                        		569
 		name                                      		"Sensor Data/Sensor Suite/ADIS16355\n"
-					"Signal Cond/Ellipse Correction/myMux Fun3"
-		windowPosition                            		[431.813 132.216 200.25 189.75]
+					"Signal Cond/Temp Compensate Accel X/Tustin Lowpass, Auto Initial "
+					"Condition1/Embedded\n"
+					"MATLAB Function"
+		windowPosition                            		[466.813 126.606 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1680 980 1.333333333333333]
 		treeNode                                  		[0 570 0 0]
@@ -45592,16 +45352,13 @@ Stateflow {
 		firstJunction                             		571
 		viewObj                                   		569
 		machine                                   		1
-		subviewS {
-		}
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		573
-		chartFileNumber                           		72
+		chartFileNumber                           		73
 		disableImplicitCasting                    		1
 		eml {
-			name       		"myMux"
-			noDebugging		1
+			name       		"fcn"
 		}
 	}
 
@@ -45618,13 +45375,30 @@ Stateflow {
 		decomposition                		CLUSTER_STATE
 		eml {
 			isEML                    		1
-			script                   		"function y = myMux(u1, u2, u3)\n"
+			script                   		"function y = fcn(u,T,f)\n"
 						"% This block supports an embeddable subset of the MATLAB la"
 						"nguage.\n"
 						"% See the help menu for details. \n"
 						"\n"
-						"y = [u1(1); u2(1); u3(1)];"
-			editorLayout             		"100 M4x1[332 95 720 640]"
+						"persistent a\n"
+						"persistent b\n"
+						"persistent y_km1\n"
+						"persistent u_km1\n"
+						"if isempty(a)\n"
+						"    %tf = [T*omega/(2+T*omega) T*omega/(2+T*omega)],[1 (T*o"
+						"mega-2)/(T*omega+2)]\n"
+						"    %tf = [a a],[1 -b]\n"
+						"    omega = 2*pi*f;\n"
+						"    a=T*omega/(2+T*omega);\n"
+						"    b=-(T*omega-2)/(T*omega+2);\n"
+						"    y_km1=u;\n"
+						"    u_km1=u;\n"
+						"end\n"
+						"\n"
+						"y = a*(u+u_km1)+b*y_km1;\n"
+						"y_km1=y;\n"
+						"u_km1=u;"
+			editorLayout             		"100 M4x1[273 123 945 637]"
 			treatIntsAsFixpt         		0
 		}
 	}
@@ -45661,7 +45435,7 @@ Stateflow {
 
 	data {
 		id                            		573
-		name                          		"u1"
+		name                          		"u"
 		linkNode                      		[569 0 574]
 		scope                         		INPUT_DATA
 		machine                       		1
@@ -45708,7 +45482,7 @@ Stateflow {
 
 	data {
 		id                            		575
-		name                          		"u2"
+		name                          		"T"
 		linkNode                      		[569 574 576]
 		scope                         		INPUT_DATA
 		machine                       		1
@@ -45731,7 +45505,7 @@ Stateflow {
 
 	data {
 		id                            		576
-		name                          		"u3"
+		name                          		"f"
 		linkNode                      		[569 575 0]
 		scope                         		INPUT_DATA
 		machine                       		1
@@ -45755,7 +45529,9 @@ Stateflow {
 	instance {
 		id     		577
 		name   		"Sensor Data/Sensor Suite/ADIS16355\n"
-					"Signal Cond/Ellipse Correction/myMux Fun3"
+					"Signal Cond/Temp Compensate Accel X/Tustin Lowpass, Auto Initial "
+					"Condition1/Embedded\n"
+					"MATLAB Function"
 		machine		1
 		chart  		569
 	}
@@ -45763,10 +45539,8 @@ Stateflow {
 	chart {
 		id                                        		578
 		name                                      		"Sensor Data/Sensor Suite/ADIS16355\n"
-					"Signal Cond/Temp Compensate Accel X/Tustin Lowpass, Auto Initial "
-					"Condition1/Embedded\n"
-					"MATLAB Function"
-		windowPosition                            		[466.813 126.606 200.25 189.75]
+					"Signal Cond/myMux Fun"
+		windowPosition                            		[342.45 225 200.25 189.75]
 		viewLimits                                		[0 156.75 0 153.75]
 		screen                                    		[1 1 1680 980 1.333333333333333]
 		treeNode                                  		[0 579 0 0]
@@ -45774,15 +45548,13 @@ Stateflow {
 		firstJunction                             		580
 		viewObj                                   		578
 		machine                                   		1
-		subviewS {
-		}
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		582
-		chartFileNumber                           		73
+		chartFileNumber                           		74
 		disableImplicitCasting                    		1
 		eml {
-			name       		"fcn"
+			name       		"myMux3"
 		}
 	}
 
@@ -45799,30 +45571,13 @@ Stateflow {
 		decomposition                		CLUSTER_STATE
 		eml {
 			isEML                    		1
-			script                   		"function y = fcn(u,T,f)\n"
+			script                   		"function y = myMux3(u1, u2, u3)\n"
 						"% This block supports an embeddable subset of the MATLAB la"
 						"nguage.\n"
 						"% See the help menu for details. \n"
 						"\n"
-						"persistent a\n"
-						"persistent b\n"
-						"persistent y_km1\n"
-						"persistent u_km1\n"
-						"if isempty(a)\n"
-						"    %tf = [T*omega/(2+T*omega) T*omega/(2+T*omega)],[1 (T*o"
-						"mega-2)/(T*omega+2)]\n"
-						"    %tf = [a a],[1 -b]\n"
-						"    omega = 2*pi*f;\n"
-						"    a=T*omega/(2+T*omega);\n"
-						"    b=-(T*omega-2)/(T*omega+2);\n"
-						"    y_km1=u;\n"
-						"    u_km1=u;\n"
-						"end\n"
-						"\n"
-						"y = a*(u+u_km1)+b*y_km1;\n"
-						"y_km1=y;\n"
-						"u_km1=u;"
-			editorLayout             		"100 M4x1[273 123 945 637]"
+						"y = [u1(1); u2(1); u3(1)];"
+			editorLayout             		"100 M4x1[677 261 671 364]"
 			treatIntsAsFixpt         		0
 		}
 	}
@@ -45859,7 +45614,7 @@ Stateflow {
 
 	data {
 		id                            		582
-		name                          		"u"
+		name                          		"u1"
 		linkNode                      		[578 0 583]
 		scope                         		INPUT_DATA
 		machine                       		1
@@ -45906,7 +45661,7 @@ Stateflow {
 
 	data {
 		id                            		584
-		name                          		"T"
+		name                          		"u2"
 		linkNode                      		[578 583 585]
 		scope                         		INPUT_DATA
 		machine                       		1
@@ -45929,7 +45684,7 @@ Stateflow {
 
 	data {
 		id                            		585
-		name                          		"f"
+		name                          		"u3"
 		linkNode                      		[578 584 0]
 		scope                         		INPUT_DATA
 		machine                       		1
@@ -45953,207 +45708,26 @@ Stateflow {
 	instance {
 		id     		586
 		name   		"Sensor Data/Sensor Suite/ADIS16355\n"
-					"Signal Cond/Temp Compensate Accel X/Tustin Lowpass, Auto Initial "
-					"Condition1/Embedded\n"
-					"MATLAB Function"
+					"Signal Cond/myMux Fun"
 		machine		1
 		chart  		578
 	}
 
-	chart {
-		id                                        		587
-		name                                      		"Sensor Data/Sensor Suite/ADIS16355\n"
-					"Signal Cond/myMux Fun"
-		windowPosition                            		[342.45 225 200.25 189.75]
-		viewLimits                                		[0 156.75 0 153.75]
-		screen                                    		[1 1 1680 980 1.333333333333333]
-		treeNode                                  		[0 588 0 0]
-		firstTransition                           		590
-		firstJunction                             		589
-		viewObj                                   		587
-		machine                                   		1
-		subviewS {
-		}
-		decomposition                             		CLUSTER_CHART
-		type                                      		EML_CHART
-		firstData                                 		591
-		chartFileNumber                           		74
-		disableImplicitCasting                    		1
-		eml {
-			name       		"myMux3"
-		}
-	}
-
-	state {
-		id                           		588
-		labelString                  		"eML_blk_kernel()"
-		position                     		[18 64.5 118 66]
-		fontSize                     		12
-		chart                        		587
-		treeNode                     		[587 0 0 0]
-		superState                   		SUBCHART
-		subviewer                    		587
-		type                         		FUNC_STATE
-		decomposition                		CLUSTER_STATE
-		eml {
-			isEML                    		1
-			script                   		"function y = myMux3(u1, u2, u3)\n"
-						"% This block supports an embeddable subset of the MATLAB la"
-						"nguage.\n"
-						"% See the help menu for details. \n"
-						"\n"
-						"y = [u1(1); u2(1); u3(1)];"
-			editorLayout             		"100 M4x1[677 261 671 364]"
-			treatIntsAsFixpt         		0
-		}
-	}
-
-	junction {
-		id         		589
-		position   		[23.5747 49.5747 7]
-		chart      		587
-		linkNode   		[587 0 0]
-		subviewer  		587
-		type       		CONNECTIVE_JUNCTION
-	}
-
-	transition {
-		id             		590
-		labelString    		"{eML_blk_kernel();}"
-		labelPosition  		[32.125 19.875 102.544 14.964]
-		fontSize       		12
-		src {
-			intersection		[0 0 1 0 23.5747 14.625 0 0]
-		}
-		dst {
-			id          		589
-			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
-		}
-		midPoint       		[23.5747 24.9468]
-		chart          		587
-		linkNode       		[587 0 0]
-		dataLimits     		[23.575 23.575 14.625 34.575]
-		subviewer      		587
-		drawStyle      		SMART
-		executionOrder 		1
-	}
-
-	data {
-		id                            		591
-		name                          		"u1"
-		linkNode                      		[587 0 592]
-		scope                         		INPUT_DATA
-		machine                       		1
-		props {
-			array {
-				size      		"-1"
-			}
-			type {
-				method    		SF_INHERITED_TYPE
-			}
-			complexity           		SF_COMPLEX_INHERITED
-		}
-		dataType                      		"inherited"
-		fixptType {
-			slope   		1
-			baseType		SF_INT16_TYPE
-		}
-		complexity                    		SF_COMPLEX_INHERITED
-	}
-
-	data {
-		id                            		592
-		name                          		"y"
-		linkNode                      		[587 591 593]
-		scope                         		OUTPUT_DATA
-		machine                       		1
-		props {
-			array {
-				size      		"-1"
-			}
-			type {
-				method    		SF_INHERITED_TYPE
-			}
-			complexity           		SF_COMPLEX_INHERITED
-			frame                		SF_FRAME_NO
-		}
-		dataType                      		"inherited"
-		fixptType {
-			slope   		1
-			baseType		SF_INT16_TYPE
-		}
-		complexity                    		SF_COMPLEX_INHERITED
-	}
-
-	data {
-		id                            		593
-		name                          		"u2"
-		linkNode                      		[587 592 594]
-		scope                         		INPUT_DATA
-		machine                       		1
-		props {
-			array {
-				size      		"-1"
-			}
-			type {
-				method    		SF_INHERITED_TYPE
-				primitive 		SF_DOUBLE_TYPE
-				isSigned  		1
-				wordLength		"16"
-			}
-			complexity           		SF_COMPLEX_INHERITED
-			frame                		SF_FRAME_INHERITED
-		}
-		dataType                      		"inherited"
-		complexity                    		SF_COMPLEX_INHERITED
-	}
-
-	data {
-		id                            		594
-		name                          		"u3"
-		linkNode                      		[587 593 0]
-		scope                         		INPUT_DATA
-		machine                       		1
-		props {
-			array {
-				size      		"-1"
-			}
-			type {
-				method    		SF_INHERITED_TYPE
-				primitive 		SF_DOUBLE_TYPE
-				isSigned  		1
-				wordLength		"16"
-			}
-			complexity           		SF_COMPLEX_INHERITED
-			frame                		SF_FRAME_INHERITED
-		}
-		dataType                      		"inherited"
-		complexity                    		SF_COMPLEX_INHERITED
-	}
-
-	instance {
-		id     		595
-		name   		"Sensor Data/Sensor Suite/ADIS16355\n"
-					"Signal Cond/myMux Fun"
-		machine		1
-		chart  		587
-	}
-
 	target {
-		id                        		596
+		id                        		587
 		name                      		"sfun"
 		description               		"Default Simulink S-Function Target."
 		machine                   		1
-		linkNode                  		[1 0 597]
+		linkNode                  		[1 0 588]
 	}
 
 	target {
-		id                        		597
+		id                        		588
 		name                      		"rtw"
 		codeFlags                 		" comments=1 statebitsets=1 databitsets=1 emitlogicalops=1 el"
 						"seifdetection=1 constantfolding=1 redundantloadelimination=0"
 						" preservenames=0 preservenameswithparent=0 exportcharts=0"
 		machine                   		1
-		linkNode                  		[1 596 0]
+		linkNode                  		[1 587 0]
 	}
 }
