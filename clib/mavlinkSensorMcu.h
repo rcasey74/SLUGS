@@ -17,7 +17,7 @@
 	extern mavlink_raw_pressure_t 	mlRawPressureData;//
 	extern mavlink_attitude_t 			mlAttitudeData;//
   extern mavlink_local_position_t mlLocalPositionData;//
-	extern mavlink_filtered_data_t 	mlFilteredData;//
+	extern mavlink_scaled_imu_t		 	mlFilteredData;//
 	extern mavlink_boot_t 					mlBoot;//
   extern mavlink_gps_date_time_t 	mlGpsDateTime;
   

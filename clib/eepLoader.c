@@ -140,6 +140,8 @@ void readParamsInEeprom (void){
 	for(indx = 0; indx < (PAR_PARAM_COUNT*2); indx+=2 ){
 		tempFloat.shData[0]= DataEERead(PARAM_OFFSET+indx);
 		tempFloat.shData[1]= DataEERead(PARAM_OFFSET+indx+1);
-		mlParamInterface.param[i++]	= tempFloat.flData;
+		
+		// If the value read from memory is finite assign it, else assign 0
+		mlParamInterface.param[i++]	= isFinite(tempFloat.flData)? tempFloat.flData : 0.0;
 	}
 }

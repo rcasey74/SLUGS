@@ -10,7 +10,7 @@ mavlink_raw_pressure_t 			mlRawPressureData;
 mavlink_attitude_t 					mlAttitudeData;
 mavlink_local_position_t 		mlLocalPositionData;
 mavlink_pilot_console_t 		mlPilotConsoleData;
-mavlink_filtered_data_t 		mlFilteredData;
+mavlink_scaled_imu_t		 		mlFilteredData;
 mavlink_boot_t 							mlBoot;
 mavlink_gps_date_time_t 		mlGpsDateTime;
 
@@ -18,8 +18,6 @@ mavlink_heartbeat_t 				mlHeartbeat;
 mavlink_mid_lvl_cmds_t 			mlMidLevelCommands;
 mavlink_set_mode_t 					mlApMode;
 mavlink_pwm_commands_t			mlPwmCommands;
-mavlink_pid_values_t				mlPidValues;		//defined in mavlinkControlMcu.h
-mavlink_pid_t								mlSinglePid;
 mavlink_waypoint_values_t		mlWpValues;			//defined in mavlinkControlMcu.h
 mavlink_waypoint_t					mlSingleWp;
 mavlink_slugs_navigation_t	mlNavigation;		
@@ -57,8 +55,6 @@ void mavlinkInit (void){
 
 	memset(&mlMidLevelCommands ,0, sizeof(mavlink_mid_lvl_cmds_t));	
 	memset(&mlPwmCommands ,0, sizeof(mavlink_pwm_commands_t));	
-	memset(&mlPidValues ,0, sizeof(mavlink_pid_values_t));	
-	memset(&mlSinglePid ,0, sizeof(mavlink_pid_t));	
 	memset(&mlWpValues ,0, sizeof(mavlink_waypoint_values_t));	
 	memset(&mlSingleWp ,0, sizeof(mavlink_waypoint_t));	
 	memset(&mlNavigation ,0, sizeof(mavlink_slugs_navigation_t));	
@@ -119,6 +115,20 @@ void populateParameterInterface (void){
 	memcpy(mlParamInterface.param_name[PAR_PID_YAW_DAMP_D], "PID_YAW_DA_D", SLUGS_PARAM_NAME_LENGTH );
 
 	memcpy(mlParamInterface.param_name[PAR_PID_PITC_DT_FF], "PID_PIT_DT_FF", SLUGS_PARAM_NAME_LENGTH );
-		
+	
+	memcpy(mlParamInterface.param_name[PAR_CONFIG_ROLL_R ], "CONFIG_ROLL_R ", SLUGS_PARAM_NAME_LENGTH );
+	memcpy(mlParamInterface.param_name[PAR_CONFIG_PITCH_R], "CONFIG_PITCH_R", SLUGS_PARAM_NAME_LENGTH );
+	memcpy(mlParamInterface.param_name[PAR_CONFIG_YAW_R  ], "CONFIG_YAW_R  ", SLUGS_PARAM_NAME_LENGTH );
+	
+	memcpy(mlParamInterface.param_name[PAR_NAV_L2_BASE  ], "NAV_L2_BASE	 ", SLUGS_PARAM_NAME_LENGTH );
+	memcpy(mlParamInterface.param_name[PAR_NAV_PRETURN_K], "NAV_PRETURN_K", SLUGS_PARAM_NAME_LENGTH );
+	memcpy(mlParamInterface.param_name[PAR_NAV_SSCOMP_ON], "NAV_SSCOMP_ON", SLUGS_PARAM_NAME_LENGTH );
+	
+	memcpy(mlParamInterface.param_name[PAR_L1_OMEGA ], "L1_OMEGA ", SLUGS_PARAM_NAME_LENGTH );
+	memcpy(mlParamInterface.param_name[PAR_L1_M     ], "L1_M     ", SLUGS_PARAM_NAME_LENGTH );
+	memcpy(mlParamInterface.param_name[PAR_L1_GAMMA ], "L1_GAMMA ", SLUGS_PARAM_NAME_LENGTH );
+	memcpy(mlParamInterface.param_name[PAR_L1_ON_OFF], "L1_ON_OFF", SLUGS_PARAM_NAME_LENGTH );
+
+				
 }
 

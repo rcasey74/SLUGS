@@ -17,3 +17,4 @@ run .\apConfiguration\pwmConversions.m
 run .\apConfiguration\baroInit.m
 run .\apConfiguration\sensorInit.m
 run .\apConfiguration\compFilterInit.m
+run .\apConfiguration\parameterEnums.m

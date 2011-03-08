@@ -620,7 +620,7 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 		
 		break; // case 8
 		
-		case 9: // PID report, Boot, Mid Level Commands
+		case 9: // Action Ack, Boot, Mid Level Commands
 			
 			if (mlPending.actionAck){
 				mavlink_msg_action_ack_encode(SLUGS_SYSTEMID, 
@@ -673,7 +673,7 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 		break; // case 9
 		
 		case 10: // Filtered data
-			mavlink_msg_filtered_data_encode( SLUGS_SYSTEMID, 
+			mavlink_msg_scaled_imu_encode( SLUGS_SYSTEMID, 
 														   					SLUGS_COMPID, 
 														   					&msg, 
 														   					&mlFilteredData);
@@ -766,8 +766,8 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 					mavlink_msg_pilot_console_decode(&msg, &mlPilotConsoleData);
 				break;
 				
-				case MAVLINK_MSG_ID_FILTERED_DATA:
-					mavlink_msg_filtered_data_decode(&msg, &mlFilteredData);
+				case MAVLINK_MSG_ID_SCALED_IMU:
+					mavlink_msg_scaled_imu_decode(&msg, &mlFilteredData);
 				break;
 				
 				case MAVLINK_MSG_ID_ATTITUDE:

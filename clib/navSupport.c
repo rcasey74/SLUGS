@@ -37,10 +37,17 @@ unsigned char isApManual (void) {
 	return mlSystemStatus.mode == MAV_MODE_MANUAL;
 }
 
-void getPidIdx(unsigned char idx, float* PID){
-	PID[0] = mlPidValues.P[idx];
-	PID[1] = mlPidValues.I[idx];
-	PID[2] = mlPidValues.D[idx]; 
+float getParamIdx(unsigned char idx){
+ 	
+	return mlParamInterface.param[idx];
+}
+
+void getRangeOfParams (uint8_t startIdx, uint8_t endIdx, float* parameters){
+	uint8_t i;
+	
+	for (i=startIdx; i<= endIdx; i++){
+		parameters[i-startIdx] = mlParamInterface.param[i];
+	}
 }
 
 float getDynamic (void) {
@@ -147,9 +154,9 @@ void setNavNav (float* values) {
 }
 
 void getAccels (float * accels){
-	accels[0] = mlFilteredData.aX;
-	accels[1] = mlFilteredData.aY;
-	accels[2] = mlFilteredData.aZ;
+	accels[0] = (float)(mlFilteredData.xacc*MG_TO_MPS);
+	accels[1] = (float)(mlFilteredData.yacc*MG_TO_MPS);
+	accels[2] = (float)(mlFilteredData.zacc*MG_TO_MPS);
 }
 
 void getAccBias (float * bias){
@@ -158,17 +165,6 @@ void getAccBias (float * bias){
 	bias[2] = mlSensorBiasData.azBias;
 }
 
-// void bufferICValues(unsigned short latest, unsigned short* history){
-// 	static unsigned short * oldValues[] = {0, 0, 0, 0, 0, 0, 0};
-// 	unsigned char i;
-// 	for (i=6; i>0; i--){
-// 		oldValues[i] = oldValues[i-1];
-// 		history[i] = oldValues[i];
-// 	}
-// 	
-// 	oldValues[0] = latest;
-// 	history[0] = latest;
-// }
 
 unsigned short meanFilter5(unsigned short * values){
 	quickSort(values, 7);

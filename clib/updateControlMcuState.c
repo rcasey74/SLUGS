@@ -36,14 +36,15 @@ void updateLoad (uint8_t mcuLoad){
 }
 
 void updateEuler(float* newEuler){
-	// mlAttitudeRotated.roll	= newEuler[0];
-	// mlAttitudeRotated.pitch = newEuler[1];
-	// mlAttitudeRotated.yaw   = newEuler[2];
-	
-	mlAttitudeRotated.roll	= mlAttitudeData.roll;
-	mlAttitudeRotated.pitch = mlAttitudeData.pitch;
-	mlAttitudeRotated.yaw   = mlAttitudeData.yaw;
+	mlAttitudeRotated.roll	= newEuler[0];
+	mlAttitudeRotated.pitch = newEuler[1];
+	mlAttitudeRotated.yaw   = newEuler[2];
 	mlAttitudeRotated.usec  = mlAttitudeData.usec;
+		
+	// mlAttitudeRotated.roll	= mlAttitudeData.roll;
+	// mlAttitudeRotated.pitch = mlAttitudeData.pitch;
+	// mlAttitudeRotated.yaw   = mlAttitudeData.yaw;
+	// mlAttitudeRotated.usec  = mlAttitudeData.usec;
 }
 
 

@@ -29,6 +29,9 @@ THE SOFTWARE.
 #include "apDefinitions.h"
 #include "mavlinkSensorMcu.h"
 
+#define MPS_TO_MG 	101.8849
+
+
 
 void updateRawADCData (int16_t * adcData);
 void updateAirData (float* airData);

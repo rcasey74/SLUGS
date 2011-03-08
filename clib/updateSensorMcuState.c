@@ -101,14 +101,14 @@ void updateBias (float * biasData) {
 }
 
 void updateSensorData (float* sens){
-	mlFilteredData.aX = sens[0];
-	mlFilteredData.aY = sens[1];
-	mlFilteredData.aZ = sens[2];
-	mlFilteredData.mX = sens[3];
-	mlFilteredData.mY = sens[4];
-	mlFilteredData.mZ = sens[5];
-	mlFilteredData.gX = 0;
-	mlFilteredData.gY = 0;
-	mlFilteredData.gZ = 0;
+	mlFilteredData.xacc = (int16_t)(sens[0]* MPS_TO_MG);
+	mlFilteredData.yacc = (int16_t)(sens[1]* MPS_TO_MG);
+	mlFilteredData.zacc = (int16_t)(sens[2]* MPS_TO_MG);
+	mlFilteredData.xmag = (int16_t)(sens[3]); // assuming milligaus
+	mlFilteredData.ymag = (int16_t)(sens[4]);
+	mlFilteredData.zmag = (int16_t)(sens[5]);
+	mlFilteredData.xgyro = (int16_t)(sens[6]*1000.0);
+	mlFilteredData.ygyro = (int16_t)(sens[7]*1000.0);
+	mlFilteredData.zgyro = (int16_t)(sens[8]*1000.0);
 }
 

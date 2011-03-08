@@ -127,9 +127,9 @@ param_acc_16355.phi= -0.587227044344071;
 param_acc_16355.rho = 0.768452775068802;
 param_acc_16355.lambda = 0.179663683262263;
 param_acc_16355.R = 9.810000000000001;
-param_acc_16355.one_over_a = 1/param_acc.a;
-param_acc_16355.one_over_b = 1/param_acc.b;
-param_acc_16355.one_over_c = 1/param_acc.c;  
+param_acc_16355.one_over_a = 1/param_acc_16355.a;
+param_acc_16355.one_over_b = 1/param_acc_16355.b;
+param_acc_16355.one_over_c = 1/param_acc_16355.c;  
 
 %% Sensor Lowpass filter cutoff filters and other limits
 mainSensorCutoff = 10;

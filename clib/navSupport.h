@@ -32,10 +32,13 @@ THE SOFTWARE.
        	
 #include "apDefinitions.h"
 #include "mavlinkControlMcu.h"
+
+#define MG_TO_MPS	0.009815
        	       	
 void getMidLevelCommands (float* commands);
 unsigned char isApManual (void);
-void getPidIdx (unsigned char idx, float* PID);
+float getParamIdx (uint8_t idx);
+void getRangeOfParams (uint8_t startIdx, uint8_t endIdx, float* parameters);
 float getDynamic (void);
 void getAttitude ( float* attitude);
 void getXYZ (float* xyz);

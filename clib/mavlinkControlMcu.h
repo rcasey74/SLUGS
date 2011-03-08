@@ -13,6 +13,9 @@
 // NOTE: The EEPROM can hold a Maximum of 39 floats
 //       DO NOT EXCEED THAT NUMBER!
 
+// If you add a new parameter remember to update the 
+// apConfiguration/parameterEnums.m file to reflect that
+
 	enum SLUGS_PARAM_INTERFACE_IDX {
 		PAR_PID_AIRSPEED_P = 0,
 	  PAR_PID_AIRSPEED_I = 1,
@@ -37,6 +40,20 @@
 	    
 		PAR_PID_PITC_DT_FF = 15,
 		
+		PAR_CONFIG_ROLL_R  = 16,
+		PAR_CONFIG_PITCH_R = 17,
+		PAR_CONFIG_YAW_R   = 18,
+		
+		PAR_NAV_L2_BASE		 = 19,
+		PAR_NAV_PRETURN_K	 = 20,
+		PAR_NAV_SSCOMP_ON	 = 21,
+		
+		PAR_L1_OMEGA			 = 22,
+		PAR_L1_M					 = 23,
+		PAR_L1_GAMMA			 = 24,
+		PAR_L1_ON_OFF			 = 25,
+		
+		
 		PAR_PARAM_COUNT // Always at the end, do not assign value
 	};
 
@@ -47,13 +64,6 @@
 		float param[PAR_PARAM_COUNT];
 		char param_name[PAR_PARAM_COUNT][SLUGS_PARAM_NAME_LENGTH];
 	};
-
-  typedef struct mavlink_pid_values_t {
-		float P[MAX_NUM_PIDS];
-		float I[MAX_NUM_PIDS];
-		float D[MAX_NUM_PIDS];
-	}mavlink_pid_values_t;
-
 
 	typedef struct mavlink_waypoint_values_t{
 		float			lat[MAX_NUM_WPS];
@@ -125,15 +135,13 @@
 	extern mavlink_attitude_t 				mlAttitudeData;				// 	..	== 
 	extern mavlink_local_position_t 	mlLocalPositionData;	// 	.. 	==
 	extern mavlink_pilot_console_t 		mlPilotConsoleData;		// 	..	==	
-	extern mavlink_filtered_data_t 		mlFilteredData;				// 	..
+	extern mavlink_scaled_imu_t				mlFilteredData;				// 	..
 	extern mavlink_boot_t 						mlBoot;								//	..	==
 	extern mavlink_gps_date_time_t 		mlGpsDateTime;				// 	..
 	
 	extern mavlink_heartbeat_t 				mlHeartbeat; 					// 	..	== 
 	extern mavlink_mid_lvl_cmds_t			mlMidLevelCommands; 	// 	..	**
 	extern mavlink_pwm_commands_t			mlPwmCommands; 				// 	--	==
-	extern mavlink_pid_values_t				mlPidValues;					// 	..  **	defined in mavlinkControlMcu.h
-	extern mavlink_pid_t							mlSinglePid; 					// 	^^	^^
 	extern mavlink_waypoint_values_t	mlWpValues;						// 	..	**	defined in mavlinkControlMcu.h
 	extern mavlink_waypoint_t					mlSingleWp;						// 	^^	^^
 	extern mavlink_slugs_navigation_t	mlNavigation; 				// 	--  ==		

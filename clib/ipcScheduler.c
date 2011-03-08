@@ -190,38 +190,28 @@ void scheduleData (unsigned char hilOn, unsigned char* dataOut){
 		break;
 		
 		case 2: // LOAD 
-			mavlink_msg_cpu_load_pack( SLUGS_SYSTEMID, 
-																 SLUGS_COMPID, 
-																 &msg, 
-																 mlCpuLoadData.sensLoad, 
-																 mlCpuLoadData.ctrlLoad, 
-																 mlCpuLoadData.batVolt);	  
+			mavlink_msg_cpu_load_encode( SLUGS_SYSTEMID, 
+														 			 SLUGS_COMPID, 
+														 			 &msg, 
+														 			 &mlCpuLoadData);
 			// Copy the message to the send buffer
 			bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);
 			
 		break;
 		case 3:	// XYZ 		
-			mavlink_msg_local_position_pack( SLUGS_SYSTEMID, 
-																 			 SLUGS_COMPID, 
-																 			 &msg, 
-																 			 mlLocalPositionData.usec, 
-																 			 mlLocalPositionData.x, 
-																 			 mlLocalPositionData.y, 
-																 			 mlLocalPositionData.z, 
-																 			 mlLocalPositionData.vx, 
-																 			 mlLocalPositionData.vy, 
-																 			 mlLocalPositionData.vz);
+			mavlink_msg_local_position_encode( SLUGS_SYSTEMID, 
+														 			 			 SLUGS_COMPID, 
+														 			 			 &msg, 
+														 			 			 &mlLocalPositionData);
 			// Copy the message to the send buffer
 			bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);
 				
 		break;
 		case 4:	// Dynamic and Reboot (if required)		
-			mavlink_msg_air_data_pack( SLUGS_SYSTEMID, 
-																 SLUGS_COMPID, 
-																 &msg, 
-																 mlAirData.dynamicPressure, 
-																 mlAirData.staticPressure, 
-																 mlAirData.temperature);
+			mavlink_msg_air_data_encode( SLUGS_SYSTEMID, 
+														 			 SLUGS_COMPID, 
+														 			 &msg, 
+														 			 &mlAirData);
 			// Copy the message to the send buffer
 			bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);	
 			
@@ -243,60 +233,40 @@ void scheduleData (unsigned char hilOn, unsigned char* dataOut){
 		break;
 
 		case 5:	// Bias		
-			mavlink_msg_sensor_bias_pack( SLUGS_SYSTEMID, 
-																 		SLUGS_COMPID, 
-																 		&msg, 
-																 		mlSensorBiasData.axBias, 
-																 		mlSensorBiasData.ayBias, 
-																 		mlSensorBiasData.azBias, 
-																 		mlSensorBiasData.gxBias, 
-																 		mlSensorBiasData.gyBias, 
-																 		mlSensorBiasData.gzBias);
+			mavlink_msg_sensor_bias_encode( SLUGS_SYSTEMID, 
+														 					SLUGS_COMPID, 
+														 					&msg, 
+														 					&mlSensorBiasData);	
 			// Copy the message to the send buffer
 			bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);
 							
 		break;
 		case 6: // Diagnostic
-			mavlink_msg_diagnostic_pack( SLUGS_SYSTEMID, 
-																   SLUGS_COMPID, 
-																   &msg, 
-																   mlDiagnosticData.diagFl1,  
-																   mlDiagnosticData.diagFl2,  
-																   mlDiagnosticData.diagFl3,  
-																   mlDiagnosticData.diagSh1,  
-																   mlDiagnosticData.diagSh2,  
-																   mlDiagnosticData.diagSh3);
+			mavlink_msg_diagnostic_encode( SLUGS_SYSTEMID, 
+																   	 SLUGS_COMPID, 
+																   	 &msg, 
+																   	 &mlDiagnosticData);
 			// Copy the message to the send buffer
-			bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);			
+			bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);	
+					
 		break;
 		
 		case 7: // Pilot Console Data
-			mavlink_msg_pilot_console_pack( SLUGS_SYSTEMID, 
-																 			SLUGS_COMPID, 
-																 			&msg, 
-																 			mlPilotConsoleData.dt, 
-																 			mlPilotConsoleData.dla, 
-																 			mlPilotConsoleData.dra, 
-																 			mlPilotConsoleData.dr, 
-																 			mlPilotConsoleData.de);
+			mavlink_msg_pilot_console_encode( SLUGS_SYSTEMID, 
+														 						SLUGS_COMPID, 
+														 						&msg, 
+														 						&mlPilotConsoleData);
+														 						
 			// Copy the message to the send buffer
 			bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);
 				
 		break;
 		
 		case 8: // Sensor Data in meaningful units
-					mavlink_msg_filtered_data_pack( SLUGS_SYSTEMID, 
-																 					SLUGS_COMPID, 
-																 					&msg, 
-																	 				mlFilteredData.aX,
-																	 				mlFilteredData.aY,
-																	 				mlFilteredData.aZ,
-																	 				mlFilteredData.gX,
-																	 				mlFilteredData.gY,
-																	 				mlFilteredData.gZ,
-																	 				mlFilteredData.mX,
-																	 				mlFilteredData.mY,
-																	 				mlFilteredData.mZ);
+				mavlink_msg_scaled_imu_encode( SLUGS_SYSTEMID, 
+														   					SLUGS_COMPID, 
+														   					&msg, 
+														   					&mlFilteredData);
 			// Copy the message to the send buffer
 			bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);	
 		
@@ -320,16 +290,10 @@ void scheduleData (unsigned char hilOn, unsigned char* dataOut){
 	memset(&msg,0,sizeof(mavlink_message_t));
 	
 	// Attitude data. Gets included every sample time
-		mavlink_msg_attitude_pack(SLUGS_SYSTEMID, 
-														 SLUGS_COMPID, 
-														 &msg, 
-														 mlAttitudeData.usec,  
-														 mlAttitudeData.roll,  
-														 mlAttitudeData.pitch,  
-														 mlAttitudeData.yaw,  
-														 mlAttitudeData.rollspeed,  
-														 mlAttitudeData.pitchspeed,  
-														 mlAttitudeData.yawspeed);
+	mavlink_msg_attitude_encode( SLUGS_SYSTEMID, 
+														 	 SLUGS_COMPID, 
+														 	 &msg, 
+														 	 &mlAttitudeData);
 	
 	// Copy the message to the send buffer	
 	bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);
@@ -337,19 +301,10 @@ void scheduleData (unsigned char hilOn, unsigned char* dataOut){
 	memset(&msg,0,sizeof(mavlink_message_t));
 
 	// Sensor Raw data. Gets included every sample time
-	mavlink_msg_raw_imu_pack(SLUGS_SYSTEMID, 
-													 SLUGS_COMPID, 
-													 &msg,
-													 0,
-													mlRawImuData.xacc, 
-													mlRawImuData.yacc, 
-													mlRawImuData.zacc, 
-													mlRawImuData.xgyro, 
-													mlRawImuData.ygyro, 
-													mlRawImuData.zgyro, 
-													mlRawImuData.xmag, 
-													mlRawImuData.ymag, 
-													mlRawImuData.zmag); 
+	mavlink_msg_raw_imu_encode( SLUGS_SYSTEMID, 
+														SLUGS_COMPID, 
+														&msg, 
+														&mlRawImuData);
 
 	bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);
 
