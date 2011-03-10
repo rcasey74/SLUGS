@@ -134,14 +134,14 @@
 	extern mavlink_raw_pressure_t 		mlRawPressureData;		// 	..	== 
 	extern mavlink_attitude_t 				mlAttitudeData;				// 	..	== 
 	extern mavlink_local_position_t 	mlLocalPositionData;	// 	.. 	==
-	extern mavlink_pilot_console_t 		mlPilotConsoleData;		// 	..	==	
+	extern mavlink_rc_channels_raw_t	mlPilotConsoleData;		// 	..	==	
 	extern mavlink_scaled_imu_t				mlFilteredData;				// 	..
 	extern mavlink_boot_t 						mlBoot;								//	..	==
 	extern mavlink_gps_date_time_t 		mlGpsDateTime;				// 	..
 	
 	extern mavlink_heartbeat_t 				mlHeartbeat; 					// 	..	== 
 	extern mavlink_mid_lvl_cmds_t			mlMidLevelCommands; 	// 	..	**
-	extern mavlink_pwm_commands_t			mlPwmCommands; 				// 	--	==
+	extern mavlink_servo_output_raw_t	mlPwmCommands; 				// 	--	==
 	extern mavlink_waypoint_values_t	mlWpValues;						// 	..	**	defined in mavlinkControlMcu.h
 	extern mavlink_waypoint_t					mlSingleWp;						// 	^^	^^
 	extern mavlink_slugs_navigation_t	mlNavigation; 				// 	--  ==		

@@ -71,12 +71,13 @@ void updatePosition (float * posData) {
 }
 
 void updatePilotConsole (uint16_t * pilData) {
-	mlPilotConsoleData.dt  	= pilData[0];
-	mlPilotConsoleData.dla	= pilData[1];
-	mlPilotConsoleData.dra	= pilData[2];
-	mlPilotConsoleData.dr		= pilData[3];
-	mlPilotConsoleData.de		= pilData[4];
-
+	// dT dA dR dE dFail
+	
+	mlPilotConsoleData.chan1_raw  = pilData[0];
+	mlPilotConsoleData.chan2_raw	= pilData[1];
+	mlPilotConsoleData.chan3_raw	= pilData[2];
+	mlPilotConsoleData.chan4_raw	= pilData[3];
+	mlPilotConsoleData.chan5_raw	= pilData[4];
 }
 
 void updateDiagnosticFl (float* diagFl) {

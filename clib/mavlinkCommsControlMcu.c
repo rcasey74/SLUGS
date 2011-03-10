@@ -387,7 +387,8 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 			
 		break; // case 5
 		
-		case 6: // Local Position, Pilot console, System Status
+		case 6: // Local Position, System Status
+			
 			mavlink_msg_local_position_encode( SLUGS_SYSTEMID, 
 														 			 			 SLUGS_COMPID, 
 														 			 			 &msg, 
@@ -395,15 +396,6 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 			// Copy the message to the send buffer
 			bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);
 			
-			// clear the msg
-			memset(&msg,0,sizeof(mavlink_message_t));	
-			
-			mavlink_msg_pilot_console_encode( SLUGS_SYSTEMID, 
-														 						SLUGS_COMPID, 
-														 						&msg, 
-														 						&mlPilotConsoleData);
-			// Copy the message to the send buffer
-			bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);
 			
 			memset(&msg,0,sizeof(mavlink_message_t));	
 			
@@ -417,7 +409,7 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 		break; // case 6
 		
 		case 7: // PWM Commands, Biases
-			 mavlink_msg_pwm_commands_encode( SLUGS_SYSTEMID, 
+			 mavlink_msg_servo_output_raw_encode( SLUGS_SYSTEMID, 
 			 											 		 		 	 SLUGS_COMPID, 
 			 											 		 		 	 &msg, 
 			 											 		 		 	 &mlPwmCommands);
@@ -620,8 +612,15 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 		
 		break; // case 8
 		
-		case 9: // Action Ack, Boot, Mid Level Commands
+		case 9: // Action Ack, Pilot Console, Mid Level Commands, boot
 			
+			mavlink_msg_rc_channels_raw_encode( SLUGS_SYSTEMID, 
+														 						SLUGS_COMPID, 
+														 						&msg, 
+														 						&mlPilotConsoleData);
+			// Copy the message to the send buffer
+			bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);	
+		
 			if (mlPending.actionAck){
 				mavlink_msg_action_ack_encode(SLUGS_SYSTEMID, 
 														 					SLUGS_COMPID,
@@ -634,21 +633,6 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 				mlPending.actionAck = 0;
 			}
 			
-			// if the boot message is set then transmit it urgently
-			if (mlBoot.version != 0){
-				// clear the msg
-				memset(&msg,0,sizeof(mavlink_message_t));
-					
-				mavlink_msg_boot_pack(SLUGS_SYSTEMID, 
-															SLUGS_COMPID, 
-															&msg, 
-															mlBoot.version);
-				// Copy the message to the send buffer
-				bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);
-											 
-				// reset the boot message
-				mlBoot.version = 0;	
-			} 
 			
 			// if there is a pending request for the Mid Level Commands
 			if (mlPending.midLvlCmds == 1){
@@ -669,6 +653,22 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 				// clear the flag
 				mlPending.midLvlCmds = 0;
 			}
+			
+			// if the boot message is set then transmit it urgently
+			if (mlBoot.version != 0){
+				// clear the msg
+				memset(&msg,0,sizeof(mavlink_message_t));
+					
+				mavlink_msg_boot_pack(SLUGS_SYSTEMID, 
+															SLUGS_COMPID, 
+															&msg, 
+															mlBoot.version);
+				// Copy the message to the send buffer
+				bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);
+											 
+				// reset the boot message
+				mlBoot.version = 0;	
+			} 
 		
 		break; // case 9
 		
@@ -762,8 +762,8 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 					mavlink_msg_diagnostic_decode(&msg, &mlDiagnosticData);
 				break;
 				
-				case MAVLINK_MSG_ID_PILOT_CONSOLE:
-					mavlink_msg_pilot_console_decode(&msg, &mlPilotConsoleData);
+				case MAVLINK_MSG_ID_RC_CHANNELS_RAW:
+					mavlink_msg_rc_channels_raw_decode(&msg, &mlPilotConsoleData);
 				break;
 				
 				case MAVLINK_MSG_ID_SCALED_IMU:

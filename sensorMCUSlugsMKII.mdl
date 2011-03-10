@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.925"
+    ComputedModelVersion    "1.929"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Tue Mar 08 00:24:57 2011"
-  ModelVersionFormat	  "1.%<AutoIncrement:925>"
+  LastModifiedDate	  "Thu Mar 10 12:39:49 2011"
+  ModelVersionFormat	  "1.%<AutoIncrement:929>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -981,8 +981,8 @@ Model {
   }
   System {
     Name		    "sensorMCUSlugsMKII"
-    Location		    [203, 393, 1639, 1195]
-    Open		    on
+    Location		    [6, 82, 1274, 818]
+    Open		    off
     ModelBrowserVisibility  off
     ModelBrowserWidth	    212
     ScreenColor		    "white"
@@ -1026,6 +1026,90 @@ Model {
 	TiledPageScale		1
 	ShowPageBoundaries	off
 	ZoomFactor		"100"
+	Block {
+	  BlockType		  Selector
+	  Name			  "Control\nSurfaces\n[dT dA dR dE Failsafe]"
+	  Ports			  [1, 1]
+	  Position		  [395, 93, 435, 137]
+	  IndexOptions		  "Index vector (dialog)"
+	  Indices		  "[1 2 4 3 5]"
+	  OutputSizes		  "1"
+	  InputPortWidth	  "5"
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Convert to\nMicroseconds "
+	  Ports			  [1, 1]
+	  Position		  [310, 100, 365, 130]
+	  NamePlacement		  "alternate"
+	  MinAlgLoopOccurrences	  off
+	  RTWSystemCode		  "Auto"
+	  FunctionWithSeparateData off
+	  MaskHideContents	  off
+	  System {
+	    Name		    "Convert to\nMicroseconds "
+	    Location		    [2, 82, 1150, 654]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "IC"
+	      Position		      [25, 38, 55, 52]
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Gain
+	      Name		      "Convert to \nMicroseconds"
+	      Position		      [80, 30, 110, 60]
+	      Gain		      "0.2"
+	      ParameterDataTypeMode   "Inherit via internal rule"
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      DataTypeConversion
+	      Name		      "Data Type Conversion"
+	      Position		      [150, 28, 225, 62]
+	      OutDataTypeMode	      "uint16"
+	      RndMeth		      "Floor"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "uS"
+	      Position		      [250, 38, 280, 52]
+	      IconDisplay	      "Port number"
+	    }
+	    Line {
+	      SrcBlock		      "Convert to \nMicroseconds"
+	      SrcPort		      1
+	      DstBlock		      "Data Type Conversion"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "IC"
+	      SrcPort		      1
+	      DstBlock		      "Convert to \nMicroseconds"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Data Type Conversion"
+	      SrcPort		      1
+	      DstBlock		      "uS"
+	      DstPort		      1
+	    }
+	  }
+	}
 	Block {
 	  BlockType		  Reference
 	  Name			  "Input Capture"
@@ -1212,16 +1296,10 @@ Model {
 	Block {
 	  BlockType		  Outport
 	  Name			  "Pilot Console"
-	  Position		  [370, 108, 400, 122]
+	  Position		  [480, 108, 510, 122]
 	  BackgroundColor	  "yellow"
 	  IconDisplay		  "Port number"
 	  BusOutputAsStruct	  off
-	}
-	Line {
-	  SrcBlock		  "myMux Fun5"
-	  SrcPort		  1
-	  DstBlock		  "Pilot Console"
-	  DstPort		  1
 	}
 	Line {
 	  SrcBlock		  "Input Capture"
@@ -1252,6 +1330,24 @@ Model {
 	  SrcPort		  5
 	  DstBlock		  "myMux Fun5"
 	  DstPort		  5
+	}
+	Line {
+	  SrcBlock		  "myMux Fun5"
+	  SrcPort		  1
+	  DstBlock		  "Convert to\nMicroseconds "
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Convert to\nMicroseconds "
+	  SrcPort		  1
+	  DstBlock		  "Control\nSurfaces\n[dT dA dR dE Failsafe]"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Control\nSurfaces\n[dT dA dR dE Failsafe]"
+	  SrcPort		  1
+	  DstBlock		  "Pilot Console"
+	  DstPort		  1
 	}
       }
     }
@@ -32086,7 +32182,7 @@ Model {
       System {
 	Name			"To Control \nMCU"
 	Location		[402, 180, 1127, 845]
-	Open			off
+	Open			on
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	212
 	ScreenColor		"white"
@@ -36520,8 +36616,6 @@ Stateflow {
 		viewObj                                   		145
 		machine                                   		1
 		toolbarMode                               		LIBRARY_TOOLBAR
-		subviewS {
-		}
 		decomposition                             		CLUSTER_CHART
 		type                                      		EML_CHART
 		firstData                                 		149

@@ -12,7 +12,7 @@
   extern mavlink_air_data_t 			mlAirData;//
   extern mavlink_sensor_bias_t 		mlSensorBiasData;//
   extern mavlink_diagnostic_t 		mlDiagnosticData;//
-  extern mavlink_pilot_console_t 	mlPilotConsoleData;//
+  extern mavlink_rc_channels_raw_t mlPilotConsoleData;//
   extern mavlink_raw_imu_t 				mlRawImuData;//
 	extern mavlink_raw_pressure_t 	mlRawPressureData;//
 	extern mavlink_attitude_t 			mlAttitudeData;//

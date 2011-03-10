@@ -13,7 +13,7 @@ mavlink_diagnostic_t 			mlDiagnosticData;
 mavlink_raw_pressure_t 		mlRawPressureData;
 mavlink_attitude_t 				mlAttitudeData;
 mavlink_local_position_t 	mlLocalPositionData;
-mavlink_pilot_console_t 	mlPilotConsoleData;
+mavlink_rc_channels_raw_t	mlPilotConsoleData;
 mavlink_scaled_imu_t		 	mlFilteredData;
 mavlink_boot_t						mlBoot;
 mavlink_gps_date_time_t 	mlGpsDateTime;

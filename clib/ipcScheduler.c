@@ -252,7 +252,7 @@ void scheduleData (unsigned char hilOn, unsigned char* dataOut){
 		break;
 		
 		case 7: // Pilot Console Data
-			mavlink_msg_pilot_console_encode( SLUGS_SYSTEMID, 
+			mavlink_msg_rc_channels_raw_encode( SLUGS_SYSTEMID, 
 														 						SLUGS_COMPID, 
 														 						&msg, 
 														 						&mlPilotConsoleData);

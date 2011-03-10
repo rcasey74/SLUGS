@@ -8,9 +8,9 @@
       
 #include "mavlinkControlMcu.h" 	
 
-void updatePilotCommands (unsigned short* pilCom);
+// void updatePilotCommands (unsigned short* pilCom);
 void updatePWM (unsigned short * PWMData);
-void updatePWM2 (unsigned short PWMData, unsigned char channel );
+void updatePWMTrim (unsigned short PWMData, unsigned char channel );
 void updateLoad (uint8_t mcuLoad);
 void updateEuler (float* newEuler);
 void updatePQR (float* newPQR);
