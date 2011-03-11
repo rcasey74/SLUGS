@@ -9,7 +9,7 @@
 
   extern mavlink_gps_raw_t				mlGpsData;//
   extern mavlink_cpu_load_t 			mlCpuLoadData;//
-  extern mavlink_air_data_t 			mlAirData;//
+  extern mavlink_scaled_pressure_t mlAirData;//
   extern mavlink_sensor_bias_t 		mlSensorBiasData;//
   extern mavlink_diagnostic_t 		mlDiagnosticData;//
   extern mavlink_rc_channels_raw_t mlPilotConsoleData;//

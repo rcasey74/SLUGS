@@ -3,7 +3,7 @@
 mavlink_raw_imu_t 					mlRawImuData;
 mavlink_gps_raw_t						mlGpsData;
 mavlink_cpu_load_t 					mlCpuLoadData;
-mavlink_air_data_t 					mlAirData;
+mavlink_scaled_pressure_t 	mlAirData;
 mavlink_sensor_bias_t 			mlSensorBiasData;
 mavlink_diagnostic_t 				mlDiagnosticData;
 mavlink_raw_pressure_t 			mlRawPressureData;
@@ -40,7 +40,7 @@ void mavlinkInit (void){
 	// clear all the variables
 	memset(&mlGpsData, 0, sizeof(mavlink_gps_raw_t));
 	memset(&mlCpuLoadData, 0, sizeof(mavlink_cpu_load_t));
-	memset(&mlAirData, 0, sizeof(mavlink_air_data_t));
+	memset(&mlAirData, 0, sizeof(mavlink_scaled_pressure_t));
 	memset(&mlSensorBiasData, 0, sizeof(mavlink_sensor_bias_t));
 	memset(&mlDiagnosticData, 0, sizeof(mavlink_diagnostic_t));
 	memset(&mlPilotConsoleData, 0, sizeof(mavlink_rc_channels_raw_t));

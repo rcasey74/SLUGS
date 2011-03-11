@@ -52,15 +52,15 @@ void loadEEPData(void){
 		// Way Points
 		tempShData.shData[0]= DataEERead(WPS_OFFSET+i*WP_SIZE_IN_EEPROM);   
 		tempShData.shData[1]= DataEERead(WPS_OFFSET+i*WP_SIZE_IN_EEPROM+1);      
-		mlWpValues.lat[i] = tempShData.flData;      
+		mlWpValues.lat[i] = isFinite(tempShData.flData)? tempShData.flData : 0.0;      
 		
 		tempShData.shData[0]= DataEERead(WPS_OFFSET+i*WP_SIZE_IN_EEPROM+2);      
 		tempShData.shData[1]= DataEERead(WPS_OFFSET+i*WP_SIZE_IN_EEPROM+3);      
-		mlWpValues.lon[i] = tempShData.flData;      
+		mlWpValues.lon[i] = isFinite(tempShData.flData)? tempShData.flData : 0.0;;      
 		
 		tempShData.shData[0]= DataEERead(WPS_OFFSET+i*WP_SIZE_IN_EEPROM+4);      
 		tempShData.shData[1]= DataEERead(WPS_OFFSET+i*WP_SIZE_IN_EEPROM+5);      
-		mlWpValues.alt[i] = tempShData.flData;      
+		mlWpValues.alt[i] = isFinite(tempShData.flData)? tempShData.flData : 0.0;;      
 		
 		mlWpValues.type[i]	= (uint8_t)DataEERead(WPS_OFFSET+i*WP_SIZE_IN_EEPROM+6);
 		

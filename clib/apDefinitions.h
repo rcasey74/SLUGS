@@ -54,7 +54,7 @@ and data types.
 
 // Cube Model Used
 // ===============
-#define USE_CUBE_16405	0
+#define USE_CUBE_16405	1
 
 // GPS Header IDs
 // ==============
@@ -70,7 +70,6 @@ and data types.
 
 // Maximun Number of WPs and PIDs
 #define MAX_NUM_WPS		17
-#define MAX_NUM_PIDS	10
 
 // Define log raw data at 100 hz. Comment out to have
 // XYZ data come at 100 Hz instead. COMMENT not Change to 0 (using #ifdef)

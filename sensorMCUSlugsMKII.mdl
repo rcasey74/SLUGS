@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.929"
+    ComputedModelVersion    "1.933"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,8 +45,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Thu Mar 10 12:39:49 2011"
-  ModelVersionFormat	  "1.%<AutoIncrement:929>"
+  LastModifiedDate	  "Fri Mar 11 16:59:31 2011"
+  ModelVersionFormat	  "1.%<AutoIncrement:933>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -981,7 +981,7 @@ Model {
   }
   System {
     Name		    "sensorMCUSlugsMKII"
-    Location		    [6, 82, 1274, 818]
+    Location		    [1816, 365, 3084, 1101]
     Open		    off
     ModelBrowserVisibility  off
     ModelBrowserWidth	    212

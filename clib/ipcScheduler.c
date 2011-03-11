@@ -208,10 +208,10 @@ void scheduleData (unsigned char hilOn, unsigned char* dataOut){
 				
 		break;
 		case 4:	// Dynamic and Reboot (if required)		
-			mavlink_msg_air_data_encode( SLUGS_SYSTEMID, 
-														 			 SLUGS_COMPID, 
-														 			 &msg, 
-														 			 &mlAirData);
+			mavlink_msg_scaled_pressure_encode( SLUGS_SYSTEMID, 
+														 			 				SLUGS_COMPID, 
+														 			 				&msg, 
+														 			 				&mlAirData);
 			// Copy the message to the send buffer
 			bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);	
 			

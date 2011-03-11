@@ -28,16 +28,18 @@ THE SOFTWARE.
 
 
 void updateRawADCData (int16_t* adcData) {
-	mlRawPressureData.press_abs 	= (int16_t)adcData[0];   // Baro
+	mlRawPressureData.usec = mlAttitudeData.usec;
+	mlRawPressureData.press_abs 	= (int16_t)adcData[0]; // Baro
 	mlRawPressureData.press_diff1 = (int16_t)adcData[1]; // Pito
 	mlRawPressureData.press_diff2 = (int16_t)adcData[2]; // Power
 	mlRawPressureData.temperature = (int16_t)adcData[3]; // Temp
 }
 
 void updateAirData (float* airData) {
-	mlAirData.dynamicPressure = airData[0];							//dynamic
-	mlAirData.staticPressure 	= airData[1];							//static
-	mlAirData.temperature 		= (uint16_t) airData[2];	// temp
+	mlAirData.usec 				= mlAttitudeData.usec;
+	mlAirData.press_diff  = airData[0]*0.01;		//dynamic
+	mlAirData.press_abs 	= airData[1]*0.01;		//static
+	mlAirData.temperature = (uint16_t) (airData[2]*10.0);	// temp 0.01
 }
 
 void updateLoadData (uint8_t load, uint16_t mvPower) {
@@ -105,9 +107,9 @@ void updateSensorData (float* sens){
 	mlFilteredData.xacc = (int16_t)(sens[0]* MPS_TO_MG);
 	mlFilteredData.yacc = (int16_t)(sens[1]* MPS_TO_MG);
 	mlFilteredData.zacc = (int16_t)(sens[2]* MPS_TO_MG);
-	mlFilteredData.xmag = (int16_t)(sens[3]); // assuming milligaus
-	mlFilteredData.ymag = (int16_t)(sens[4]);
-	mlFilteredData.zmag = (int16_t)(sens[5]);
+	mlFilteredData.xmag = (int16_t)(sens[3]*1000.0); // assuming milligaus
+	mlFilteredData.ymag = (int16_t)(sens[4]*1000.0);
+	mlFilteredData.zmag = (int16_t)(sens[5]*1000.0);
 	mlFilteredData.xgyro = (int16_t)(sens[6]*1000.0);
 	mlFilteredData.ygyro = (int16_t)(sens[7]*1000.0);
 	mlFilteredData.zgyro = (int16_t)(sens[8]*1000.0);

@@ -197,7 +197,7 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 		
 		break;
 		
-		case 2: // GPS Date Time, diagnostic, Slugs Action, mode
+		case 2: // GPS Date Time, diagnostic, air data, 
 			mavlink_msg_gps_date_time_encode( SLUGS_SYSTEMID, 
 														   					SLUGS_COMPID, 
 														   					&msg, 
@@ -216,23 +216,16 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 			// Copy the message to the send buffer
 			bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);
 			
+			// clear the msg
+			memset(&msg,0,sizeof(mavlink_message_t));	
 			
-			if (mlPending.slugsAction){
-				// clear the msg
-				memset(&msg,0,sizeof(mavlink_message_t));
-
-				mavlink_msg_slugs_action_encode( SLUGS_SYSTEMID, 
-																     						SLUGS_COMPID, 
-																     						&msg, 
-																     						&mlAction);  
-				
-				// Copy the message to the send buffer
-				bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);
-				
-				mlPending.slugsAction--;				
-			}
-		
-
+			mavlink_msg_scaled_pressure_encode( SLUGS_SYSTEMID, 
+														 			 				SLUGS_COMPID, 
+														 			 				&msg, 
+														 			 				&mlAirData);
+			// Copy the message to the send buffer
+			bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);
+			
 		break; // case 2
 		
 		case 3: // data log, ping
@@ -281,15 +274,7 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 			// Copy the message to the send buffer
 			bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);
 
-			// clear the msg
-			memset(&msg,0,sizeof(mavlink_message_t));	
 			
-			mavlink_msg_air_data_encode( SLUGS_SYSTEMID, 
-														 			 SLUGS_COMPID, 
-														 			 &msg, 
-														 			 &mlAirData);
-			// Copy the message to the send buffer
-			bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);
 		
 		break; // case 4
 		
@@ -408,7 +393,7 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 						
 		break; // case 6
 		
-		case 7: // PWM Commands, Biases
+		case 7: // PWM Commands, Biases, slugs action
 			 mavlink_msg_servo_output_raw_encode( SLUGS_SYSTEMID, 
 			 											 		 		 	 SLUGS_COMPID, 
 			 											 		 		 	 &msg, 
@@ -425,13 +410,28 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 														 					&mlSensorBiasData);	
 			// Copy the message to the send buffer
 			bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);	
-																
+						
+			if (mlPending.slugsAction){
+				// clear the msg
+				memset(&msg,0,sizeof(mavlink_message_t));
+
+				mavlink_msg_slugs_action_encode( SLUGS_SYSTEMID, 
+																     						SLUGS_COMPID, 
+																     						&msg, 
+																     						&mlAction);  
+				
+				// Copy the message to the send buffer
+				bytes2Send += mavlink_msg_to_send_buffer((dataOut+1+bytes2Send), &msg);
+				
+				mlPending.slugsAction--;				
+			}
+													
 		break; // case 7
 		
 		case 8:// Wp Protocol state machine, raw Pressure
 			 if (sw_debug == 1){
 					memset(vr_message,0,sizeof(vr_message));
-			 		sprintf(vr_message, "if = %d, p =%2.2f r = %2.2f", sw_intTemp, fl_temp1, fl_temp2);	
+			 		sprintf(vr_message, "hla = %2.4f, hlo =%2.4f  hh = %2.2f", mlWpValues.lat[MAX_NUM_WPS-1], mlWpValues.lon[MAX_NUM_WPS-1], mlWpValues.alt[MAX_NUM_WPS-1]);	
 			  	bytes2Send += sendQGCDebugMessage (vr_message, 0, dataOut, bytes2Send+1);			 			 			 	
 			  	sw_debug = 0;		
 			 	}
@@ -740,8 +740,8 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 					mavlink_msg_local_position_decode(&msg, &mlLocalPositionData);
 				break;
 				
-				case MAVLINK_MSG_ID_AIR_DATA:
-					mavlink_msg_air_data_decode(&msg, &mlAirData);
+				case MAVLINK_MSG_ID_SCALED_PRESSURE:
+					mavlink_msg_scaled_pressure_decode(&msg, &mlAirData);
 				break;
 				
 				case MAVLINK_MSG_ID_BOOT:
@@ -889,10 +889,7 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 					mlWpValues.lon[indx] 		= mlSingleWp.x;
 					mlWpValues.alt[indx] 		= mlSingleWp.z;
 					
-					sw_intTemp = mlSingleWp.command;
-					fl_temp1 = (float)mlWpValues.type[indx];
 					mlWpValues.type[indx] 	= mlSingleWp.command;
-					fl_temp2 = (float)mlWpValues.type[indx];
 					
 					mlWpValues.orbit[indx]	= (uint16_t)mlSingleWp.param3;
 					
@@ -935,6 +932,37 @@ void prepareTelemetryMavlink( unsigned char* dataOut){
 					mlPending.wpTransaction = 1;
 					mlPending.wpProtState = WP_PROT_GETTING_WP_IDLE;
 
+				break;
+				
+				case MAVLINK_MSG_ID_GPS_SET_GLOBAL_ORIGIN:
+					sw_debug = 1;
+					writeSuccess = 0;
+					
+					memset(&mlSingleWp ,0, sizeof(mavlink_waypoint_t));	
+					
+					mlSingleWp.y = (float)(mavlink_msg_gps_set_global_origin_get_latitude(&msg)/ 10000000.0);
+					mlSingleWp.x = (float)(mavlink_msg_gps_set_global_origin_get_longitude(&msg)/ 10000000.0);
+					mlSingleWp.z = (float)(mavlink_msg_gps_set_global_origin_get_altitude(&msg)/ 1000.0);
+										
+					indx = (uint8_t)MAX_NUM_WPS-1;
+					
+					mlWpValues.lat[indx] 		= mlSingleWp.y;
+					mlWpValues.lon[indx] 		= mlSingleWp.x;
+					mlWpValues.alt[indx] 		= mlSingleWp.z;
+					mlWpValues.type[indx] 	= MAV_CMD_NAV_LAND;
+					mlWpValues.orbit[indx]	= 0;
+					
+					// Record the data in EEPROM
+					writeSuccess = storeWaypointInEeprom (&mlSingleWp);
+					         
+					// Set the flag of Aknowledge for the AKN Message
+					// if the write was not successful
+					if (writeSuccess!=0){
+						mlPending.slugsAction++;
+						
+						mlAction.actionId = SLUGS_ACTION_EEPROM;
+						mlAction.actionVal = SLUGS_ACTION_FAIL;	
+					}
 				break;
 				
 				case MAVLINK_MSG_ID_CTRL_SRFC_PT:
